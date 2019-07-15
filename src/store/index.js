@@ -1,25 +1,25 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import contatcAPI from '../api/contact'
+import InventoryItems from '../api/InventoryItems'
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    contacts: null
+    products: null
   },
   getters: {
-    getContact: (state, {dispatch}) => id => {
-      return state.contacts ? state.contacts.find(contact => contact.id === id) : {}
+    getProducts: (state, {dispatch}) => id => {
+      return state.products ? state.products.find(product => product.id === id) : {}
     }
   },
   mutations: {
-    setContacts: (state, payload) => { state.contacts = payload }
+    setProducts: (state, payload) => { state.products = payload }
   },
   actions: {
-    getAllContacts: ({commit}) => {
-      contatcAPI.getContacts(contacts => {
-        commit('setContacts', contacts)
+    getAllProducts: ({commit}) => {
+      InventoryItems.getProducts(products => {
+        commit('setProducts', products)
       })
     }
   }

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ContactList from '@/components/ContactList'
 import ContactDetail from '@/components/ContactDetail'
+import InnventorySearchPage from '@/components/InnventorySearchPage'
 
 Vue.use(Router)
 
@@ -9,8 +9,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'ContactList',
-      component: ContactList
+      name: 'InnventorySearchPage',
+      component: InnventorySearchPage
     },
     {
       path: '/:contactId',
