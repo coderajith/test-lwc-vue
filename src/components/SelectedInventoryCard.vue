@@ -1,5 +1,5 @@
 <template>
-  <div class="selectedInventoryCardContainer">
+  <div class="selectedInventoryCardContainer" @click="unCheck()">
     <div class="selectedImageContainer">
       <img v-if="product.Link && product.Link.length" :src="product.Link" class="selectedInventoryCardImage"/>
       <img v-else="checked" src="../assets/image.png" class="selectedInventoryCardImageNotExist"/>
@@ -20,6 +20,13 @@ export default {
       checked: false
     }
   },
-  props: ['product']
+  props: ['product'],
+  methods: {
+    unCheck: function () {
+      this.product.Selected = false
+      this.$store.commit('updateSelected', -1)
+      this.$store.commit('updateProduct', this.product)
+    }
+  }
 }
 </script>

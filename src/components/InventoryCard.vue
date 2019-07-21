@@ -10,7 +10,7 @@
     </div>
     <div v-if="product.Selected" class="leftCorner"></div>
     <p v-if="product.Selected" class="hold">HOLD</p>
-    <div v-if="product.Selected" class="holdActive" @click="unCheck()"></div>
+    <div v-if="product.Selected" class="holdActive"></div>
     <div class="inventoryCardInfo">
       <p class="inventoryCardText">Product Price: {{product.ProductPrice}}</p>
       <p class="inventoryCardText">Product Name: {{product.Name}}</p>
@@ -26,11 +26,6 @@ export default {
   methods: {
     check: function () {
       this.$store.commit('updateSelected', 1)
-      this.$store.commit('updateProduct', this.product)
-    },
-    unCheck: function () {
-      this.product.Selected = false
-      this.$store.commit('updateSelected', -1)
       this.$store.commit('updateProduct', this.product)
     }
   }

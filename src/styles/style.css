@@ -148,6 +148,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: solid 1px #e6f0f4;
 }
 .collapsibleHeaderText {
   font-family: sans-serif;
@@ -308,4 +309,81 @@ body {
   text-align: right;
   color: #6f7579;
   position: right;
+}
+.inputHelp {
+  font-size: 14px;
+  padding: 6px;
+}
+.inputLabel {
+  font-family: sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #7f7f7f;
+  padding-bottom: 6px;
+}
+.collapsibleContent .b-checkbox.checkbox + .checkbox {
+  margin-left: 0;
+}
+.radioButtonWithLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.collapsibleContent .panel-heading {
+  background-color: white;
+  border-radius: 0;
+  color: white;
+  font-size: 1.25em;
+  font-weight: 300;
+  line-height: 1.25;
+  padding: 0;
+}
+.collapsibleContent .panel-heading:first-child, .panel-tabs:first-child, .panel-block:first-child {
+    border-top: none;
+}
+.collapsibleContent .panel-heading, .panel-tabs, .panel-block {
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+.inputBold {
+  font-family: sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 2.27;
+  letter-spacing: normal;
+  text-align: left;
+  color: #7f7f7f;
+}
+.collapsibleContent .panel:not(:last-child) {
+  margin-bottom: 0;
+}
+.collapsibleContent .collapse-content {
+  padding-bottom: 0.5rem;
+}
+.collapsibleContent .collapse-content label {
+  font-family: sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #7f7f7f;
+}
+.collapsibleContent .collapse-content .select {
+  width: 100%;
+}
+.collapsibleContent .collapse-content select {
+  width: 100%;
 }
