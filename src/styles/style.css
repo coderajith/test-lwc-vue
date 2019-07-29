@@ -245,6 +245,7 @@ body {
 .selectedInventoryCardInfo {
   max-width: 144px;
   max-height: 144px;
+  min-width: 144px;
   border: solid 1px #cdd6dd;
   background-color: #ffffff;
   padding: 8px;

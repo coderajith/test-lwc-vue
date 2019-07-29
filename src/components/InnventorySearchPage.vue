@@ -3,20 +3,22 @@
     <SelectedInventoryList />
     <div class="inventorySearchPage">
       <div class="productContainerHeader">
-        <p class="inventorySearchPageTitle">Inventory search list</p>
+        <p class="inventorySearchPageTitle">在庫検索リスト</p>
         <div class="flexContainer allignCenter">
-          <p class="inventorySearchPageTitle">Number of search results: {{ products ? products.length : 0}}</p>
+          <p class="inventorySearchPageTitle">検索結果件数: {{ products ? products.length : 0}}</p>
           <b-field>
             <b-select v-model="order" @input="sort()">
-              <option value="newest">Newest order</option>
-              <option value="last">Last updated date</option>
+              <option value="createDesc">登録日が新しい順</option>
+              <option value="createAsc">登録日が古い順</option>
+              <option value="updateDesc">最終更新日が新しい順</option>
+              <option value="updateAsc">最終更新日が古い順</option>
             </b-select>
           </b-field>
         </div>
       </div>
       <div class="productContainerList">
         <div class="productContainer" v-for="product in products">
-          <InventoryCard :product="product"/>
+          <InventoryCard v-if="product.Show" :product="product"/>
         </div>
       </div>
     </div>
@@ -35,7 +37,7 @@ export default {
   },
   data () {
     return {
-      order: 'newest'
+      order: 'createDesc'
     }
   },
   computed: {
@@ -50,10 +52,17 @@ export default {
   },
   methods: {
     sort: function () {
-      if (this.order === 'newest') {
-        this.$store.commit('sortNewest')
-      } else {
-        this.$store.commit('sortLast')
+      if (this.order === 'createDesc') {
+        this.$store.commit('createDesc')
+      }
+      if (this.order === 'createAsc') {
+        this.$store.commit('createAsc')
+      }
+      if (this.order === 'updateDesc') {
+        this.$store.commit('updateDesc')
+      }
+      if (this.order === 'updateAsc') {
+        this.$store.commit('updateAsc')
       }
     }
   }

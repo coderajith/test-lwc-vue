@@ -2,154 +2,152 @@
   <div :class="[ menuOpen ? 'collapsibleFilterOpen' : 'collapsibleFilter' ]">
     <div v-if="menuOpen">
       <div class="collapsibleHeader">
-        <p class="collapsibleHeaderText">Filter</p>
+        <p class="collapsibleHeaderText">検索条件</p>
         <div style="width: 60px;">
           <img class="collapsibleIcon" @click="toggleMenu" src="../assets/right-arrow.png"/>
         </div>
       </div>
       <div class="collapsibleContent">
-        <b-button type="is-dark">Clear filters</b-button>
-        <b-collapse aria-id="keywordSearch" class="panel" :open.sync="isOpen">
+        <b-button type="is-dark" @click="clearFilter">検索条件をクリア</b-button>
+        <b-collapse aria-id="keywordSearch" class="panel" :open.sync="isOpenOne">
             <div slot="trigger"
                 class="panel-heading"
                 role="button"
                 aria-controls="contentIdForA11y2">
-                <p class="inputBold">Keyword search</p>
+                <p class="inputBold">キーワード検索</p>
             </div>
             <div>
               <b-field>
-                <b-input></b-input>
+                <b-input @input="keywordSearch" v-model="keywordSearchValue" placeholder="キーワードを入力"></b-input>
               </b-field>
             </div>
         </b-collapse>
-        <b-collapse aria-id="category" class="panel" :open.sync="isOpen">
+        <b-collapse aria-id="category" class="panel" :open.sync="isOpenSecond">
             <div slot="trigger"
                 class="panel-heading"
                 role="button"
                 aria-controls="contentIdForA11y2">
-                <p class="inputBold">Category</p>
+                <p class="inputBold">カテゴリ</p>
             </div>
             <div>
-              <b-field label="Major Classification">
-                <b-select placeholder="Select a Target quote" >
-                  <option value="newest">1</option>
-                  <option value="last">2</option>
-                </b-select>
+              <b-field label="大分類">
+                <b-input @input="keywordSearch" v-model="bigType" placeholder="選択してください"></b-input>
               </b-field>
-              <b-field label="Medium Classification">
-                <b-select placeholder="Select a Target quote" >
-                  <option value="newest">1</option>
-                  <option value="last">2</option>
-                </b-select>
+              <b-field label="中分類">
+                <b-input @input="keywordSearch" v-model="mediumType" placeholder="選択してください"></b-input>
               </b-field>
-              <b-field label="Minor Classification">
-                <b-select placeholder="Select a Target quote" >
-                  <option value="newest">1</option>
-                  <option value="last">2</option>
-                </b-select>
+              <b-field label="小分類">
+                <b-input @input="keywordSearch" v-model="smallType" placeholder="選択してください"></b-input>
               </b-field>
             </div>
         </b-collapse>
-        <b-collapse aria-id="basicConditions" class="panel" :open.sync="isOpen">
+        <b-collapse aria-id="basicConditions" class="panel" :open.sync="isOpenThree">
             <div slot="trigger"
                 class="panel-heading"
                 role="button"
                 aria-controls="contentIdForA11y2">
-                <p class="inputBold">Basic Conditions</p>
+                <p class="inputBold">基本条件</p>
             </div>
             <div>
               <div style="max-width: 290px;">
-                  <b-checkbox style="width: 130px; padding-bottom: 8px;">Status</b-checkbox>
-                  <b-checkbox style="width: 130px; padding-bottom: 8px;">Sub-status</b-checkbox>
+                  <b-checkbox style="width: 130px; padding-bottom: 8px;" v-model="currentStatus[0]" @input="keywordSearch">発注済</b-checkbox>
+                  <b-checkbox style="width: 130px; padding-bottom: 8px;" v-model="currentStatus[1]" @input="keywordSearch">在庫</b-checkbox>
+                  <b-checkbox style="width: 130px; padding-bottom: 8px;" v-model="currentStatus[2]" @input="keywordSearch">リース中</b-checkbox>
+                  <b-checkbox style="width: 130px; padding-bottom: 8px;" v-model="currentStatus[3]" @input="keywordSearch">除却</b-checkbox>
               </div>
               <div>
-                <p class="inputLabel">Scheduled receipt date</p>
+                <p class="inputLabel">入庫予定日</p>
                 <div style="display: flex;">
-                  <b-datepicker placeholder="YYYY/MM/DD"></b-datepicker>
+                  <b-datepicker placeholder="MM/DD/YYYY" v-model="dateForFilter[0]" @input="keywordSearch"></b-datepicker>
                   <p class="inputHelp"> ~ </p>
-                  <b-datepicker placeholder="YYYY/MM/DD"></b-datepicker>
+                  <b-datepicker placeholder="MM/DD/YYYY" v-model="dateForFilter[1]" @input="keywordSearch"></b-datepicker>
                 </div>
               </div>
             </div>
             <div>
               <div class="radioButtonWithLabel" style="padding-top: 8px;">
-                <p class="inputLabel">Special product</p>
-                <b-switch></b-switch>
+                <p class="inputLabel">スペシャル商品</p>
+                <b-switch v-model="specialFlg" @input="keywordSearch"></b-switch>
               </div>
               <div class="radioButtonWithLabel" style="padding-top: 8px;">
-                <p class="inputLabel">Short-term product</p>
-                <b-switch></b-switch>
+                <p class="inputLabel">短期専用品</p>
+                <b-switch v-model="longOrShort" @input="keywordSearch"></b-switch>
               </div>
               <div class="radioButtonWithLabel" style="padding-top: 8px;">
-                <p class="inputLabel">Held product</p>
-                <b-switch></b-switch>
+                <p class="inputLabel">HOLD済</p>
+                <b-switch v-model="hold" @input="keywordSearch"></b-switch>
               </div>
+              <!-- <div class="radioButtonWithLabel" style="padding-top: 8px;">
+                <p class="inputLabel">情報非公開</p>
+                <b-switch></b-switch>
+              </div> -->
             </div>
         </b-collapse>
-        <b-collapse aria-id="noneDiscount" class="panel" :open.sync="isOpen">
+        <b-collapse aria-id="noneDiscount" class="panel" :open.sync="isOpenFour">
             <div slot="trigger"
                 class="panel-heading"
                 role="button"
                 aria-controls="contentIdForA11y2">
-                <p class="inputBold">Non-disclosure product</p>
+                <p class="inputBold">こだわり条件</p>
             </div>
             <div>
-              <p class="inputLabel">More Conditions</p>
+              <p class="inputLabel">ランク</p>
               <div style="max-width: 290px;">
-                  <b-checkbox style="width: 130px;">A</b-checkbox>
-                  <b-checkbox style="width: 130px;">B</b-checkbox>
-                  <b-checkbox style="width: 130px;">C</b-checkbox>
-                  <b-checkbox style="width: 130px;">D</b-checkbox>
-                  <b-checkbox style="width: 130px;">M</b-checkbox>
-                  <b-checkbox style="width: 130px;">N</b-checkbox>
-                  <b-checkbox style="width: 130px;">S</b-checkbox>
-                  <b-checkbox style="width: 130px;">P</b-checkbox>
+                  <b-checkbox style="width: 130px;" @input="keywordSearch" v-model="checkboxGroup" native-value="A">A</b-checkbox>
+                  <b-checkbox style="width: 130px;" @input="keywordSearch" v-model="checkboxGroup" native-value="B">B</b-checkbox>
+                  <b-checkbox style="width: 130px;" @input="keywordSearch" v-model="checkboxGroup" native-value="C">C</b-checkbox>
+                  <b-checkbox style="width: 130px;" @input="keywordSearch" v-model="checkboxGroup" native-value="D">D</b-checkbox>
+                  <b-checkbox style="width: 130px;" @input="keywordSearch" v-model="checkboxGroup" native-value="M">M</b-checkbox>
+                  <b-checkbox style="width: 130px;" @input="keywordSearch" v-model="checkboxGroup" native-value="N">N</b-checkbox>
+                  <b-checkbox style="width: 130px;" @input="keywordSearch" v-model="checkboxGroup" native-value="S">S</b-checkbox>
+                  <b-checkbox style="width: 130px;" @input="keywordSearch" v-model="checkboxGroup" native-value="P">P</b-checkbox>
+                  <b-checkbox style="width: 130px;" @input="keywordSearch" v-model="checkboxGroup" native-value="ランク未確定">ランク未確定</b-checkbox>
               </div>
               <div>
-                <p class="inputLabel">Value price range (Man-yen)</p>
+                <p class="inputLabel">価値価格帯（万円</p>
                 <div style="display: flex;">
                   <b-field>
-                      <b-input placeholder="0"></b-input>
+                      <b-input placeholder="0" @input="keywordSearch" v-model="unitPrice[0]"></b-input>
                   </b-field>
                   <p class="inputHelp"> ~ </p>
                   <b-field>
-                      <b-input placeholder="9999"></b-input>
+                      <b-input placeholder="9999" @input="keywordSearch" v-model="unitPrice[1]"></b-input>
                   </b-field>
                 </div>
               </div>
               <div>
-                <p class="inputLabel">Size, Width (mm)</p>
+                <p class="inputLabel">幅（mm</p>
                 <div style="display: flex;">
                   <b-field>
-                      <b-input placeholder="0"></b-input>
+                      <b-input placeholder="0" @input="keywordSearch" v-model="size[0]"></b-input>
                   </b-field>
                   <p class="inputHelp"> ~ </p>
                   <b-field>
-                      <b-input placeholder="9999"></b-input>
+                      <b-input placeholder="9999" @input="keywordSearch" v-model="size[1]"></b-input>
                   </b-field>
                 </div>
               </div>
               <div>
-                <p class="inputLabel">Depth (mm)</p>
+                <p class="inputLabel">奥行（mm)</p>
                 <div style="display: flex;">
                   <b-field>
-                      <b-input placeholder="0"></b-input>
+                      <b-input placeholder="0" @input="keywordSearch" v-model="size[2]"></b-input>
                   </b-field>
                   <p class="inputHelp"> ~ </p>
                   <b-field>
-                      <b-input placeholder="9999"></b-input>
+                      <b-input placeholder="9999" @input="keywordSearch" v-model="size[3]"></b-input>
                   </b-field>
                 </div>
               </div>
               <div>
-                <p class="inputLabel">Height (mm)</p>
+                <p class="inputLabel">高さ（mm)</p>
                 <div style="display: flex;">
                   <b-field>
-                      <b-input placeholder="0"></b-input>
+                      <b-input placeholder="0" @input="keywordSearch" v-model="size[4]"></b-input>
                   </b-field>
                   <p class="inputHelp"> ~ </p>
                   <b-field>
-                      <b-input placeholder="9999"></b-input>
+                      <b-input placeholder="9999" @input="keywordSearch" v-model="size[5]"></b-input>
                   </b-field>
                 </div>
               </div>
@@ -166,12 +164,72 @@
 export default {
   data () {
     return {
-      menuOpen: false
+      menuOpen: false,
+      keywordSearchValue: '',
+      bigType: '',
+      mediumType: '',
+      smallType: '',
+      currentStatus: [false, false, false, false],
+      dateForFilter: [],
+      specialFlg: false,
+      hold: false,
+      longOrShort: false,
+      checkboxGroup: [],
+      unitPrice: [0, 9999],
+      size: [0, 9999, 0, 9999, 0, 9999],
+      isOpenOne: true,
+      isOpenSecond: true,
+      isOpenThree: true,
+      isOpenFour: true
     }
   },
   methods: {
     toggleMenu: function () {
       this.menuOpen = !this.menuOpen
+    },
+    clearFilter: function () {
+      this.keywordSearchValue = ''
+      this.bigType = ''
+      this.mediumType = ''
+      this.smallType = ''
+      this.specialFlg = false
+      this.hold = false
+      this.longOrShort = false
+      this.currentStatus = [false, false, false, false]
+      this.dateForFilter = []
+      this.checkboxGroup = []
+      this.unitPrice = [0, 9999]
+      this.size = [0, 9999, 0, 9999, 0, 9999]
+      this.$store.commit('keywordSearch', [
+        this.keywordSearchValue,
+        this.bigType,
+        this.mediumType,
+        this.smallType,
+        this.currentStatus,
+        this.dateForFilter,
+        this.specialFlg,
+        this.hold,
+        this.longOrShort,
+        this.checkboxGroup,
+        this.unitPrice,
+        this.size
+      ])
+    },
+    keywordSearch: function () {
+      this.$store.commit('keywordSearch', [
+        this.keywordSearchValue,
+        this.bigType,
+        this.mediumType,
+        this.smallType,
+        this.currentStatus,
+        this.dateForFilter,
+        this.specialFlg,
+        this.hold,
+        this.longOrShort,
+        this.checkboxGroup,
+        this.unitPrice,
+        this.size
+      ])
     }
   }
 }

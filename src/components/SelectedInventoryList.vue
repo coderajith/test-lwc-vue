@@ -1,15 +1,15 @@
 <template>
   <div class="selectedInventoryContainer">
-    <p class="selectedInventoryHeader">Selected inventory list</p>
+    <p class="selectedInventoryHeader">HOLD中の在庫リスト</p>
     <div class="paddingLeftRight">
-      <b-button type="is-dark">←  Move to quote page</b-button>
-      <b-field label="Target quote">
-        <b-select placeholder="Select a Target quote" >
+      <b-button type="is-dark">←  見積画面へ移動する</b-button>
+      <b-field label="対象見積">
+        <b-select placeholder="入力してください" >
           <option value="newest">1</option>
           <option value="last">2</option>
         </b-select>
       </b-field>
-      <p class="numberSelected">Number of inventories selected: {{selectedItems}}</p>
+      <p class="numberSelected">HOLD件数: {{selectedItems}}</p>
     </div>
     <div class="">
       <div class="" v-for="product in products">

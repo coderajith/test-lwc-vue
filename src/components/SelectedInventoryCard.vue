@@ -5,11 +5,11 @@
       <img v-else="checked" src="../assets/image.png" class="selectedInventoryCardImageNotExist"/>
     </div>
     <div class="selectedInventoryCardInfo">
-      <p class="selecytedInventoryCardText">Product Price: {{product.ProductPrice}}</p>
-      <p class="selecytedInventoryCardText">Product Name: {{product.Name}}</p>
-      <p class="selecytedInventoryCardText">Rank: {{product.Rank}}</p>
-      <p class="selecytedInventoryCardText">Status: {{product.CurrentStatus}}</p>
-      <p class="selecytedInventoryCardText">Model Number: {{product.ModelNumber}}</p>
+      <p class="selecytedInventoryCardText">{{product.InventoryNumber}}</p>
+      <p class="selecytedInventoryCardText">{{product.ProductName}} / {{product.Rank}}</p>
+      <p class="selecytedInventoryCardText">{{product.CurrentStatus}} / {{product.CurrentAuxiliaryStatus}}</p>
+      <p class="selecytedInventoryCardText">{{product.ManufacturerName}} / {{product.ProductFixedPrice}}</p>
+      <p class="selecytedInventoryCardText">{{product.Size}}</p>
     </div>
   </div>
 </template>
