@@ -109,7 +109,6 @@ body {
   display: flex;
   justify-content: space-around;
   margin-bottom: 24px;
-  padding: 4px;
 }
 .productContainerHeader {
   border-bottom: 1px solid #cdd6dd;

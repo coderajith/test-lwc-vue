@@ -84,8 +84,8 @@ export const store = new Vuex.Store({
           (payload[4][3] ? item.CurrentStatus.indexOf('除却') > -1 : false))
           : true) &&
         (dateEmpty ? (
-          (dateStart ? new Date(item.DateForFilter) >= new Date(payload[5][0]) : true) &&
-          (dateEnd ? new Date(item.DateForFilter) <= new Date(payload[5][1]) : true)) : true) &&
+          (dateStart && item.DateForFilter !== '' ? new Date(item.DateForFilter) >= new Date(payload[5][0]) : true) &&
+          (dateEnd && item.DateForFilter !== '' ? new Date(item.DateForFilter) <= new Date(payload[5][1]) : true)) : true) &&
           (payload[6] ? item.SpecialFlg === payload[6] : true) &&
           (payload[7] ? item.Hold === payload[7] : true) &&
           (payload[8] ? item.LongOrShort.indexOf('短期専用') > -1 : true) &&

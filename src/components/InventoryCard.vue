@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding: 4px;">
     <div class="imageContainer">
       <img v-if="product.Link && product.Link.length" :src="product.Link" class="inventoryCardImage"/>
       <img v-else="product.Selected" src="../assets/image.png" class="inventoryCardImageNotExist"/>
