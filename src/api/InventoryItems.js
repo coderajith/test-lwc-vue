@@ -159,11 +159,11 @@ export default {
               return {
                 Id: product.Id,
                 InventoryNumber: product.Name !== undefined ? product.Name : '',
-                ProductName: product.ProductName__c !== undefined ? product.ProductName__c : '',
+                ProductName: product.OtherProductName__c !== undefined ? product.OtherProductName__c : '',
                 Rank: product.Rank__c !== undefined ? product.Rank__c : '',
                 CurrentStatus: product.CurrentStatus__c !== undefined ? product.CurrentStatus__c : '',
                 CurrentAuxiliaryStatus: product.CurrentStatusAuxiliary__c !== undefined ? product.CurrentStatusAuxiliary__c : '',
-                ManufacturerName: product.Maker__c !== undefined ? product.Maker__c : '',
+                ManufacturerName: product.MakerMaster__c !== undefined ? product.MakerMaster__r.Name : '',
                 ProductFixedPrice: product.ProductPrice__c !== undefined ? product.ProductPrice__c : '',
                 Size: product.Size__c !== undefined ? product.Size__c : '',
                 Selected: false,

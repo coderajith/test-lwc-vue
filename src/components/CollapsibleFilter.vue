@@ -3,8 +3,8 @@
     <div v-if="isOpen">
       <div class="collapsibleHeader">
         <p class="collapsibleHeaderText">検索条件</p>
-        <div style="width: 60px;">
-          <img class="collapsibleIcon" @click="toggleMenu" src="../assets/right-arrow.png"/>
+        <div style="padding: 24px;">
+          <font-awesome-icon icon="arrow-right" @click="toggleMenu" style="width: 16px !important; height: 16px !important; color: black;"/>
         </div>
       </div>
       <div class="collapsibleContent">
@@ -58,7 +58,7 @@
               <div>
                 <p class="inputLabel">入庫予定日</p>
                 <div style="display: flex;">
-                  <b-datepicker placeholder="MM/DD/YYYY" v-model="dateForFilter[0]" @input="keywordSearch" position="is-bottom-right"></b-datepicker>
+                  <b-datepicker placeholder="MM/DD/YYYY" v-model="dateForFilter[0]" @input="keywordSearch" ></b-datepicker>
                   <p class="inputHelp"> ~ </p>
                   <b-datepicker placeholder="MM/DD/YYYY" v-model="dateForFilter[1]" @input="keywordSearch" position="is-bottom-left"></b-datepicker>
                 </div>
@@ -155,8 +155,8 @@
         </b-collapse>
       </div>
     </div>
-    <div v-else="menuOpen" style="width: 60px;">
-      <img class="collapsibleIcon" @click="toggleMenu" src="../assets/left-arrow.png"/>
+    <div v-else="menuOpen" style="padding: 24px;">
+      <font-awesome-icon icon="arrow-left" @click="toggleMenu" style="width: 16px !important; height: 16px !important; color: black;"/>
     </div>
   </div>
 </template>

@@ -45,16 +45,6 @@ body {
   position: absolute;
   top: 168px;
   right: 10px;
-  border-radius: 50%;
-  background-color: #ffcc33;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  color: white;
-  font-size: 29px;
   cursor: pointer;
   z-index: 2;
 }
@@ -381,4 +371,9 @@ body {
   overflow-x: scroll;
   height: -webkit-fill-available;
   padding-bottom: 300px;
+}
+svg {
+  width: 32px !important;
+  height: 32px !important;
+  color: #ffcc33;
 }

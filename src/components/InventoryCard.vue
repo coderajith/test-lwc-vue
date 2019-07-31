@@ -5,7 +5,7 @@
       <img v-else="product.Selected" src="../assets/image.png" class="inventoryCardImageNotExist"/>
     </div>
     <div class="round" @click="navigateToDetails()">
-      <p>i</p>
+      <font-awesome-icon icon="info-circle" />
     </div>
     <div v-if="product.Selected" class="leftCorner"></div>
     <p v-if="product.Selected" class="hold">HOLD</p>
