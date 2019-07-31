@@ -1,5 +1,6 @@
 import LCC from 'lightning-container'
 
+const _isOpen = true
 const _products = [
   {
     Id: 'a060k000006HeneAAC',
@@ -195,6 +196,47 @@ export default {
       )
     } else {
       setTimeout(() => callback(_products), 100)
+    }
+  },
+  navigateToRecord (recordId, callback) {
+    if (process.env.NODE_ENV === 'production') {
+      let msg = {
+        recordId: recordId,
+        type: 'Navigate'
+      }
+      LCC.sendMessage(msg)
+    } else {
+      setTimeout(() => console.log(recordId), 100)
+    }
+  },
+  updateUserInfo (isOpen, callback) {
+    if (process.env.NODE_ENV === 'production') {
+      let msg = {
+        isOpen: isOpen,
+        type: 'UpdateUserInfo'
+      }
+      LCC.sendMessage(msg)
+    } else {
+      setTimeout(() => console.log(isOpen), 100)
+    }
+  },
+  filterIsOpen (callback) {
+    if (process.env.NODE_ENV === 'production') {
+      LCC.callApex(
+        'VuePOCController.getIsOpen',
+        (result, event) => {
+          if (event.status) {
+            callback(result)
+          } else if (event.type === 'exception') {
+            console.log(event.message + ' : ' + event.where)
+          } else {
+            console.log('Unknown Error', event)
+          }
+        },
+        {escape: false}
+      )
+    } else {
+      setTimeout(() => callback(_isOpen), 100)
     }
   }
 }

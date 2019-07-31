@@ -11,8 +11,8 @@
       </b-field>
       <p class="numberSelected">HOLD件数: {{selectedItems}}</p>
     </div>
-    <div class="">
-      <div class="" v-for="product in products">
+    <div class="scroll">
+      <div v-for="product in products">
         <SelectedInventoryCard v-if="product.Selected" :product="product"/>
       </div>
     </div>

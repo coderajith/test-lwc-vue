@@ -1,12 +1,11 @@
 <template>
-  <div style="padding: 4px;">
+  <div style="padding: 4px;" @click="check()">
     <div class="imageContainer">
       <img v-if="product.Link && product.Link.length" :src="product.Link" class="inventoryCardImage"/>
       <img v-else="product.Selected" src="../assets/image.png" class="inventoryCardImageNotExist"/>
     </div>
-    <div class="round">
-      <input type="checkbox" :id="product.Id" v-model="product.Selected" @change="check()"/>
-      <label :for="product.Id"></label>
+    <div class="round" @click="navigateToDetails()">
+      <p>i</p>
     </div>
     <div v-if="product.Selected" class="leftCorner"></div>
     <p v-if="product.Selected" class="hold">HOLD</p>
@@ -25,8 +24,12 @@ export default {
   props: ['product'],
   methods: {
     check: function () {
+      this.product.Selected = !this.product.Selected
       this.$store.commit('updateSelected', 1)
       this.$store.commit('updateProduct', this.product)
+    },
+    navigateToDetails: function () {
+      this.$store.dispatch({ type: 'navigateToRecord', productId: this.product.Id })
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
-  <div :class="[ menuOpen ? 'collapsibleFilterOpen' : 'collapsibleFilter' ]">
-    <div v-if="menuOpen">
+  <div :class="[ isOpen ? 'collapsibleFilterOpen' : 'collapsibleFilter' ]">
+    <div v-if="isOpen">
       <div class="collapsibleHeader">
         <p class="collapsibleHeaderText">検索条件</p>
         <div style="width: 60px;">
@@ -164,7 +164,6 @@
 export default {
   data () {
     return {
-      menuOpen: false,
       keywordSearchValue: '',
       bigType: '',
       mediumType: '',
@@ -183,9 +182,15 @@ export default {
       isOpenFour: true
     }
   },
+  computed: {
+    isOpen () {
+      return this.$store.state.isOpen
+    }
+  },
   methods: {
     toggleMenu: function () {
-      this.menuOpen = !this.menuOpen
+      this.$store.dispatch({ type: 'updateUserInfo', isOpen: !this.$store.state.isOpen })
+      this.$store.commit('setIsOpen', !this.$store.state.isOpen)
     },
     clearFilter: function () {
       this.keywordSearchValue = ''

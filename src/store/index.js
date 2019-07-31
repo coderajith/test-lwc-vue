@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     products: null,
-    selectedItems: 0
+    selectedItems: 0,
+    isOpen: false
   },
   getters: {
     getProducts: (state, {dispatch}) => id => {
@@ -17,6 +18,7 @@ export const store = new Vuex.Store({
   },
   mutations: {
     setProducts: (state, payload) => { state.products = payload },
+    setIsOpen: (state, payload) => { state.isOpen = payload },
     updateProduct: (state, payload) => {
       state.products.forEach((item) => {
         if (item.Id === payload.Id) {
@@ -40,15 +42,15 @@ export const store = new Vuex.Store({
     },
     updateDesc: (state) => {
       state.products.sort((a, b) => {
-        let dateA = new Date(a.CreatedDate)
-        let dateB = new Date(b.CreatedDate)
+        let dateA = new Date(a.LastModifiedDate)
+        let dateB = new Date(b.LastModifiedDate)
         return dateB - dateA
       })
     },
     updateAsc: (state) => {
       state.products.sort((a, b) => {
-        let dateA = new Date(a.CreatedDate)
-        let dateB = new Date(b.CreatedDate)
+        let dateA = new Date(a.LastModifiedDate)
+        let dateB = new Date(b.LastModifiedDate)
         return dateA - dateB
       })
     },
@@ -110,6 +112,17 @@ export const store = new Vuex.Store({
     getAllProducts: ({commit}) => {
       InventoryItems.getProducts(products => {
         commit('setProducts', products)
+      })
+    },
+    navigateToRecord: ({commit}, payload) => {
+      InventoryItems.navigateToRecord(payload.productId)
+    },
+    updateUserInfo: ({commit}, payload) => {
+      InventoryItems.updateUserInfo(payload.isOpen)
+    },
+    filterIsOpen: ({commit}) => {
+      InventoryItems.filterIsOpen(isOpen => {
+        commit('setIsOpen', isOpen)
       })
     }
   }

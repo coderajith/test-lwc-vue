@@ -46,6 +46,7 @@ export default {
     }
   },
   created () {
+    this.$store.dispatch('filterIsOpen')
     if (!this.products) {
       this.$store.dispatch('getAllProducts')
     }
