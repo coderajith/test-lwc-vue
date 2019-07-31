@@ -26,9 +26,9 @@ body {
   background-color: #ebf4ff;
 }
 .inventoryCardText {
-  height: 24px;
+  height: 20px;
   font-family: sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
@@ -98,7 +98,7 @@ body {
   right: 0;
 }
 .collapsibleFilterOpen {
-  min-width: 358px;
+  min-width: 320px;
   min-height: 100vh;
   border: 1px solid #cdd6dd;
   border-right: none;
@@ -372,8 +372,16 @@ body {
   height: -webkit-fill-available;
   padding-bottom: 300px;
 }
-svg {
+.cardDiv svg {
   width: 32px !important;
   height: 32px !important;
   color: #ffcc33;
+}
+.mx-panel-date td, .mx-panel-date th {
+  font-size: 12px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  overflow: hidden;
+  text-align: center !important;
 }

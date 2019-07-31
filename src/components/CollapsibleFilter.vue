@@ -49,18 +49,19 @@
                 <p class="inputBold">基本条件</p>
             </div>
             <div>
+              <p class="inputLabel">現状区分（現状補助区分)</p>
               <div style="max-width: 290px;">
-                  <b-checkbox style="width: 130px; padding-bottom: 8px;" v-model="currentStatus[0]" @input="keywordSearch">発注済</b-checkbox>
-                  <b-checkbox style="width: 130px; padding-bottom: 8px;" v-model="currentStatus[1]" @input="keywordSearch">在庫</b-checkbox>
-                  <b-checkbox style="width: 130px; padding-bottom: 8px;" v-model="currentStatus[2]" @input="keywordSearch">リース中</b-checkbox>
-                  <b-checkbox style="width: 130px; padding-bottom: 8px;" v-model="currentStatus[3]" @input="keywordSearch">除却</b-checkbox>
+                  <b-checkbox style="width: 200px; padding-bottom: 8px;" v-model="currentStatus[0]" @input="keywordSearch">発注済</b-checkbox>
+                  <b-checkbox style="width: 200px; padding-bottom: 8px;" v-model="currentStatus[1]" @input="keywordSearch">在庫 （入庫済／入庫ﾁｪｯｸ済</b-checkbox>
+                  <b-checkbox style="width: 200px; padding-bottom: 8px;" v-model="currentStatus[2]" @input="keywordSearch">リース中（返却予定)</b-checkbox>
+                  <b-checkbox style="width: 200px; padding-bottom: 8px;" v-model="currentStatus[3]" @input="keywordSearch">リース中（返却予定以外)</b-checkbox>
               </div>
               <div>
                 <p class="inputLabel">入庫予定日</p>
                 <div style="display: flex;">
-                  <b-datepicker placeholder="MM/DD/YYYY" v-model="dateForFilter[0]" @input="keywordSearch" ></b-datepicker>
+                  <date-picker id="dateOne" v-model="dateForFilter[0]" valueType="format" format="YYYY/MM/DD" placeholder="YYYY/MM/DD" @input="keywordSearch"></date-picker>
                   <p class="inputHelp"> ~ </p>
-                  <b-datepicker placeholder="MM/DD/YYYY" v-model="dateForFilter[1]" @input="keywordSearch" position="is-bottom-left"></b-datepicker>
+                  <date-picker id="dateSecond" v-model="dateForFilter[1]" valueType="format" format="YYYY/MM/DD" placeholder="YYYY/MM/DD" @input="keywordSearch"></date-picker>
                 </div>
               </div>
             </div>
@@ -104,7 +105,7 @@
                   <b-checkbox style="width: 130px;" @input="keywordSearch" v-model="checkboxGroup" native-value="ランク未確定">ランク未確定</b-checkbox>
               </div>
               <div>
-                <p class="inputLabel">価値価格帯（万円</p>
+                <p class="inputLabel">価値価格帯（万円)</p>
                 <div style="display: flex;">
                   <b-field>
                       <b-input placeholder="0" @input="keywordSearch" v-model="unitPrice[0]"></b-input>
@@ -116,7 +117,7 @@
                 </div>
               </div>
               <div>
-                <p class="inputLabel">幅（mm</p>
+                <p class="inputLabel">幅（mm)</p>
                 <div style="display: flex;">
                   <b-field>
                       <b-input placeholder="0" @input="keywordSearch" v-model="size[0]"></b-input>
@@ -161,7 +162,20 @@
   </div>
 </template>
 <script>
+import DatePicker from 'vue2-datepicker'
+DatePicker.methods.displayPopup = function () {
+  if (this.$el.id === 'dateOne') {
+    this.position = {
+      left: 0
+    }
+  } else {
+    this.position = {
+      right: 0
+    }
+  }
+}
 export default {
+  components: { DatePicker },
   data () {
     return {
       keywordSearchValue: '',
@@ -170,9 +184,9 @@ export default {
       smallType: '',
       currentStatus: [false, false, false, false],
       dateForFilter: [],
-      specialFlg: false,
-      hold: false,
-      longOrShort: false,
+      specialFlg: true,
+      hold: true,
+      longOrShort: true,
       checkboxGroup: [],
       unitPrice: [0, 99999],
       size: [0, 99999, 0, 99999, 0, 99999],
@@ -197,9 +211,9 @@ export default {
       this.bigType = ''
       this.mediumType = ''
       this.smallType = ''
-      this.specialFlg = false
-      this.hold = false
-      this.longOrShort = false
+      this.specialFlg = true
+      this.hold = true
+      this.longOrShort = true
       this.currentStatus = [false, false, false, false]
       this.dateForFilter = []
       this.checkboxGroup = []

@@ -22,6 +22,7 @@
     "vue": "^2.5.2",
     "vue-html-to-paper": "^1.1.0",
     "vue-router": "^3.0.1",
+    "vue2-datepicker": "^2.12.0",
     "vuetify": "^1.5.16",
     "vuex": "^3.1.1"
   },

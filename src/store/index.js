@@ -88,9 +88,9 @@ export const store = new Vuex.Store({
         (dateEmpty ? (
           (dateStart && item.DateForFilter !== '' ? new Date(item.DateForFilter) >= new Date(payload[5][0]) : true) &&
           (dateEnd && item.DateForFilter !== '' ? new Date(item.DateForFilter) <= new Date(payload[5][1]) : true)) : true) &&
-          (payload[6] ? item.SpecialFlg === payload[6] : true) &&
-          (payload[7] ? item.Hold === payload[7] : true) &&
-          (payload[8] ? item.LongOrShort.indexOf('短期専用') > -1 : true) &&
+          (payload[6] ? true : item.SpecialFlg === false) &&
+          (payload[7] ? true : item.Hold === false) &&
+          (payload[8] ? true : item.LongOrShort.indexOf('短期専用') < 0) &&
           (payload[9].length > 0 ? payload[9].includes(item.Rank) : true) &&
           (priceStart ? parseInt(item.UnitPriceLease) >= parseInt(payload[10][0]) : true) &&
           (priceEnd ? parseInt(item.UnitPriceLease) <= parseInt(payload[10][1]) : true) &&

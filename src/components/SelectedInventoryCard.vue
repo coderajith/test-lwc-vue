@@ -6,9 +6,10 @@
     </div>
     <div class="selectedInventoryCardInfo">
       <p class="selecytedInventoryCardText">{{product.InventoryNumber}}</p>
-      <p class="selecytedInventoryCardText">{{product.ProductName}} / {{product.Rank}}</p>
+      <p class="selecytedInventoryCardText">{{product.ProductName}}</p>
       <p class="selecytedInventoryCardText">{{product.CurrentStatus}} / {{product.CurrentAuxiliaryStatus}}</p>
-      <p class="selecytedInventoryCardText">{{product.ManufacturerName}} / {{product.ProductFixedPrice}}</p>
+      <p class="selecytedInventoryCardText">{{product.Rank}} / {{product.ProductFixedPrice}}</p>
+      <p class="selecytedInventoryCardText">{{product.ManufacturerName}}</p>
       <p class="selecytedInventoryCardText">{{product.Size}}</p>
     </div>
   </div>
