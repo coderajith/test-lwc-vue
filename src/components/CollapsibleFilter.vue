@@ -58,9 +58,9 @@
               <div>
                 <p class="inputLabel">入庫予定日</p>
                 <div style="display: flex;">
-                  <b-datepicker placeholder="MM/DD/YYYY" v-model="dateForFilter[0]" @input="keywordSearch"></b-datepicker>
+                  <b-datepicker placeholder="MM/DD/YYYY" v-model="dateForFilter[0]" @input="keywordSearch" position="is-bottom-right"></b-datepicker>
                   <p class="inputHelp"> ~ </p>
-                  <b-datepicker placeholder="MM/DD/YYYY" v-model="dateForFilter[1]" @input="keywordSearch"></b-datepicker>
+                  <b-datepicker placeholder="MM/DD/YYYY" v-model="dateForFilter[1]" @input="keywordSearch" position="is-bottom-left"></b-datepicker>
                 </div>
               </div>
             </div>

@@ -108,7 +108,7 @@ body {
   right: 0;
 }
 .collapsibleFilterOpen {
-  min-width: 320px;
+  min-width: 358px;
   min-height: 100vh;
   border: 1px solid #cdd6dd;
   border-right: none;
