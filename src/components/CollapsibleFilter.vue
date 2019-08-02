@@ -59,9 +59,9 @@
               <div>
                 <p class="inputLabel">入庫予定日</p>
                 <div style="display: flex;">
-                  <date-picker id="dateOne" v-model="dateForFilter[0]" valueType="format" format="YYYY/MM/DD" placeholder="YYYY/MM/DD" @input="keywordSearch"></date-picker>
+                  <date-picker id="dateOne" v-model="dateForFilter[0]" :lang="lang" valueType="format" format="YYYY/MM/DD" placeholder="YYYY/MM/DD" @input="keywordSearch"></date-picker>
                   <p class="inputHelp"> ~ </p>
-                  <date-picker id="dateSecond" v-model="dateForFilter[1]" valueType="format" format="YYYY/MM/DD" placeholder="YYYY/MM/DD" @input="keywordSearch"></date-picker>
+                  <date-picker id="dateSecond" v-model="dateForFilter[1]" :lang="lang" valueType="format" format="YYYY/MM/DD" placeholder="YYYY/MM/DD" @input="keywordSearch"></date-picker>
                 </div>
               </div>
             </div>
@@ -78,10 +78,6 @@
                 <p class="inputLabel">HOLD済</p>
                 <b-switch v-model="hold" @input="keywordSearch"></b-switch>
               </div>
-              <!-- <div class="radioButtonWithLabel" style="padding-top: 8px;">
-                <p class="inputLabel">情報非公開</p>
-                <b-switch></b-switch>
-              </div> -->
             </div>
         </b-collapse>
         <b-collapse aria-id="noneDiscount" class="panel" :open.sync="isOpenFour">
@@ -178,6 +174,9 @@ export default {
   components: { DatePicker },
   data () {
     return {
+      lang: {
+        days: ['日', '月', '火', '水', '木', '金', '土']
+      },
       keywordSearchValue: '',
       bigType: '',
       mediumType: '',
@@ -233,6 +232,7 @@ export default {
         this.unitPrice,
         this.size
       ])
+      this.$store.commit('calculateProducts')
     },
     keywordSearch: function () {
       this.$store.commit('keywordSearch', [
@@ -249,6 +249,7 @@ export default {
         this.unitPrice,
         this.size
       ])
+      this.$store.commit('calculateProducts')
     }
   }
 }

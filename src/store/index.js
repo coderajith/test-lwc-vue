@@ -8,7 +8,8 @@ export const store = new Vuex.Store({
   state: {
     products: null,
     selectedItems: 0,
-    isOpen: false
+    isOpen: false,
+    productsSize: 0
   },
   getters: {
     getProducts: (state, {dispatch}) => id => {
@@ -18,6 +19,7 @@ export const store = new Vuex.Store({
   },
   mutations: {
     setProducts: (state, payload) => { state.products = payload },
+    setProductsSize: (state, payload) => { state.productsSize = payload },
     setIsOpen: (state, payload) => { state.isOpen = payload },
     updateProduct: (state, payload) => {
       state.products.forEach((item) => {
@@ -71,11 +73,11 @@ export const store = new Vuex.Store({
         let itemHeight = item.Height ? parseInt(item.Height) : 0
         let heightStart = payload[11][4] ? Boolean(payload[11][4]) : false
         let heightEnd = payload[11][5] ? Boolean(payload[11][5]) : false
-        if ((item.InventoryNumber.indexOf(payload[0]) > -1 ||
-        item.ProductName.indexOf(payload[0]) > -1 ||
-        item.EngName.indexOf(payload[0]) > -1 ||
-        item.ManufacturerName.indexOf(payload[0]) > -1 ||
-        item.Supplier.indexOf(payload[0]) > -1) &&
+        if ((item.InventoryNumber.indexOf(payload[0].toUpperCase()) > -1 ||
+        item.ProductName.toUpperCase().indexOf(payload[0].toUpperCase()) > -1 ||
+        item.EngName.toUpperCase().indexOf(payload[0].toUpperCase()) > -1 ||
+        item.ManufacturerName.toUpperCase().indexOf(payload[0].toUpperCase()) > -1 ||
+        item.Supplier.toUpperCase().indexOf(payload[0].toUpperCase()) > -1) &&
         item.BigType.indexOf(payload[1]) > -1 &&
         item.MediumType.indexOf(payload[2]) > -1 &&
         item.SmallType.indexOf(payload[3]) > -1 &&
@@ -106,12 +108,22 @@ export const store = new Vuex.Store({
         }
       })
     },
-    updateSelected: (state, payload) => { state.selectedItems = state.selectedItems + payload }
+    updateSelected: (state, payload) => { state.selectedItems = state.selectedItems + payload },
+    calculateProducts: (state) => {
+      let prodSize = 0
+      state.products.forEach((item) => {
+        if (item.Show) {
+          prodSize++
+        }
+      })
+      state.productsSize = prodSize
+    }
   },
   actions: {
     getAllProducts: ({commit}) => {
       InventoryItems.getProducts(products => {
         commit('setProducts', products)
+        commit('setProductsSize', products.length)
       })
     },
     navigateToRecord: ({commit}, payload) => {

@@ -5,7 +5,7 @@ const _products = [
   {
     Id: 'a060k000006HeneAAC',
     InventoryNumber: '5064072',
-    ProductName: 'フロアーランプ',
+    ProductName: 'Test eRty',
     Rank: 'A',
     CurrentStatus: '発注済',
     CurrentAuxiliaryStatus: '入庫ﾁｪｯｸ済',
@@ -168,7 +168,7 @@ export default {
                 Size: product.Size__c !== undefined ? product.Size__c : '',
                 Selected: false,
                 Link: product.PictureURL1__c,
-                Supplier: product.PurchaseName__c !== undefined ? product.PurchaseName__c : '',
+                Supplier: product.PurchaseName__c !== undefined ? product.PurchaseName__r.Name : '',
                 CreatedDate: product.CreatedDate,
                 LastModifiedDate: product.LastModifiedDate,
                 EngName: product.EngName__c !== undefined ? product.EngName__c : '',

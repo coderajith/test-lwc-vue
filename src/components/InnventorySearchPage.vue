@@ -5,7 +5,7 @@
       <div class="productContainerHeader">
         <p class="inventorySearchPageTitle">在庫検索リスト</p>
         <div class="flexContainer allignCenter">
-          <p class="inventorySearchPageTitle">検索結果件数: {{ products ? products.length : 0}}</p>
+          <p class="inventorySearchPageTitle">検索結果件数: {{ productSize }}</p>
           <b-field>
             <b-select v-model="order" @input="sort()">
               <option value="createDesc">登録日が新しい順</option>
@@ -43,6 +43,9 @@ export default {
   computed: {
     products () {
       return this.$store.state.products
+    },
+    productSize () {
+      return this.$store.state.productsSize
     }
   },
   created () {
