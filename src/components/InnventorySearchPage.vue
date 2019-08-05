@@ -44,6 +44,9 @@ export default {
     products () {
       return this.$store.state.products
     },
+    estimates () {
+      return this.$store.state.estimates
+    },
     productSize () {
       return this.$store.state.productsSize
     }
@@ -52,6 +55,9 @@ export default {
     this.$store.dispatch('filterIsOpen')
     if (!this.products) {
       this.$store.dispatch('getAllProducts')
+    }
+    if (!this.estimates) {
+      this.$store.dispatch('getAllEstimate')
     }
   },
   methods: {

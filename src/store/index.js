@@ -7,18 +7,27 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     products: null,
+    estimates: null,
     selectedItems: 0,
+    selectedHoldCount: 0,
     isOpen: false,
-    productsSize: 0
+    productsSize: 0,
+    quote: null
   },
   getters: {
     getProducts: (state, {dispatch}) => id => {
       return state.products ? state.products.find(product => product.id === id) : {}
     },
-    selectedItems: (state) => { return state.selectedItems }
+    getEstimates: (state, {dispatch}) => id => {
+      return state.estimates ? state.estimates.find(estimate => estimate.id === id) : {}
+    },
+    selectedItems: (state) => { return state.selectedItems },
+    getQuote: (state) => { return state.quote }
   },
   mutations: {
+    setQuote: (state, payload) => { state.quote = payload },
     setProducts: (state, payload) => { state.products = payload },
+    setEstimates: (state, payload) => { state.estimates = payload },
     setProductsSize: (state, payload) => { state.productsSize = payload },
     setIsOpen: (state, payload) => { state.isOpen = payload },
     updateProduct: (state, payload) => {
@@ -54,6 +63,30 @@ export const store = new Vuex.Store({
         let dateA = new Date(a.LastModifiedDate)
         let dateB = new Date(b.LastModifiedDate)
         return dateA - dateB
+      })
+    },
+    deselectProduct: (state) => {
+      state.products.forEach((item) => {
+        if (item.SelectHold) {
+          item.SelectHold = false
+          item.Selected = false
+          state.selectedHoldCount = state.selectedHoldCount - 1
+          state.selectedItems = state.selectedItems - 1
+        }
+      })
+    },
+    addQuote: (state, payload) => {
+      state.quote = payload
+      state.products.forEach((item) => {
+        if (item.Selected === true && item.EstimateSelect === true && item.Estimate !== payload) {
+          item.EstimateSelect = false
+          item.Selected = false
+          state.selectedItems = state.selectedItems - 1
+        } else if (item.Estimate === payload) {
+          item.EstimateSelect = true
+          item.Selected = true
+          state.selectedItems = state.selectedItems + 1
+        }
       })
     },
     keywordSearch: (state, payload) => {
@@ -109,6 +142,7 @@ export const store = new Vuex.Store({
       })
     },
     updateSelected: (state, payload) => { state.selectedItems = state.selectedItems + payload },
+    updateSelectedHold: (state, payload) => { state.selectedHoldCount = state.selectedHoldCount + payload },
     calculateProducts: (state) => {
       let prodSize = 0
       state.products.forEach((item) => {
@@ -126,8 +160,16 @@ export const store = new Vuex.Store({
         commit('setProductsSize', products.length)
       })
     },
+    getAllEstimate: ({commit}) => {
+      InventoryItems.getEstimates(estimates => {
+        commit('setEstimates', estimates)
+      })
+    },
     navigateToRecord: ({commit}, payload) => {
       InventoryItems.navigateToRecord(payload.productId)
+    },
+    navigateToEstimate: ({commit}, payload) => {
+      InventoryItems.navigateToEstimate(payload.estimateId)
     },
     updateUserInfo: ({commit}, payload) => {
       InventoryItems.updateUserInfo(payload.isOpen)

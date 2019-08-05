@@ -1,3 +1,8 @@
+html {
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
 body {
   background-color: #f8f4e6;
   margin: 0;
@@ -16,9 +21,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: auto;
 }
 .inventoryCardImage {
-  width: 200px;
+  max-width: 200px;
+  max-height: 200px;
 }
 .inventoryCardImageNotExist {
   max-width: 200px;
@@ -160,7 +167,7 @@ body {
   border: 32px solid transparent;
   border-left: 32px solid #6f7579;
   border-top: 32px solid #6f7579;
-  top: 0;
+  top: 5px;
   z-index: 1;
 }
 .hold {
@@ -175,7 +182,7 @@ body {
   text-align: left;
   color: #ffffff;
   position: absolute;
-  top: 9px;
+  top: 15px;
   left: 6px;
   transform: rotate(-44deg);
   z-index: 2;
@@ -185,7 +192,7 @@ body {
   height: 342px;
   background-color: rgba(111, 117, 121, 0.5);
   position: absolute;
-  top: 0;
+  top: 5px;
 }
 .selectedInventoryContainer {
   min-width: 320px;
@@ -241,9 +248,10 @@ body {
 }
 .selectedInventoryCardContainer {
   display: flex;
-  padding-top: 16px;
-  padding-left: 16px;
-  padding-right: 16px;
+  margin-top: 16px;
+  margin-left: 16px;
+  margin-right: 16px;
+  position: relative;
 }
 .selecytedInventoryCardText {
   font-family: sans-serif;
@@ -251,13 +259,13 @@ body {
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
-  line-height: 1;
   letter-spacing: normal;
   text-align: left;
   color: #7f7f7f;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  line-height: 20px;
 }
 .paddingLeftRight {
   padding: 1rem;
@@ -266,6 +274,10 @@ body {
 .paddingLeftRight button {
   width: 100%;
   background-color: #6f7579 !important;
+}
+.paddingLeftRight .whiteButton {
+  width: 100%;
+  background-color: white !important;
 }
 .paddingLeftRight .select {
   width: 100%;
@@ -394,4 +406,22 @@ body {
   padding: 0;
   overflow: hidden;
   text-align: center !important;
+}
+.link {
+  color: #7957d5;
+}
+.roundSelected svg {
+  width: 32px !important;
+  height: 32px !important;
+  color: #ffcc33;
+}
+.roundSelected {
+  position: absolute;
+  top: 105px;
+  right: 150px;
+  cursor: pointer;
+  z-index: 2;
+}
+.greenSelected {
+  border: 2px solid green;
 }

@@ -187,8 +187,8 @@ export default {
       hold: true,
       longOrShort: true,
       checkboxGroup: [],
-      unitPrice: [0, 99999],
-      size: [0, 99999, 0, 99999, 0, 99999],
+      unitPrice: [0, 9999999],
+      size: [0, 9999999, 0, 9999999, 0, 9999999],
       isOpenOne: true,
       isOpenSecond: true,
       isOpenThree: true,
@@ -216,8 +216,8 @@ export default {
       this.currentStatus = [false, false, false, false]
       this.dateForFilter = []
       this.checkboxGroup = []
-      this.unitPrice = [0, 99999]
-      this.size = [0, 99999, 0, 99999, 0, 99999]
+      this.unitPrice = [0, 9999999]
+      this.size = [0, 9999999, 0, 9999999, 0, 9999999]
       this.$store.commit('keywordSearch', [
         this.keywordSearchValue,
         this.bigType,

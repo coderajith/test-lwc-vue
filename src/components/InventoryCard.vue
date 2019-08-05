@@ -11,7 +11,7 @@
     <p v-if="product.Selected" class="hold">HOLD</p>
     <div v-if="product.Selected" class="holdActive"></div>
     <div class="inventoryCardInfo" @click="check()">
-      <p class="inventoryCardText">{{product.InventoryNumber}}</p>
+      <a class="inventoryCardText link" href="#" @click="moveToPage()">{{product.InventoryNumber}}</a>
       <p class="inventoryCardText">{{product.ProductName}}</p>
       <p class="inventoryCardText">{{product.CurrentStatus}} / {{product.CurrentAuxiliaryStatus}}</p>
       <p class="inventoryCardText">{{product.Rank}} / {{product.ProductFixedPrice}}</p>
@@ -33,6 +33,9 @@ export default {
     },
     navigateToDetails: function () {
       this.$store.dispatch({ type: 'navigateToRecord', productId: this.product.Id })
+    },
+    moveToPage: function () {
+      this.$store.dispatch({ type: 'navigateToEstimate', estimateId: this.product.Id })
     }
   }
 }

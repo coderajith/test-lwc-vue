@@ -29,7 +29,10 @@ const _products = [
     UnitPriceLease: '100',
     Width: '100',
     Depth: '100',
-    Height: '100'
+    Height: '100',
+    Estimate: '2',
+    EstimateSelect: false,
+    SelectHold: false
   },
   {
     Id: 'a060k000007HeneAAC',
@@ -58,7 +61,10 @@ const _products = [
     UnitPriceLease: '700',
     Width: '100',
     Depth: '100',
-    Height: '100'
+    Height: '100',
+    Estimate: '2',
+    EstimateSelect: false,
+    SelectHold: false
   },
   {
     Id: 'a060k000008HeneAAC',
@@ -87,7 +93,10 @@ const _products = [
     UnitPriceLease: '800',
     Width: '200',
     Depth: '300',
-    Height: '100'
+    Height: '100',
+    Estimate: '1',
+    EstimateSelect: false,
+    SelectHold: false
   },
   {
     Id: 'a060k000009HeneAAC',
@@ -116,7 +125,10 @@ const _products = [
     UnitPriceLease: '900',
     Width: '400',
     Depth: '500',
-    Height: '600'
+    Height: '600',
+    Estimate: '6',
+    EstimateSelect: false,
+    SelectHold: false
   },
   {
     Id: 'a060k000010HeneAAC',
@@ -145,8 +157,22 @@ const _products = [
     UnitPriceLease: '300',
     Width: '100',
     Depth: '100',
-    Height: '100'
+    Height: '100',
+    Estimate: '',
+    EstimateSelect: false,
+    SelectHold: false
   }
+]
+const _estimate = [
+  {Id: '1', Name: '1 name', LastModifiedDate: '2019-01-15T12:03:50.000+0000'},
+  {Id: '2', Name: '2 name', LastModifiedDate: '2019-05-15T12:03:50.000+0000'},
+  {Id: '3', Name: '3 name', LastModifiedDate: '2019-04-15T12:03:50.000+0000'},
+  {Id: '4', Name: '4 name', LastModifiedDate: '2019-07-15T12:03:50.000+0000'},
+  {Id: '5', Name: '5 name', LastModifiedDate: '2019-10-15T12:03:50.000+0000'},
+  {Id: '6', Name: '6 name', LastModifiedDate: '2019-12-15T12:03:50.000+0000'},
+  {Id: '7', Name: '7 name', LastModifiedDate: '2019-11-15T12:03:50.000+0000'},
+  {Id: '8', Name: '8 name', LastModifiedDate: '2019-09-15T12:03:50.000+0000'},
+  {Id: '9', Name: '9 name', LastModifiedDate: '2019-02-15T12:03:50.000+0000'}
 ]
 export default {
   getProducts (callback) {
@@ -183,7 +209,10 @@ export default {
                 UnitPriceLease: product.UnitPriceLease__c !== undefined ? product.UnitPriceLease__c : 0,
                 Width: product.Width__c !== undefined ? product.Width__c : 0,
                 Depth: product.Depth__c !== undefined ? product.Depth__c : 0,
-                Height: product.Height__c !== undefined ? product.Height__c : 0
+                Height: product.Height__c !== undefined ? product.Height__c : 0,
+                Estimate: product.Estimate__c !== undefined ? product.Estimate__c : '',
+                EstimateSelect: false,
+                SelectHold: false
               }
             }))
           } else if (event.type === 'exception') {
@@ -198,11 +227,47 @@ export default {
       setTimeout(() => callback(_products), 100)
     }
   },
+  getEstimates (callback) {
+    if (process.env.NODE_ENV === 'production') {
+      LCC.callApex(
+        'VuePOCController.getEstimate',
+        (result, event) => {
+          if (event.status) {
+            callback(result.map(estimate => {
+              return {
+                Id: estimate.Id,
+                Name: estimate.Name,
+                LastModifiedDate: estimate.LastModifiedDate
+              }
+            }))
+          } else if (event.type === 'exception') {
+            console.log(event.message + ' : ' + event.where)
+          } else {
+            console.log('Unknown Error', event)
+          }
+        },
+        {escape: false}
+      )
+    } else {
+      setTimeout(() => callback(_estimate), 100)
+    }
+  },
   navigateToRecord (recordId, callback) {
     if (process.env.NODE_ENV === 'production') {
       let msg = {
         recordId: recordId,
         type: 'Navigate'
+      }
+      LCC.sendMessage(msg)
+    } else {
+      setTimeout(() => console.log(recordId), 100)
+    }
+  },
+  navigateToEstimate (recordId, callback) {
+    if (process.env.NODE_ENV === 'production') {
+      let msg = {
+        recordId: recordId,
+        type: 'Navigate to Record'
       }
       LCC.sendMessage(msg)
     } else {
