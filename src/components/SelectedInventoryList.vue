@@ -12,6 +12,11 @@
                 :data="filteredDataObj"
                 field="Name"
                 @select="option => {selected = option; addQuote()}">
+                <template slot="footer">
+                    <a @click="addNewQuote()">
+                        <span>+ 新規見積</span>
+                    </a>
+                </template>
             </b-autocomplete>
         </b-field>
       <div style="display: flex;">
@@ -105,6 +110,14 @@ export default {
       WinPrint.print()
     },
     deselectProduct () {
+      this.$store.state.products.forEach((item) => {
+        if (item.SelectHold && this.$store.state.quote !== null) {
+          item.Estimate = ''
+          item.EstimateSelect = true
+          this.$store.commit('updateProduct', item)
+          this.$store.dispatch({type: 'updateProductEstimate', estimateId: '', productId: item.Id})
+        }
+      })
       this.$store.commit('deselectProduct')
     },
     addQuote () {
@@ -116,6 +129,9 @@ export default {
     },
     moveToPage: function () {
       this.$store.dispatch({ type: 'navigateToEstimate', estimateId: this.$store.state.quote })
+    },
+    addNewQuote () {
+      this.$store.dispatch('addNewQuote')
     }
   }
 }

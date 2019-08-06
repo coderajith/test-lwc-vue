@@ -52,7 +52,7 @@
               <p class="inputLabel">現状区分（現状補助区分)</p>
               <div style="max-width: 290px;">
                   <b-checkbox style="width: 200px; padding-bottom: 8px;" v-model="currentStatus[0]" @input="keywordSearch">発注済</b-checkbox>
-                  <b-checkbox style="width: 200px; padding-bottom: 8px;" v-model="currentStatus[1]" @input="keywordSearch">在庫 （入庫済／入庫ﾁｪｯｸ済</b-checkbox>
+                  <b-checkbox style="width: 200px; padding-bottom: 8px;" v-model="currentStatus[1]" @input="keywordSearch">在庫 （入庫済／入庫ﾁｪｯｸ済)</b-checkbox>
                   <b-checkbox style="width: 200px; padding-bottom: 8px;" v-model="currentStatus[2]" @input="keywordSearch">リース中（返却予定)</b-checkbox>
                   <b-checkbox style="width: 200px; padding-bottom: 8px;" v-model="currentStatus[3]" @input="keywordSearch">リース中（返却予定以外)</b-checkbox>
               </div>

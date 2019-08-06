@@ -168,6 +168,9 @@ export const store = new Vuex.Store({
     navigateToEstimate: ({commit}, payload) => {
       InventoryItems.navigateToEstimate(payload.estimateId)
     },
+    addNewQuote: ({commit}) => {
+      InventoryItems.addNewQuote()
+    },
     updateUserInfo: ({commit}, payload) => {
       InventoryItems.updateUserInfo(payload.isOpen)
     },
@@ -175,6 +178,9 @@ export const store = new Vuex.Store({
       InventoryItems.filterIsOpen(isOpen => {
         commit('setIsOpen', isOpen)
       })
+    },
+    updateProductEstimate: ({commit}, payload) => {
+      InventoryItems.updateProductEstimate(payload.estimateId, payload.productId)
     }
   }
 })

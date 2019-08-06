@@ -26,9 +26,14 @@ export default {
   methods: {
     check: function () {
       if (!this.product.Selected) {
+        if (this.$store.state.quote !== null) {
+          this.product.Estimate = this.$store.state.quote
+          this.product.EstimateSelect = true
+          this.$store.dispatch({type: 'updateProductEstimate', estimateId: this.product.Estimate, productId: this.product.Id})
+        }
         this.product.Selected = !this.product.Selected
-        this.$store.commit('updateSelected', 1)
         this.$store.commit('updateProduct', this.product)
+        this.$store.commit('updateSelected', 1)
       }
     },
     navigateToDetails: function () {

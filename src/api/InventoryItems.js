@@ -303,5 +303,27 @@ export default {
     } else {
       setTimeout(() => callback(_isOpen), 100)
     }
+  },
+  addNewQuote (callback) {
+    if (process.env.NODE_ENV === 'production') {
+      let msg = {
+        type: 'New Quote'
+      }
+      LCC.sendMessage(msg)
+    } else {
+      setTimeout(() => console.log('New Quote'), 100)
+    }
+  },
+  updateProductEstimate (estimateId, productId, callback) {
+    if (process.env.NODE_ENV === 'production') {
+      let msg = {
+        estimateId: estimateId,
+        productId: productId,
+        type: 'Update Product Estimate'
+      }
+      LCC.sendMessage(msg)
+    } else {
+      setTimeout(() => console.log('Update Product Estimate ' + estimateId + ' ' + productId), 100)
+    }
   }
 }
