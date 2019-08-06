@@ -181,12 +181,12 @@ export default {
       bigType: '',
       mediumType: '',
       smallType: '',
-      currentStatus: [false, false, false, false],
+      currentStatus: [false, true, true, false],
       dateForFilter: [],
       specialFlg: true,
-      hold: true,
+      hold: false,
       longOrShort: true,
-      checkboxGroup: [],
+      checkboxGroup: ['A', 'B', 'C', 'D', 'M', 'N', 'S', 'P', 'ランク未確定'],
       unitPrice: [0, 9999999],
       size: [0, 9999999, 0, 9999999, 0, 9999999],
       isOpenOne: true,
@@ -211,11 +211,11 @@ export default {
       this.mediumType = ''
       this.smallType = ''
       this.specialFlg = true
-      this.hold = true
+      this.hold = false
       this.longOrShort = true
-      this.currentStatus = [false, false, false, false]
+      this.currentStatus = [false, true, true, false]
       this.dateForFilter = []
-      this.checkboxGroup = []
+      this.checkboxGroup = ['A', 'B', 'C', 'D', 'M', 'N', 'S', 'P', 'ランク未確定']
       this.unitPrice = [0, 9999999]
       this.size = [0, 9999999, 0, 9999999, 0, 9999999]
       this.$store.commit('keywordSearch', [

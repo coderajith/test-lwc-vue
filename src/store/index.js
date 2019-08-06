@@ -94,7 +94,6 @@ export const store = new Vuex.Store({
         let dateEmpty = Boolean(item.DateForFilter)
         let dateStart = payload[5][0] ? Boolean(payload[5][0]) : false
         let dateEnd = payload[5][1] ? Boolean(payload[5][1]) : false
-        let currentStatusCheck = payload[4][0] || payload[4][1] || payload[4][2] || payload[4][3]
         let priceStart = payload[10][0] ? Boolean(payload[10][0]) : false
         let priceEnd = payload[10][1] ? Boolean(payload[10][1]) : false
         let itemWidth = item.Width ? parseInt(item.Width) : 0
@@ -114,19 +113,17 @@ export const store = new Vuex.Store({
         item.BigType.indexOf(payload[1]) > -1 &&
         item.MediumType.indexOf(payload[2]) > -1 &&
         item.SmallType.indexOf(payload[3]) > -1 &&
-        (currentStatusCheck
-          ? ((payload[4][0] ? item.CurrentStatus.indexOf('発注済') > -1 : false) ||
+        (((payload[4][0] ? item.CurrentStatus.indexOf('発注済') > -1 : false) ||
           (payload[4][1] ? item.CurrentStatus.indexOf('在庫') > -1 : false) ||
           (payload[4][2] ? item.CurrentStatus.indexOf('リース中') > -1 : false) ||
-          (payload[4][3] ? item.CurrentStatus.indexOf('除却') > -1 : false))
-          : true) &&
+          (payload[4][3] ? item.CurrentStatus.indexOf('除却') > -1 : false))) &&
         (dateEmpty ? (
           (dateStart && item.DateForFilter !== '' ? new Date(item.DateForFilter) >= new Date(payload[5][0]) : true) &&
           (dateEnd && item.DateForFilter !== '' ? new Date(item.DateForFilter) <= new Date(payload[5][1]) : true)) : true) &&
           (payload[6] ? true : item.SpecialFlg === false) &&
           (payload[7] ? true : item.Hold === false) &&
           (payload[8] ? true : item.LongOrShort.indexOf('短期専用') < 0) &&
-          (payload[9].length > 0 ? payload[9].includes(item.Rank) : true) &&
+          payload[9].includes(item.Rank) &&
           (priceStart ? parseInt(item.UnitPriceLease) >= parseInt(payload[10][0]) : true) &&
           (priceEnd ? parseInt(item.UnitPriceLease) <= parseInt(payload[10][1]) : true) &&
           (widthStart ? itemWidth >= parseInt(payload[11][0]) : true) &&

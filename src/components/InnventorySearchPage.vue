@@ -37,7 +37,8 @@ export default {
   },
   data () {
     return {
-      order: 'createDesc'
+      order: 'updateAsc',
+      sync: false
     }
   },
   computed: {
@@ -51,6 +52,11 @@ export default {
       if (this.$store.state.products === null) {
         return 0
       } else {
+        if (!this.sync) {
+          this.$store.commit('keywordSearch', ['', '', '', '', [false, true, true, false], [], true, false, true, ['A', 'B', 'C', 'D', 'M', 'N', 'S', 'P', 'ランク未確定'], [0, 9999999], [0, 9999999, 0, 9999999, 0, 9999999]])
+          this.$store.commit('calculateProducts')
+          this.sync = true
+        }
         return this.$store.state.products.filter(prod => prod.Show).length
       }
     }
