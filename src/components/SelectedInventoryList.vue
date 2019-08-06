@@ -19,7 +19,7 @@
         <b-button v-if="getSelectedHoldCount > 0" @click="print" type="is-dark" style="margin-left: 0.5rem;">PDF出力</b-button>
       </div>
       <p v-if="getSelectedHoldCount == 0" class="numberSelected">HOLD件数: {{selectedItems}}</p>
-      <p v-if="getSelectedHoldCount > 0" class="numberSelected">SELECTED COUNT: {{getSelectedHoldCount}}</p>
+      <p v-if="getSelectedHoldCount > 0" class="numberSelected">選択件数: {{getSelectedHoldCount}}</p>
     </div>
     <div class="scroll" id="printMe">
       <div v-for="product in products">

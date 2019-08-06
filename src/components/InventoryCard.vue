@@ -10,13 +10,13 @@
     <div v-if="product.Selected" class="leftCorner"></div>
     <p v-if="product.Selected" class="hold">HOLD</p>
     <div v-if="product.Selected" class="holdActive"></div>
-    <div class="inventoryCardInfo" @click="check()">
+    <div class="inventoryCardInfo">
       <a class="inventoryCardText link" href="#" @click="moveToPage()">{{product.InventoryNumber}}</a>
-      <p class="inventoryCardText">{{product.ProductName}}</p>
-      <p class="inventoryCardText">{{product.CurrentStatus}} / {{product.CurrentAuxiliaryStatus}}</p>
-      <p class="inventoryCardText">{{product.Rank}} / {{product.ProductFixedPrice}}</p>
-      <p class="inventoryCardText">{{product.ManufacturerName}}</p>
-      <p class="inventoryCardText">{{product.Size}}</p>
+      <p class="inventoryCardText" @click="check()">{{product.ProductName}}</p>
+      <p class="inventoryCardText" @click="check()">{{product.CurrentStatus}} / {{product.CurrentAuxiliaryStatus}}</p>
+      <p class="inventoryCardText" @click="check()">{{product.Rank}} / {{product.ProductFixedPrice}}</p>
+      <p class="inventoryCardText" @click="check()">{{product.ManufacturerName}}</p>
+      <p class="inventoryCardText" @click="check()">{{product.Size}}</p>
     </div>
   </div>
 </template>

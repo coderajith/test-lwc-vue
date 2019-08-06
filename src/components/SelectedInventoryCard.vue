@@ -7,13 +7,13 @@
     <div class="roundSelected" @click="navigateToDetails()">
       <font-awesome-icon icon="info-circle" />
     </div>
-    <div class="selectedInventoryCardInfo" @click="select()">
+    <div class="selectedInventoryCardInfo">
       <a class="selecytedInventoryCardText link" href="#" @click="moveToPage()">{{product.InventoryNumber}}</a>
-      <p class="selecytedInventoryCardText">{{product.ProductName}}</p>
-      <p class="selecytedInventoryCardText">{{product.CurrentStatus}} / {{product.CurrentAuxiliaryStatus}}</p>
-      <p class="selecytedInventoryCardText">{{product.Rank}} / {{product.ProductFixedPrice}}</p>
-      <p class="selecytedInventoryCardText">{{product.ManufacturerName}}</p>
-      <p class="selecytedInventoryCardText">{{product.Size}}</p>
+      <p class="selecytedInventoryCardText" @click="select()">{{product.ProductName}}</p>
+      <p class="selecytedInventoryCardText" @click="select()">{{product.CurrentStatus}} / {{product.CurrentAuxiliaryStatus}}</p>
+      <p class="selecytedInventoryCardText" @click="select()">{{product.Rank}} / {{product.ProductFixedPrice}}</p>
+      <p class="selecytedInventoryCardText" @click="select()">{{product.ManufacturerName}}</p>
+      <p class="selecytedInventoryCardText" @click="select()">{{product.Size}}</p>
     </div>
   </div>
 </template>

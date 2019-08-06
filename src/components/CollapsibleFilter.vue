@@ -67,15 +67,15 @@
             </div>
             <div>
               <div class="radioButtonWithLabel" style="padding-top: 8px;">
-                <p class="inputLabel">スペシャル商品</p>
+                <p class="inputLabel">スペシャル商品を含む</p>
                 <b-switch v-model="specialFlg" @input="keywordSearch"></b-switch>
               </div>
               <div class="radioButtonWithLabel" style="padding-top: 8px;">
-                <p class="inputLabel">短期専用品</p>
+                <p class="inputLabel">短期専用品を含む</p>
                 <b-switch v-model="longOrShort" @input="keywordSearch"></b-switch>
               </div>
               <div class="radioButtonWithLabel" style="padding-top: 8px;">
-                <p class="inputLabel">HOLD済</p>
+                <p class="inputLabel">HOLD済を含む</p>
                 <b-switch v-model="hold" @input="keywordSearch"></b-switch>
               </div>
             </div>

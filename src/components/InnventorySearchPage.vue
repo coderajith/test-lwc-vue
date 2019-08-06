@@ -48,7 +48,11 @@ export default {
       return this.$store.state.estimates
     },
     productSize () {
-      return this.$store.state.productsSize
+      if (this.$store.state.products === null) {
+        return 0
+      } else {
+        return this.$store.state.products.filter(prod => prod.Show).length
+      }
     }
   },
   created () {
