@@ -12,7 +12,10 @@ export const store = new Vuex.Store({
     selectedHoldCount: 0,
     isOpen: false,
     productsSize: 0,
-    quote: null
+    quote: null,
+    big: [],
+    medium: [],
+    small: []
   },
   getters: {
     getProducts: (state, {dispatch}) => id => {
@@ -28,6 +31,11 @@ export const store = new Vuex.Store({
     setQuote: (state, payload) => { state.quote = payload },
     setProducts: (state, payload) => { state.products = payload },
     setEstimates: (state, payload) => { state.estimates = payload },
+    setTypes: (state, payload) => {
+      state.big = payload[0]
+      state.medium = payload[1]
+      state.small = payload[2]
+    },
     setProductsSize: (state, payload) => { state.productsSize = payload },
     setIsOpen: (state, payload) => { state.isOpen = payload },
     updateProduct: (state, payload) => {
@@ -160,6 +168,11 @@ export const store = new Vuex.Store({
     getAllEstimate: ({commit}) => {
       InventoryItems.getEstimates(estimates => {
         commit('setEstimates', estimates)
+      })
+    },
+    getAllTypes: ({commit}) => {
+      InventoryItems.getTypes(types => {
+        commit('setTypes', types)
       })
     },
     navigateToRecord: ({commit}, payload) => {

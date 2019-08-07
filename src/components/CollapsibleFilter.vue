@@ -31,13 +31,34 @@
             </div>
             <div>
               <b-field label="大分類">
-                <b-input @input="keywordSearch" v-model="bigType" placeholder="選択してください"></b-input>
+                  <b-select placeholder="選択してください" v-model="bigType" @input="keywordSearch">
+                      <option
+                          v-for="option in this.$store.state.big"
+                          :value="option"
+                          :key="option">
+                          {{ option }}
+                      </option>
+                  </b-select>
               </b-field>
               <b-field label="中分類">
-                <b-input @input="keywordSearch" v-model="mediumType" placeholder="選択してください"></b-input>
+                  <b-select placeholder="選択してください" v-model="mediumType" @input="keywordSearch">
+                      <option
+                          v-for="option in this.$store.state.medium"
+                          :value="option"
+                          :key="option">
+                          {{ option }}
+                      </option>
+                  </b-select>
               </b-field>
               <b-field label="小分類">
-                <b-input @input="keywordSearch" v-model="smallType" placeholder="選択してください"></b-input>
+                  <b-select placeholder="選択してください" v-model="smallType" @input="keywordSearch">
+                      <option
+                          v-for="option in this.$store.state.small"
+                          :value="option"
+                          :key="option">
+                          {{ option }}
+                      </option>
+                  </b-select>
               </b-field>
             </div>
         </b-collapse>
@@ -178,9 +199,9 @@ export default {
         days: ['日', '月', '火', '水', '木', '金', '土']
       },
       keywordSearchValue: '',
-      bigType: '',
-      mediumType: '',
-      smallType: '',
+      bigType: null,
+      mediumType: null,
+      smallType: null,
       currentStatus: [false, true, true, false],
       dateForFilter: [],
       specialFlg: true,
@@ -192,7 +213,15 @@ export default {
       isOpenOne: true,
       isOpenSecond: true,
       isOpenThree: true,
-      isOpenFour: true
+      isOpenFour: true,
+      big: [],
+      medium: [],
+      small: []
+    }
+  },
+  created () {
+    if (this.big.length === 0) {
+      this.$store.dispatch('getAllTypes')
     }
   },
   computed: {
@@ -207,9 +236,9 @@ export default {
     },
     clearFilter: function () {
       this.keywordSearchValue = ''
-      this.bigType = ''
-      this.mediumType = ''
-      this.smallType = ''
+      this.bigType = null
+      this.mediumType = null
+      this.smallType = null
       this.specialFlg = true
       this.hold = false
       this.longOrShort = true
@@ -220,9 +249,9 @@ export default {
       this.size = [0, 9999999, 0, 9999999, 0, 9999999]
       this.$store.commit('keywordSearch', [
         this.keywordSearchValue,
-        this.bigType,
-        this.mediumType,
-        this.smallType,
+        '',
+        '',
+        '',
         this.currentStatus,
         this.dateForFilter,
         this.specialFlg,
@@ -237,9 +266,9 @@ export default {
     keywordSearch: function () {
       this.$store.commit('keywordSearch', [
         this.keywordSearchValue,
-        this.bigType,
-        this.mediumType,
-        this.smallType,
+        this.bigType != null ? this.bigType : '',
+        this.mediumType != null ? this.mediumType : '',
+        this.smallType != null ? this.smallType : '',
         this.currentStatus,
         this.dateForFilter,
         this.specialFlg,

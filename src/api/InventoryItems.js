@@ -174,6 +174,9 @@ const _estimate = [
   {Id: '8', Name: '8 name', LastModifiedDate: '2019-09-15T12:03:50.000+0000'},
   {Id: '9', Name: '9 name', LastModifiedDate: '2019-02-15T12:03:50.000+0000'}
 ]
+const _types = [
+  ['1', '2', '3'], ['1', '2', '3'], ['1', '2', '3']
+]
 export default {
   getProducts (callback) {
     if (process.env.NODE_ENV === 'production') {
@@ -250,6 +253,25 @@ export default {
       )
     } else {
       setTimeout(() => callback(_estimate), 100)
+    }
+  },
+  getTypes (callback) {
+    if (process.env.NODE_ENV === 'production') {
+      LCC.callApex(
+        'VuePOCController.getTypes',
+        (result, event) => {
+          if (event.status) {
+            callback(result)
+          } else if (event.type === 'exception') {
+            console.log(event.message + ' : ' + event.where)
+          } else {
+            console.log('Unknown Error', event)
+          }
+        },
+        {escape: false}
+      )
+    } else {
+      setTimeout(() => callback(_types), 100)
     }
   },
   navigateToRecord (recordId, callback) {
