@@ -12,7 +12,7 @@ const _products = [
     ManufacturerName: '山田照明',
     ProductFixedPrice: '50600',
     Size: '300×250×500(550)',
-    Link: '',
+    Link: 'https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.png',
     Selected: false,
     EngName: 'test 1',
     Show: true,
@@ -32,7 +32,8 @@ const _products = [
     Height: '100',
     Estimate: '2',
     EstimateSelect: false,
-    SelectHold: false
+    SelectHold: false,
+    Remark: '123'
   },
   {
     Id: 'a060k000007HeneAAC',
@@ -64,7 +65,8 @@ const _products = [
     Height: '100',
     Estimate: '2',
     EstimateSelect: false,
-    SelectHold: false
+    SelectHold: false,
+    Remark: '123'
   },
   {
     Id: 'a060k000008HeneAAC',
@@ -96,7 +98,8 @@ const _products = [
     Height: '100',
     Estimate: '1',
     EstimateSelect: false,
-    SelectHold: false
+    SelectHold: false,
+    Remark: '123'
   },
   {
     Id: 'a060k000009HeneAAC',
@@ -128,7 +131,8 @@ const _products = [
     Height: '600',
     Estimate: '6',
     EstimateSelect: false,
-    SelectHold: false
+    SelectHold: false,
+    Remark: '123'
   },
   {
     Id: 'a060k000010HeneAAC',
@@ -160,7 +164,8 @@ const _products = [
     Height: '100',
     Estimate: '',
     EstimateSelect: false,
-    SelectHold: false
+    SelectHold: false,
+    Remark: '123'
   }
 ]
 const _estimate = [
@@ -215,7 +220,8 @@ export default {
                 Height: product.Height__c !== undefined ? product.Height__c : 0,
                 Estimate: product.Estimate__c !== undefined ? product.Estimate__c : '',
                 EstimateSelect: false,
-                SelectHold: false
+                SelectHold: false,
+                Remark: product.Remark__c
               }
             }))
           } else if (event.type === 'exception') {

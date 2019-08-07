@@ -427,3 +427,80 @@ body {
 .greenSelected {
   border: 2px solid #5CE62E;
 }
+.modalContainer {
+  width: 960px;
+  height: 672px;
+  background-color: white;
+}
+.modalHeader {
+  width: 960px;
+  height: 72px;
+  border-bottom: solid 1px #6f7579;
+}
+.modalBody {
+  height: 480px;
+  margin: 24px;
+}
+.modalFooter {
+  width: 960px;
+  height: 72px;
+  border-top: solid 1px #6f7579;
+}
+.modalHeader p {
+  height: 35px;
+  font-family: sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #6f7579;
+  padding-top: 12px;
+  padding-left: 17px;
+}
+.leftContainer {
+  width: 450px;
+  height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #6f7579;
+}
+.rightContainer {
+  width: 450px;
+  height: 450px;
+  border: solid 1px #707070;
+  margin-left: 12px;
+}
+.selectedInventoryCardImageNotExist500 {
+  width: 450px;
+  padding: 100px;
+  background-color: #ebf4ff;
+}
+.selectedInventoryCardImage500 {
+  max-width: 450px;
+  max-height: 450px;
+}
+.modalBody p {
+  width: 216px;
+  height: 26px;
+  font-family: sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.67;
+  letter-spacing: normal;
+  text-align: left;
+  color: #6f7579;
+  padding-top: 12px;
+}
+.modalBtnContainer {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 24px;
+  height: 70px;
+  align-items: center;
+}
