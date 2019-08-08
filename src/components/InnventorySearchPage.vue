@@ -23,9 +23,7 @@
       </div>
     </div>
     <CollapsibleFilter />
-    <b-notification :closable="false">
-      <b-loading :is-full-page="true" :active.sync="this.$store.state.spinner" :can-cancel="false"></b-loading>
-    </b-notification>
+    <b-loading :is-full-page="true" :active.sync="this.$store.state.spinner" :can-cancel="false"></b-loading>
   </div>
 </template>
 <script>
