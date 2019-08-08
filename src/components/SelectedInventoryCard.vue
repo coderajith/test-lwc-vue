@@ -11,10 +11,10 @@
       <a class="selecytedInventoryCardText link" href="#" @click="moveToPage()">{{product.InventoryNumber}}</a>
       <p class="selecytedInventoryCardText" @click="select()">{{product.ProductName}}</p>
       <p class="selecytedInventoryCardText" @click="select()">{{product.CurrentStatus}} / {{product.CurrentAuxiliaryStatus}}</p>
-      <p class="selecytedInventoryCardText" @click="select()">{{product.Rank}} / 定:{{product.ProductFixedPrice}} 計:{{product.UnitPriceLease}}</p>
+      <p class="selecytedInventoryCardText" @click="select()">{{product.Rank}} / 定:{{product.ProductFixedPrice | numeral('0,0')}} 計:{{product.UnitPriceLease | numeral('0,0')}}</p>
       <p class="selecytedInventoryCardText" @click="select()">{{product.ManufacturerName}}</p>
       <p class="selecytedInventoryCardText" @click="select()">{{product.Size}}</p>
-      <p class="selecytedInventoryCardText" @click="select()">計: {{product.PurchaseRate}} 回: {{product.RecoveryRate}}</p>
+      <p class="selecytedInventoryCardText" @click="select()">仕: {{product.PurchaseRate}} 回: {{product.RecoveryRate}}</p>
     </div>
     <b-modal :active.sync="isImageModalActive">
       <div class="modalContainer">

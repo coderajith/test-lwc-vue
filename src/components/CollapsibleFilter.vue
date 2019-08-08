@@ -31,7 +31,7 @@
             </div>
             <div>
               <b-field label="大分類">
-                  <b-select placeholder="選択してください" v-model="bigType" @input="keywordSearch">
+                  <b-select placeholder="選択してください" v-model="bigType" @input="keywordSearchBig">
                       <option
                           v-for="option in bigTypeValue"
                           :value="option"
@@ -41,7 +41,7 @@
                   </b-select>
               </b-field>
               <b-field label="中分類">
-                  <b-select placeholder="選択してください" v-model="mediumType" @input="keywordSearch">
+                  <b-select placeholder="選択してください" v-model="mediumType" @input="keywordSearchMedium">
                       <option
                           v-for="option in mediumTypeValue"
                           :value="option"
@@ -317,6 +317,45 @@ export default {
       localStorage.setItem('dataDilter', JSON.stringify(this.$data))
     },
     keywordSearch: function () {
+      this.$store.commit('keywordSearch', [
+        this.keywordSearchValue,
+        this.bigType != null ? this.bigType : '',
+        this.mediumType != null ? this.mediumType : '',
+        this.smallType != null ? this.smallType : '',
+        this.currentStatus,
+        this.dateForFilter,
+        this.specialFlg,
+        this.hold,
+        this.longOrShort,
+        this.checkboxGroup,
+        this.unitPrice,
+        this.size
+      ])
+      this.$store.commit('calculateProducts')
+      localStorage.setItem('dataDilter', JSON.stringify(this.$data))
+    },
+    keywordSearchBig: function () {
+      this.mediumType = null
+      this.smallType = null
+      this.$store.commit('keywordSearch', [
+        this.keywordSearchValue,
+        this.bigType != null ? this.bigType : '',
+        this.mediumType != null ? this.mediumType : '',
+        this.smallType != null ? this.smallType : '',
+        this.currentStatus,
+        this.dateForFilter,
+        this.specialFlg,
+        this.hold,
+        this.longOrShort,
+        this.checkboxGroup,
+        this.unitPrice,
+        this.size
+      ])
+      this.$store.commit('calculateProducts')
+      localStorage.setItem('dataDilter', JSON.stringify(this.$data))
+    },
+    keywordSearchMedium: function () {
+      this.smallType = null
       this.$store.commit('keywordSearch', [
         this.keywordSearchValue,
         this.bigType != null ? this.bigType : '',
