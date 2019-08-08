@@ -8,7 +8,7 @@ body {
   margin: 0;
 }
 .inventoryCardInfo {
-  max-width: 200px;
+  max-width: 220px;
   max-height: 208px;
   border: solid 1px #cdd6dd;
   background-color: #ffffff;
@@ -19,20 +19,20 @@ body {
   justify-content: center;
 }
 .imageContainer {
-  max-width: 200px;
-  width: 200px;
-  height: 200px;
+  max-width: 220px;
+  width: 220px;
+  height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: auto;
 }
 .inventoryCardImage {
-  max-width: 200px;
-  max-height: 200px;
+  max-width: 220px;
+  max-height: 220px;
 }
 .inventoryCardImageNotExist {
-  max-width: 200px;
+  max-width: 220px;
   padding: 50px;
   background-color: #ebf4ff;
 }
@@ -54,7 +54,7 @@ body {
 }
 .round {
   position: absolute;
-  top: 168px;
+  top: 185px;
   right: 10px;
   cursor: pointer;
   z-index: 2;
@@ -192,14 +192,14 @@ body {
   z-index: 2;
 }
 .holdActive {
-  width: 200px;
-  height: 362px;
+  width: 220px;
+  height: 382px;
   background-color: rgba(111, 117, 121, 0.5);
   position: absolute;
   top: 5px;
 }
 .selectedInventoryContainer {
-  min-width: 320px;
+  min-width: 360px;
   min-height: 100vh;
   border: 1px solid #cdd6dd;
   border-left: none;
@@ -223,27 +223,27 @@ body {
   padding: 8px 16px;
 }
 .selectedImageContainer {
-  max-width: 144px;
-  width: 144px;
-  height: 144px;
+  max-width: 164px;
+  width: 164px;
+  height: 164px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 .selectedInventoryCardImage {
-  max-width: 144px;
-  max-height: 144px;
+  max-width: 164px;
+  max-height: 164px;
 }
 .selectedInventoryCardImageNotExist {
-  max-width: 144px;
+  max-width: 164px;
   padding: 50px;
   background-color: #ebf4ff;
 }
 .selectedInventoryCardInfo {
-  max-width: 144px;
-  max-height: 144px;
-  min-width: 144px;
+  max-width: 164px;
+  max-height: 164px;
+  min-width: 164px;
   border: solid 1px #cdd6dd;
   background-color: #ffffff;
   padding: 8px;
@@ -423,8 +423,8 @@ body {
 }
 .roundSelected {
   position: absolute;
-  top: 105px;
-  right: 150px;
+  top: 125px;
+  right: 170px;
   cursor: pointer;
   z-index: 2;
 }
