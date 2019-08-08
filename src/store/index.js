@@ -13,9 +13,8 @@ export const store = new Vuex.Store({
     isOpen: false,
     productsSize: 0,
     quote: null,
-    big: [],
-    medium: [],
-    small: []
+    types: [],
+    spinner: true
   },
   getters: {
     getProducts: (state, {dispatch}) => id => {
@@ -29,12 +28,13 @@ export const store = new Vuex.Store({
   },
   mutations: {
     setQuote: (state, payload) => { state.quote = payload },
-    setProducts: (state, payload) => { state.products = payload },
+    setProducts: (state, payload) => {
+      state.products = payload
+      state.spinner = false
+    },
     setEstimates: (state, payload) => { state.estimates = payload },
     setTypes: (state, payload) => {
-      state.big = payload[0]
-      state.medium = payload[1]
-      state.small = payload[2]
+      state.types = payload
     },
     setProductsSize: (state, payload) => { state.productsSize = payload },
     setIsOpen: (state, payload) => { state.isOpen = payload },
@@ -83,6 +83,16 @@ export const store = new Vuex.Store({
         }
       })
     },
+    deselectOneProduct: (state, payload) => {
+      state.products.forEach((item) => {
+        if (item.SelectHold && item.Id === payload) {
+          item.SelectHold = false
+          item.Selected = false
+          state.selectedHoldCount = state.selectedHoldCount - 1
+          state.selectedItems = state.selectedItems - 1
+        }
+      })
+    },
     addQuote: (state, payload) => {
       state.quote = payload
       state.products.forEach((item) => {
@@ -122,9 +132,11 @@ export const store = new Vuex.Store({
         item.MediumType.indexOf(payload[2]) > -1 &&
         item.SmallType.indexOf(payload[3]) > -1 &&
         (((payload[4][0] ? item.CurrentStatus.indexOf('発注済') > -1 : false) ||
-          (payload[4][1] ? item.CurrentStatus.indexOf('在庫') > -1 : false) ||
-          (payload[4][2] ? item.CurrentStatus.indexOf('リース中') > -1 : false) ||
-          (payload[4][3] ? item.CurrentStatus.indexOf('除却') > -1 : false))) &&
+          (payload[4][1] ? (item.CurrentStatus.indexOf('在庫') > -1 && (
+            item.CurrentAuxiliaryStatus.indexOf('入庫済') > -1 || item.CurrentAuxiliaryStatus.indexOf('入庫ﾁｪｯｸ済') > -1)
+          ) : false) ||
+          (payload[4][2] ? (item.CurrentStatus.indexOf('リース中') > -1 && item.CurrentAuxiliaryStatus.indexOf('返却予定') > -1) : false) ||
+          (payload[4][3] ? (item.CurrentStatus.indexOf('除却') > -1 && item.CurrentAuxiliaryStatus.indexOf('返却予定以外') > -1) : false))) &&
         (dateEmpty ? (
           (dateStart && item.DateForFilter !== '' ? new Date(item.DateForFilter) >= new Date(payload[5][0]) : true) &&
           (dateEnd && item.DateForFilter !== '' ? new Date(item.DateForFilter) <= new Date(payload[5][1]) : true)) : true) &&
@@ -161,8 +173,13 @@ export const store = new Vuex.Store({
   actions: {
     getAllProducts: ({commit}) => {
       InventoryItems.getProducts(products => {
-        commit('setProducts', products)
-        commit('setProductsSize', products.length)
+        InventoryItems.getImageMap(imageMap => {
+          products.forEach((product) => {
+            product.Links = imageMap[product.Id]
+          })
+          commit('setProducts', products)
+          commit('setProductsSize', products.length)
+        })
       })
     },
     getAllEstimate: ({commit}) => {

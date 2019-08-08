@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="collapsibleContent">
-        <b-button type="is-dark" @click="clearFilter">検索条件をクリア</b-button>
+        <b-button type="is-dark" @click="clearFilter">検索条件を初期状態に戻す</b-button>
         <b-collapse aria-id="keywordSearch" class="panel" :open.sync="isOpenOne">
             <div slot="trigger"
                 class="panel-heading"
@@ -33,7 +33,7 @@
               <b-field label="大分類">
                   <b-select placeholder="選択してください" v-model="bigType" @input="keywordSearch">
                       <option
-                          v-for="option in this.$store.state.big"
+                          v-for="option in bigTypeValue"
                           :value="option"
                           :key="option">
                           {{ option }}
@@ -43,7 +43,7 @@
               <b-field label="中分類">
                   <b-select placeholder="選択してください" v-model="mediumType" @input="keywordSearch">
                       <option
-                          v-for="option in this.$store.state.medium"
+                          v-for="option in mediumTypeValue"
                           :value="option"
                           :key="option">
                           {{ option }}
@@ -53,7 +53,7 @@
               <b-field label="小分類">
                   <b-select placeholder="選択してください" v-model="smallType" @input="keywordSearch">
                       <option
-                          v-for="option in this.$store.state.small"
+                          v-for="option in smallTypeValue"
                           :value="option"
                           :key="option">
                           {{ option }}
@@ -122,7 +122,7 @@
                   <b-checkbox style="width: 130px;" @input="keywordSearch" v-model="checkboxGroup" native-value="ランク未確定">ランク未確定</b-checkbox>
               </div>
               <div>
-                <p class="inputLabel">価値価格帯（万円)</p>
+                <p class="inputLabel">計算価値価格（万円)</p>
                 <div style="display: flex;">
                   <b-field>
                       <b-input placeholder="0" @input="keywordSearch" v-model="unitPrice[0]"></b-input>
@@ -223,10 +223,62 @@ export default {
     if (this.big.length === 0) {
       this.$store.dispatch('getAllTypes')
     }
+    if (localStorage.getItem('dataDilter') != null) {
+      let allData = JSON.parse(localStorage.getItem('dataDilter'))
+      this.keywordSearchValue = allData.keywordSearchValue
+      this.bigType = allData.bigType
+      this.mediumType = allData.mediumType
+      this.smallType = allData.smallType
+      this.specialFlg = allData.specialFlg
+      this.hold = allData.hold
+      this.longOrShort = allData.longOrShort
+      this.currentStatus = allData.currentStatus
+      this.dateForFilter = allData.dateForFilter
+      this.checkboxGroup = allData.checkboxGroup
+      this.unitPrice = allData.unitPrice
+      this.size = allData.size
+    } else {
+      localStorage.setItem('dataDilter', JSON.stringify(this.$data))
+    }
   },
   computed: {
     isOpen () {
       return this.$store.state.isOpen
+    },
+    bigTypeValue () {
+      let bigTypes = []
+      this.$store.state.types.forEach((type) => {
+        bigTypes.push(type.BigType__c)
+      })
+      return bigTypes.filter((value, index, self) => {
+        return self.indexOf(value) === index
+      })
+    },
+    mediumTypeValue () {
+      let mediumTypes = []
+      this.$store.state.types.forEach((type) => {
+        if (type.BigType__c === this.bigType) {
+          mediumTypes.push(type.MediumType__c)
+        } else if (this.bigType === null) {
+          mediumTypes.push(type.MediumType__c)
+        }
+      })
+      return mediumTypes.filter((value, index, self) => {
+        return self.indexOf(value) === index
+      })
+    },
+    smallTypeValue () {
+      let smallTypes = []
+      this.$store.state.types.forEach((type) => {
+        let bigType = type.BigType__c === this.bigType || this.bigType === null
+        let mediumType = type.MediumType__c === this.mediumType || this.mediumType === null
+        if (bigType && mediumType) {
+          smallTypes.push(type.SmallType__c)
+        }
+      })
+      return smallTypes.filter((value, index, self) => {
+        return self.indexOf(value) === index
+      })
     }
   },
   methods: {
@@ -262,6 +314,7 @@ export default {
         this.size
       ])
       this.$store.commit('calculateProducts')
+      localStorage.setItem('dataDilter', JSON.stringify(this.$data))
     },
     keywordSearch: function () {
       this.$store.commit('keywordSearch', [
@@ -279,6 +332,7 @@ export default {
         this.size
       ])
       this.$store.commit('calculateProducts')
+      localStorage.setItem('dataDilter', JSON.stringify(this.$data))
     }
   }
 }

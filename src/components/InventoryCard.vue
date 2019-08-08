@@ -14,9 +14,10 @@
       <a class="inventoryCardText link" href="#" @click="moveToPage()">{{product.InventoryNumber}}</a>
       <p class="inventoryCardText" @click="check()">{{product.ProductName}}</p>
       <p class="inventoryCardText" @click="check()">{{product.CurrentStatus}} / {{product.CurrentAuxiliaryStatus}}</p>
-      <p class="inventoryCardText" @click="check()">{{product.Rank}} / {{product.ProductFixedPrice}}</p>
+      <p class="inventoryCardText" @click="check()">{{product.Rank}} / 定: {{product.ProductFixedPrice}} 計: {{product.UnitPriceLease}}</p>
       <p class="inventoryCardText" @click="check()">{{product.ManufacturerName}}</p>
       <p class="inventoryCardText" @click="check()">{{product.Size}}</p>
+      <p class="inventoryCardText" @click="check()">計: {{product.PurchaseRate}} 回: {{product.RecoveryRate}}</p>
     </div>
     <b-modal :active.sync="isImageModalActive">
       <div class="modalContainer">
@@ -32,12 +33,18 @@
               <img v-else="checked" src="../assets/image.png" class="selectedInventoryCardImageNotExist500"/>
             </div>
             <div class="rightContainer">
-
+              <div class="conteinerImageRight">
+                <div class="imageContainerRight" v-for="image in product.Links">
+                  <img :src="image" class="images"/>
+                </div>
+              </div>
             </div>
           </div>
-          <p>
-            商品状態: {{product.Remark}}
-          </p>
+          <div style="display: flex; justify-content: flex-end;">
+            <p>
+              商品状態: {{product.Remark}}
+            </p>
+          </div>
         </div>
         <div class="modalFooter">
           <div class="modalBtnContainer">
@@ -68,6 +75,7 @@ export default {
         this.product.Selected = !this.product.Selected
         this.$store.commit('updateProduct', this.product)
         this.$store.commit('updateSelected', 1)
+        this.isImageModalActive = false
       }
     },
     navigateToDetails: function () {

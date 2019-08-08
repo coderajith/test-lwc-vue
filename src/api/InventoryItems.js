@@ -33,7 +33,10 @@ const _products = [
     Estimate: '2',
     EstimateSelect: false,
     SelectHold: false,
-    Remark: '123'
+    Remark: '123',
+    PurchaseRate: '1',
+    RecoveryRate: '2',
+    Links: []
   },
   {
     Id: 'a060k000007HeneAAC',
@@ -66,7 +69,10 @@ const _products = [
     Estimate: '2',
     EstimateSelect: false,
     SelectHold: false,
-    Remark: '123'
+    Remark: '123',
+    PurchaseRate: '1',
+    RecoveryRate: '2',
+    Links: []
   },
   {
     Id: 'a060k000008HeneAAC',
@@ -99,7 +105,10 @@ const _products = [
     Estimate: '1',
     EstimateSelect: false,
     SelectHold: false,
-    Remark: '123'
+    Remark: '123',
+    PurchaseRate: '1',
+    RecoveryRate: '2',
+    Links: []
   },
   {
     Id: 'a060k000009HeneAAC',
@@ -132,7 +141,10 @@ const _products = [
     Estimate: '6',
     EstimateSelect: false,
     SelectHold: false,
-    Remark: '123'
+    Remark: '123',
+    PurchaseRate: '1',
+    RecoveryRate: '2',
+    Links: []
   },
   {
     Id: 'a060k000010HeneAAC',
@@ -165,7 +177,10 @@ const _products = [
     Estimate: '',
     EstimateSelect: false,
     SelectHold: false,
-    Remark: '123'
+    Remark: '123',
+    PurchaseRate: '1',
+    RecoveryRate: '2',
+    Links: []
   }
 ]
 const _estimate = [
@@ -180,8 +195,15 @@ const _estimate = [
   {Id: '9', Name: '9 name', LastModifiedDate: '2019-02-15T12:03:50.000+0000'}
 ]
 const _types = [
-  ['1', '2', '3'], ['1', '2', '3'], ['1', '2', '3']
+  {BigType__c: '1', MediumType__c: '1 name', SmallType__c: '5'},
+  {BigType__c: '1', MediumType__c: '2 name', SmallType__c: '6'},
+  {BigType__c: '2', MediumType__c: '1 name', SmallType__c: ''},
+  {BigType__c: '2', MediumType__c: '1 name', SmallType__c: '9'},
+  {BigType__c: '3', MediumType__c: '1 name', SmallType__c: ''}
 ]
+const _imageMap = {
+  a060k000006HeneAAC: ['https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.png', 'https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.png'], a060k000010HeneAAC: []
+}
 export default {
   getProducts (callback) {
     if (process.env.NODE_ENV === 'production') {
@@ -221,7 +243,10 @@ export default {
                 Estimate: product.Estimate__c !== undefined ? product.Estimate__c : '',
                 EstimateSelect: false,
                 SelectHold: false,
-                Remark: product.Remark__c
+                Remark: product.Remark__c,
+                PurchaseRate: product.PurchaseRate__c,
+                RecoveryRate: product.RecoveryRate__c,
+                Links: []
               }
             }))
           } else if (event.type === 'exception') {
@@ -278,6 +303,25 @@ export default {
       )
     } else {
       setTimeout(() => callback(_types), 100)
+    }
+  },
+  getImageMap (callback) {
+    if (process.env.NODE_ENV === 'production') {
+      LCC.callApex(
+        'VuePOCController.getImageMap',
+        (result, event) => {
+          if (event.status) {
+            callback(result)
+          } else if (event.type === 'exception') {
+            console.log(event.message + ' : ' + event.where)
+          } else {
+            console.log('Unknown Error', event)
+          }
+        },
+        {escape: false}
+      )
+    } else {
+      setTimeout(() => callback(_imageMap), 100)
     }
   },
   navigateToRecord (recordId, callback) {

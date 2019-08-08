@@ -23,6 +23,9 @@
       </div>
     </div>
     <CollapsibleFilter />
+    <b-notification :closable="false">
+      <b-loading :is-full-page="true" :active.sync="this.$store.state.spinner" :can-cancel="false"></b-loading>
+    </b-notification>
   </div>
 </template>
 <script>
@@ -38,11 +41,29 @@ export default {
   data () {
     return {
       order: 'updateAsc',
-      sync: false
+      syncneed: false
     }
   },
   computed: {
     products () {
+      if (localStorage.getItem('dataDilter') != null && this.$store.state.products != null) {
+        let allData = JSON.parse(localStorage.getItem('dataDilter'))
+        this.$store.commit('keywordSearch', [
+          allData.keywordSearchValue,
+          allData.bigType != null ? allData.bigType : '',
+          allData.mediumType != null ? allData.mediumType : '',
+          allData.smallType != null ? allData.smallType : '',
+          allData.currentStatus,
+          allData.dateForFilter,
+          allData.specialFlg,
+          allData.hold,
+          allData.longOrShort,
+          allData.checkboxGroup,
+          allData.unitPrice,
+          allData.size
+        ])
+        this.$store.commit('calculateProducts')
+      }
       return this.$store.state.products
     },
     estimates () {
@@ -52,10 +73,10 @@ export default {
       if (this.$store.state.products === null) {
         return 0
       } else {
-        if (!this.sync) {
+        if (!this.syncneed) {
           this.$store.commit('keywordSearch', ['', '', '', '', [false, true, true, false], [], true, false, true, ['A', 'B', 'C', 'D', 'M', 'N', 'S', 'P', 'ランク未確定'], [0, 9999999], [0, 9999999, 0, 9999999, 0, 9999999]])
           this.$store.commit('calculateProducts')
-          this.sync = true
+          this.syncneed = true
         }
         return this.$store.state.products.filter(prod => prod.Show).length
       }

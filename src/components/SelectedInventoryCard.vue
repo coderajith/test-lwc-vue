@@ -11,9 +11,10 @@
       <a class="selecytedInventoryCardText link" href="#" @click="moveToPage()">{{product.InventoryNumber}}</a>
       <p class="selecytedInventoryCardText" @click="select()">{{product.ProductName}}</p>
       <p class="selecytedInventoryCardText" @click="select()">{{product.CurrentStatus}} / {{product.CurrentAuxiliaryStatus}}</p>
-      <p class="selecytedInventoryCardText" @click="select()">{{product.Rank}} / {{product.ProductFixedPrice}}</p>
+      <p class="selecytedInventoryCardText" @click="select()">{{product.Rank}} / 定:{{product.ProductFixedPrice}} 計:{{product.UnitPriceLease}}</p>
       <p class="selecytedInventoryCardText" @click="select()">{{product.ManufacturerName}}</p>
       <p class="selecytedInventoryCardText" @click="select()">{{product.Size}}</p>
+      <p class="selecytedInventoryCardText" @click="select()">計: {{product.PurchaseRate}} 回: {{product.RecoveryRate}}</p>
     </div>
     <b-modal :active.sync="isImageModalActive">
       <div class="modalContainer">
@@ -29,17 +30,23 @@
               <img v-else="checked" src="../assets/image.png" class="selectedInventoryCardImageNotExist500"/>
             </div>
             <div class="rightContainer">
-
+              <div class="conteinerImageRight">
+                <div class="imageContainerRight" v-for="image in product.Links">
+                  <img :src="image" class="images"/>
+                </div>
+              </div>
             </div>
           </div>
-          <p>
-            商品状態: {{product.Remark}}
-          </p>
+          <div style="display: flex; justify-content: flex-end;">
+            <p>
+              商品状態: {{product.Remark}}
+            </p>
+          </div>
         </div>
         <div class="modalFooter">
           <div class="modalBtnContainer">
             <b-button @click="isImageModalActive = false" class="whiteButton" style="margin-right: 0.5rem;">キャンセル</b-button>
-            <b-button @click="" :disabled="product.Selected" type="is-dark" style="margin-left: 0.5rem;">HOLDする</b-button>
+            <b-button @click="selectHold()" :disabled="!product.SelectHold" type="is-dark" style="margin-left: 0.5rem;">HOLD解除</b-button>
           </div>
         </div>
       </div>
@@ -65,6 +72,16 @@ export default {
       this.product.SelectHold = !this.product.SelectHold
       this.$store.commit('updateSelectedHold', this.product.SelectHold ? 1 : -1)
       this.$store.commit('updateProduct', this.product)
+    },
+    selectHold: function () {
+      if (this.product.SelectHold && this.$store.state.quote !== null) {
+        this.product.Estimate = ''
+        this.product.EstimateSelect = true
+        this.$store.commit('updateProduct', this.product)
+        this.$store.dispatch({type: 'updateProductEstimate', estimateId: '', productId: this.product.Id})
+      }
+
+      this.$store.commit('deselectOneProduct', this.product.Id)
     },
     moveToPage: function () {
       this.$store.dispatch({ type: 'navigateToEstimate', estimateId: this.product.Id })
