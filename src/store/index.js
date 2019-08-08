@@ -136,7 +136,7 @@ export const store = new Vuex.Store({
             item.CurrentAuxiliaryStatus.indexOf('入庫済') > -1 || item.CurrentAuxiliaryStatus.indexOf('入庫ﾁｪｯｸ済') > -1)
           ) : false) ||
           (payload[4][2] ? (item.CurrentStatus.indexOf('リース中') > -1 && item.CurrentAuxiliaryStatus.indexOf('返却予定') > -1) : false) ||
-          (payload[4][3] ? (item.CurrentStatus.indexOf('除却') > -1 && item.CurrentAuxiliaryStatus.indexOf('返却予定') === -1) : false))) &&
+          (payload[4][3] ? (item.CurrentStatus.indexOf('リース中') > -1 && item.CurrentAuxiliaryStatus.indexOf('返却予定') === -1) : false))) &&
         (dateEmpty ? (
           (dateStart && item.DateForFilter !== '' ? new Date(item.DateForFilter) >= new Date(payload[5][0]) : true) &&
           (dateEnd && item.DateForFilter !== '' ? new Date(item.DateForFilter) <= new Date(payload[5][1]) : true)) : true) &&
