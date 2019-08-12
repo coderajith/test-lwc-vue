@@ -477,6 +477,7 @@ body {
   height: 450px;
   border: solid 1px #707070;
   margin-left: 12px;
+  overflow-x: hidden;
 }
 .selectedInventoryCardImageNotExist500 {
   width: 450px;
@@ -526,4 +527,14 @@ body {
 .images {
   max-height: 143px;
   max-width: 143px;
+}
+.imageContainerRightGreenSelected {
+  margin-left: 3px;
+  width: 145px;
+  height: 145px;
+  display: flex;
+  align-items: center;
+  margin-top: 3px;
+  justify-content: center;
+  border: 2px solid #5CE62E;
 }

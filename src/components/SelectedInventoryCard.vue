@@ -26,13 +26,13 @@
         <div class="modalBody">
           <div style="display: flex;">
             <div class="leftContainer">
-              <img v-if="product.Link && product.Link.length" :src="product.Link" class="selectedInventoryCardImage500"/>
+              <img v-if="product.LinkPreview && product.LinkPreview.length" :src="product.LinkPreview" class="selectedInventoryCardImage500"/>
               <img v-else="checked" src="../assets/image.png" class="selectedInventoryCardImageNotExist500"/>
             </div>
             <div class="rightContainer">
               <div class="conteinerImageRight">
-                <div class="imageContainerRight" v-for="image in product.Links">
-                  <img :src="image" class="images"/>
+                <div :class="[image === product.LinkPreview ? 'imageContainerRightGreenSelected' : 'imageContainerRight']" v-for="image in product.Links">
+                  <img :src="image" class="images" @click="selectImage(image)"/>
                 </div>
               </div>
             </div>
@@ -46,7 +46,7 @@
         <div class="modalFooter">
           <div class="modalBtnContainer">
             <b-button @click="isImageModalActive = false" class="whiteButton" style="margin-right: 0.5rem;">キャンセル</b-button>
-            <b-button @click="selectHold()" :disabled="!product.SelectHold" type="is-dark" style="margin-left: 0.5rem;">HOLD解除</b-button>
+            <b-button @click="select()" :disabled="!product.SelectHold" type="is-dark" style="margin-left: 0.5rem;">HOLD解除</b-button>
           </div>
         </div>
       </div>
@@ -65,6 +65,12 @@ export default {
   computed: {
     classObject: function () {
       return this.product.SelectHold ? 'selectedInventoryCardContainer greenSelected' : 'selectedInventoryCardContainer'
+    }
+  },
+  watch: {
+    'isImageModalActive': function (val, oldVal) {
+      this.product.LinkPreview = this.product.Link
+      this.$store.commit('updateProduct', this.product)
     }
   },
   methods: {
@@ -88,6 +94,10 @@ export default {
     },
     navigateToDetails: function () {
       this.$store.dispatch({ type: 'navigateToRecord', productId: this.product.Id })
+    },
+    selectImage: function (imageLink) {
+      this.product.LinkPreview = imageLink
+      this.$store.commit('updateProduct', this.product)
     }
   }
 }

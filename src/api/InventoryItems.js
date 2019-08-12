@@ -13,6 +13,7 @@ const _products = [
     ProductFixedPrice: '50600',
     Size: '300×250×500(550)',
     Link: 'https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.png',
+    LinkPreview: 'https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.png',
     Selected: false,
     EngName: 'test 1',
     Show: true,
@@ -49,6 +50,7 @@ const _products = [
     ProductFixedPrice: '40600',
     Size: '300×250×500(550)',
     Link: '',
+    LinkPreview: '',
     Selected: false,
     EngName: 'test 234',
     Show: true,
@@ -85,6 +87,7 @@ const _products = [
     ProductFixedPrice: '5600',
     Size: '300×250×500(550)',
     Link: '',
+    LinkPreview: '',
     Selected: false,
     EngName: 'test 235',
     Show: true,
@@ -121,6 +124,7 @@ const _products = [
     ProductFixedPrice: '3600',
     Size: '300×250×500(550)',
     Link: '',
+    LinkPreview: '',
     Selected: false,
     EngName: 'test 44',
     Show: true,
@@ -157,6 +161,7 @@ const _products = [
     ProductFixedPrice: '190600',
     Size: '300×250×500(550)',
     Link: '',
+    LinkPreview: '',
     EngName: 'test 567',
     Selected: false,
     Show: true,
@@ -202,7 +207,7 @@ const _types = [
   {BigType__c: '3', MediumType__c: '1 name', SmallType__c: ''}
 ]
 const _imageMap = {
-  a060k000006HeneAAC: ['https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.png', 'https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.png'], a060k000010HeneAAC: []
+  a060k000006HeneAAC: ['https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.png', 'https://media.gq.com/photos/5977b52896d98d4091bcf6b7/16:9/w_1280%2Cc_limit/2017-07_GQ_Jet-Lag-TE_3x2.jpg'], a060k000010HeneAAC: []
 }
 export default {
   getProducts (callback) {
@@ -224,6 +229,7 @@ export default {
                 Size: product.Size__c !== undefined ? product.Size__c : '',
                 Selected: false,
                 Link: product.PictureURL1__c,
+                LinkPreview: product.PictureURL1__c,
                 Supplier: product.PurchaseName__c !== undefined && product.PurchaseName__r.Name !== undefined ? product.PurchaseName__r.Name : '',
                 CreatedDate: product.CreatedDate,
                 LastModifiedDate: product.LastModifiedDate,
