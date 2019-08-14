@@ -37,10 +37,8 @@
               </div>
             </div>
           </div>
-          <div style="display: flex; justify-content: flex-end;">
-            <p>
-              商品状態: {{product.Remark}}
-            </p>
+          <div class="infoTextContainer">
+            商品状態: {{product.Remark}}
           </div>
         </div>
         <div class="modalFooter">

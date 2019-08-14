@@ -433,7 +433,7 @@ body {
 }
 .modalContainer {
   width: 960px;
-  height: 672px;
+  height: 695px;
   background-color: white;
 }
 .modalHeader {
@@ -442,7 +442,7 @@ body {
   border-bottom: solid 1px #6f7579;
 }
 .modalBody {
-  height: 480px;
+  height: 500px;
   margin: 24px;
 }
 .modalFooter {
@@ -478,6 +478,7 @@ body {
   border: solid 1px #707070;
   margin-left: 12px;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 .selectedInventoryCardImageNotExist500 {
   width: 450px;
@@ -511,7 +512,7 @@ body {
 .conteinerImageRight {
   display: flex;
   flex-wrap: wrap;
-  overflow-x: scroll;
+  overflow-x: hidden;
   max-height: -webkit-fill-available;
 }
 .imageContainerRight {
@@ -537,4 +538,13 @@ body {
   margin-top: 3px;
   justify-content: center;
   border: 2px solid #5CE62E;
+}
+.modal-background {
+  background-color: rgba(8, 7, 7, 0.6) !important;
+}
+.infoTextContainer {
+  display: flex;
+  justify-content: flex-end;
+  height: 75px;
+  align-items: center;
 }
