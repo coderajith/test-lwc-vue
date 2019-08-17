@@ -430,6 +430,7 @@ body {
 }
 .greenSelected {
   border: 2px solid #5CE62E;
+  width: fit-content;
 }
 .modalContainer {
   width: 960px;

@@ -213,7 +213,7 @@ export default {
   getProducts (callback) {
     if (process.env.NODE_ENV === 'production') {
       LCC.callApex(
-        'VuePOCController.getInventoryProducts',
+        'InventorySearchController.getInventoryProducts',
         (result, event) => {
           if (event.status) {
             callback(result.map(product => {
@@ -270,7 +270,7 @@ export default {
   getEstimates (callback) {
     if (process.env.NODE_ENV === 'production') {
       LCC.callApex(
-        'VuePOCController.getEstimate',
+        'InventorySearchController.getEstimate',
         (result, event) => {
           if (event.status) {
             callback(result.map(estimate => {
@@ -295,7 +295,7 @@ export default {
   getTypes (callback) {
     if (process.env.NODE_ENV === 'production') {
       LCC.callApex(
-        'VuePOCController.getTypes',
+        'InventorySearchController.getTypes',
         (result, event) => {
           if (event.status) {
             callback(result)
@@ -314,7 +314,7 @@ export default {
   getImageMap (callback) {
     if (process.env.NODE_ENV === 'production') {
       LCC.callApex(
-        'VuePOCController.getImageMap',
+        'InventorySearchController.getImageMap',
         (result, event) => {
           if (event.status) {
             callback(result)
@@ -366,7 +366,7 @@ export default {
   filterIsOpen (callback) {
     if (process.env.NODE_ENV === 'production') {
       LCC.callApex(
-        'VuePOCController.getIsOpen',
+        'InventorySearchController.getIsOpen',
         (result, event) => {
           if (event.status) {
             callback(result)
