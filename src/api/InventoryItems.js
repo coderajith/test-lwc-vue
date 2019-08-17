@@ -37,7 +37,9 @@ const _products = [
     Remark: '123',
     PurchaseRate: '1',
     RecoveryRate: '2',
-    Links: []
+    Links: [],
+    ModelNumber: '123456',
+    SizeInput: '123'
   },
   {
     Id: 'a060k000007HeneAAC',
@@ -74,7 +76,9 @@ const _products = [
     Remark: '123',
     PurchaseRate: '1',
     RecoveryRate: '2',
-    Links: []
+    Links: [],
+    ModelNumber: '123456',
+    SizeInput: '123'
   },
   {
     Id: 'a060k000008HeneAAC',
@@ -111,7 +115,9 @@ const _products = [
     Remark: '123',
     PurchaseRate: '1',
     RecoveryRate: '2',
-    Links: []
+    Links: [],
+    ModelNumber: '123456',
+    SizeInput: '123'
   },
   {
     Id: 'a060k000009HeneAAC',
@@ -148,7 +154,9 @@ const _products = [
     Remark: '123',
     PurchaseRate: '1',
     RecoveryRate: '2',
-    Links: []
+    Links: [],
+    ModelNumber: '123456',
+    SizeInput: '123'
   },
   {
     Id: 'a060k000010HeneAAC',
@@ -185,19 +193,21 @@ const _products = [
     Remark: '123',
     PurchaseRate: '1',
     RecoveryRate: '2',
-    Links: []
+    Links: [],
+    ModelNumber: '123456',
+    SizeInput: '123'
   }
 ]
 const _estimate = [
-  {Id: '1', Name: '1 name', LastModifiedDate: '2019-01-15T12:03:50.000+0000'},
-  {Id: '2', Name: '2 name', LastModifiedDate: '2019-05-15T12:03:50.000+0000'},
-  {Id: '3', Name: '3 name', LastModifiedDate: '2019-04-15T12:03:50.000+0000'},
-  {Id: '4', Name: '4 name', LastModifiedDate: '2019-07-15T12:03:50.000+0000'},
-  {Id: '5', Name: '5 name', LastModifiedDate: '2019-10-15T12:03:50.000+0000'},
-  {Id: '6', Name: '6 name', LastModifiedDate: '2019-12-15T12:03:50.000+0000'},
-  {Id: '7', Name: '7 name', LastModifiedDate: '2019-11-15T12:03:50.000+0000'},
-  {Id: '8', Name: '8 name', LastModifiedDate: '2019-09-15T12:03:50.000+0000'},
-  {Id: '9', Name: '9 name', LastModifiedDate: '2019-02-15T12:03:50.000+0000'}
+  {Id: '1', Name: '1 name', LastModifiedDate: '2019-01-15T12:03:50.000+0000', LeaseMonth: '12', MonthlyLeaseRate: '6', Created: 'Alex', Account: ''},
+  {Id: '2', Name: '2 name', LastModifiedDate: '2019-05-15T12:03:50.000+0000', LeaseMonth: '12', MonthlyLeaseRate: '6', Created: 'Alex', Account: ''},
+  {Id: '3', Name: '3 name', LastModifiedDate: '2019-04-15T12:03:50.000+0000', LeaseMonth: '12', MonthlyLeaseRate: '6', Created: 'Alex', Account: ''},
+  {Id: '4', Name: '4 name', LastModifiedDate: '2019-07-15T12:03:50.000+0000', LeaseMonth: '12', MonthlyLeaseRate: '6', Created: 'Alex', Account: ''},
+  {Id: '5', Name: '5 name', LastModifiedDate: '2019-10-15T12:03:50.000+0000', LeaseMonth: '12', MonthlyLeaseRate: '6', Created: 'Alex', Account: ''},
+  {Id: '6', Name: '6 name', LastModifiedDate: '2019-12-15T12:03:50.000+0000', LeaseMonth: '12', MonthlyLeaseRate: '6', Created: 'Alex', Account: ''},
+  {Id: '7', Name: '7 name', LastModifiedDate: '2019-11-15T12:03:50.000+0000', LeaseMonth: '12', MonthlyLeaseRate: '6', Created: 'Alex', Account: ''},
+  {Id: '8', Name: '8 name', LastModifiedDate: '2019-09-15T12:03:50.000+0000', LeaseMonth: '12', MonthlyLeaseRate: '6', Created: 'Alex', Account: ''},
+  {Id: '9', Name: '9 name', LastModifiedDate: '2019-02-15T12:03:50.000+0000', LeaseMonth: '12', MonthlyLeaseRate: '6', Created: 'Alex', Account: ''}
 ]
 const _types = [
   {BigType__c: '1', MediumType__c: '1 name', SmallType__c: '5'},
@@ -252,7 +262,9 @@ export default {
                 Remark: product.Remark__c,
                 PurchaseRate: product.PurchaseRate__c,
                 RecoveryRate: product.RecoveryRate__c,
-                Links: []
+                Links: [],
+                ModelNumber: product.ModelNumber__c !== undefined ? product.ModelNumber__c : '',
+                SizeInput: product.sizeInput__c !== undefined ? product.sizeInput__c : ''
               }
             }))
           } else if (event.type === 'exception') {
@@ -277,7 +289,11 @@ export default {
               return {
                 Id: estimate.Id,
                 Name: estimate.Name,
-                LastModifiedDate: estimate.LastModifiedDate
+                LastModifiedDate: estimate.LastModifiedDate,
+                LeaseMonth: estimate.LeaseMonth__c !== undefined ? estimate.LeaseMonth__c : '',
+                MonthlyLeaseRate: estimate.MonthlyLeaseRate__c !== undefined ? estimate.MonthlyLeaseRate__c : 0,
+                Created: estimate.CreatedBy.Name,
+                Account: estimate.Account__c !== undefined ? estimate.Account__c : ''
               }
             }))
           } else if (event.type === 'exception') {

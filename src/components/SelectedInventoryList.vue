@@ -21,11 +21,14 @@
         </b-field>
       <div style="display: flex;">
         <b-button v-if="getSelectedHoldCount > 0" @click="deselectProduct" class="whiteButton" style="margin-right: 0.5rem;">HOLD解除</b-button>
-        <b-button v-if="getSelectedHoldCount > 0" @click="print" type="is-dark" style="margin-left: 0.5rem;">PDF出力</b-button>
+        <b-button v-if="getSelectedHoldCount === 1" @click="print" class="is-dark" style="margin-left: 0.5rem;">PDF出力</b-button>
+        <b-button v-if="getSelectedHoldCount > 1" @click="printMany" class="is-dark" style="margin-left: 0.5rem;">PDF出力</b-button>
       </div>
       <p v-if="getSelectedHoldCount == 0" class="numberSelected">HOLD件数: {{selectedItems}}</p>
       <p v-if="getSelectedHoldCount > 0" class="numberSelected">選択件数: {{getSelectedHoldCount}}</p>
     </div>
+    <PrintOne id="PrintOne" v-if="selectedOneProduct !== null" :product="selectedOneProduct" style="visibility: hidden; display: none !important;" />
+    <PrintMany id="PrintMany" v-if="selectedManyProduct !== null" :products="selectedManyProduct" :estimate="selected" style="visibility: hidden; display: none !important;" />
     <div class="scroll" id="printMe">
       <div v-for="product in products">
         <SelectedInventoryCard v-if="product.Selected" :product="product"/>
@@ -35,20 +38,34 @@
 </template>
 <script>
 import SelectedInventoryCard from './SelectedInventoryCard'
+import PrintOne from './PrintOne'
+import PrintMany from './PrintMany'
 export default {
   data () {
     return {
       keepFirst: false,
       openOnFocus: true,
       name: '',
-      selected: null
+      selected: null,
+      selectedOneProduct: null,
+      selectedManyProduct: null
     }
   },
   components: {
-    SelectedInventoryCard
+    SelectedInventoryCard,
+    PrintOne,
+    PrintMany
   },
   computed: {
     getSelectedHoldCount () {
+      if (this.$store.state.selectedHoldCount === 1) {
+        this.selectedOneProduct = this.$store.state.products.filter(item => item.SelectHold === true)[0]
+      } else if (this.$store.state.selectedHoldCount > 1) {
+        this.selectedManyProduct = this.$store.state.products.filter(item => item.SelectHold === true)
+      } else {
+        this.selectedOneProduct = null
+        this.selectedManyProduct = null
+      }
       return this.$store.state.selectedHoldCount
     },
     getQuote () {
@@ -90,12 +107,32 @@ export default {
   },
   methods: {
     print () {
-      const prtHtml = document.getElementById('printMe').innerHTML
+      const prtHtml = document.getElementById('PrintOne').innerHTML
       let stylesHtml = ''
       for (const node of [...document.querySelectorAll('link[rel="stylesheet"], style')]) {
         stylesHtml += node.outerHTML
       }
-      const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0')
+      const WinPrint = window.open('', '', 'left=0,top=0,toolbar=0,scrollbars=0,status=0')
+      WinPrint.document.write(`<!DOCTYPE html>
+      <html>
+        <head>
+          ${stylesHtml}
+        </head>
+        <body>
+          ${prtHtml}
+        </body>
+      </html>`)
+      WinPrint.document.close()
+      WinPrint.focus()
+      WinPrint.print()
+    },
+    printMany () {
+      const prtHtml = document.getElementById('PrintMany').innerHTML
+      let stylesHtml = ''
+      for (const node of [...document.querySelectorAll('link[rel="stylesheet"], style')]) {
+        stylesHtml += node.outerHTML
+      }
+      const WinPrint = window.open('', '', 'left=0,top=0,toolbar=0,scrollbars=0,status=0')
       WinPrint.document.write(`<!DOCTYPE html>
       <html>
         <head>

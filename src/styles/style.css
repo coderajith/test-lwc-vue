@@ -4,7 +4,6 @@ html {
   overflow-y: hidden !important;
 }
 body {
-  background-color: #f8f4e6;
   margin: 0;
 }
 .inventoryCardInfo {
@@ -548,4 +547,176 @@ body {
   justify-content: flex-end;
   height: 75px;
   align-items: center;
+}
+@media print {
+  .noprint {
+    visibility: hidden;
+    display: none !important;
+  }
+  @page {
+    size: A4 landscape;
+    margin: 0mm;
+  }
+}
+.printOneContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background: white;
+}
+.printOneButtonContainer {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  padding: 1rem;
+}
+.printableAreaContainer {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background: white;
+}
+.printAreaLeft {
+  width:650px;
+  height: auto;
+}
+.printAreaLeftHeader {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem;
+}
+.printAreaLeftBody {
+  border: 1px solid black;
+  height: 650px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.printAreaLeftBodyImageTrue {
+  max-width: 648px;
+  max-height: 648px;
+}
+.printAreaLeftBodyImageFalse {
+  width: 350px;
+  height: 350px;
+}
+.printAreaRight {
+  width:400px;
+  height: 650px;
+  margin-left: 1rem;
+  border: 1px solid black;
+  margin-top: 40px;
+}
+.printAreaRightHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  border-bottom: 1px solid black;
+}
+.printAreaRightContant {
+  display: flex;
+  border-bottom: 1px solid black;
+}
+.printAreaRightContantLeft {
+  width: 30%;
+  border-right: 1px solid black;
+  padding-left: 0.5rem;
+  font-weight: 600;
+}
+.printAreaRightContantRight {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  width: 70%;
+}
+.flexEnd {
+  display: flex;
+  justify-content: flex-end;
+}
+.printManyContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background: white;
+}
+.printManyHeader {
+  display: flex;
+  flex-dirrections: row;
+  justify-content: space-around;
+  padding: 1rem;
+  border-bottom: 1px solid black;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+.printManyTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+.flexColumn div {
+  display: flex;
+}
+.flexColumn div p {
+  width: 150px;
+}
+.printManyFooter {
+  padding: 1rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  bottom: 0px;
+  position: fixed;
+  display: flex;
+  justify-content: flex-end;
+  width: -webkit-fill-available;
+  align-items: center;
+  border-top: 1px solid black;
+}
+.printManyFooter div p {
+  width: 450px;
+  text-align: right;
+}
+.printManyFooter .logo {
+  display: flex;
+  allign-item: center;
+  padding-left: 1rem;
+}
+.printManyFooter .logo img{
+  width: 60px;
+  height: 60px;
+}
+.printManyCards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.printManyCardsContainer {
+  margin-left: 2rem;
+  margin-top: 2rem;
+  height: 350px;
+}
+.printManyCardsContainerCard {
+  width: 250px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+}
+.printManyCardsContainerCardTrue {
+  max-width: 248px;
+  max-height: 248px;
+}
+.printManyCardsContainerCardFalse {
+  max-width: 200px;
+  max-height: 248px;
+  padding: 0.5rem;
+}
+.printManyCards .textContainer {
+  display: flex;
+  justify-content: space-between;
 }
