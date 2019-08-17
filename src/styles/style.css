@@ -696,8 +696,8 @@ body {
 }
 .printManyCardsContainer {
   margin-left: 2rem;
-  margin-top: 2rem;
-  height: 350px;
+  padding-top: 3rem;
+  height: 800px;
 }
 .printManyCardsContainerCard {
   width: 250px;
@@ -719,4 +719,17 @@ body {
 .printManyCards .textContainer {
   display: flex;
   justify-content: space-between;
+}
+.header, .header-space,
+.footer, .footer-space {
+  height: 100px;
+}
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.footerCustom {
+  position: fixed;
+  bottom: 0;
 }

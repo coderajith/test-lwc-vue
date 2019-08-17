@@ -1,82 +1,98 @@
 <template>
   <div class="printManyContainer">
-    <div class="printManyHeader">
-      <div class="printManyTitle">
-        <p>商品一覧</p>
-      </div>
-      <div class="flexColumn">
-        <div>
-          <p>ﾘｰｽ期間</p>
-          <p>{{estimate !== null ? estimate.LeaseMonth + ' ヶ月': ''}}</p>
+    <table>
+      <thead><tr><td>
+        <div class="header-space">&nbsp;</div>
+      </td></tr></thead>
+      <tbody><tr><td>
+        <div class="content">
+          <div class="printManyCards">
+            <div v-for="product in products" class="printManyCardsContainer">
+              <div>
+                <div class="printManyCardsContainerCard">
+                  <img v-if="product.Link && product.Link.length" :src="product.Link" class="printManyCardsContainerCardTrue"/>
+                  <img v-else="checked" src="../assets/image.png" class="printManyCardsContainerCardFalse"/>
+                </div>
+                <div>
+                  <div class="textContainer">
+                    <p>{{product.ProductName}}</p>
+                    <p></p>
+                  </div>
+                  <div class="textContainer">
+                    <p>{{product.InventoryNumber}}</p>
+                    <p>{{product.SizeInput !== '' ? product.SizeInput : product.Size}}</p>
+                  </div>
+                  <div class="textContainer">
+                    <p>{{product.ManufacturerName}}</p>
+                    <p>U/{{product.Rank}}</p>
+                  </div>
+                  <div class="textContainer">
+                    <p>定価 ￥{{product.ProductFixedPrice | numeral('0,0')}}</p>
+                    <p>月額ﾘｰｽ料 ￥{{estimate !== null ? product.UnitPriceLease * estimate.MonthlyLeaseRate : 0 | numeral('0,0')}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <p>ﾘｰｽ料率</p>
-          <p>{{estimate !== null ? estimate.MonthlyLeaseRate + ' %': ''}}</p>
+      </td></tr></tbody>
+      <tfoot><tr><td>
+        <div class="footer-space">&nbsp;</div>
+      </td></tr></tfoot>
+    </table>
+    <div class="header">
+      <div class="printManyHeader">
+        <div class="printManyTitle">
+          <p>商品一覧</p>
         </div>
-        <div>
-          <p>選択商品数</p>
-          <p>{{productsSize}}</p>
-        </div>
-        <div>
-          <p>月額ﾘｰｽ料合計</p>
-          <p>￥{{monthlyLease | numeral('0,0')}}</p>
-        </div>
-      </div>
-      <div class="flexColumn">
-        <div>
-          <p>Date</p>
-          <p>{{getToday}}</p>
-        </div>
-        <div>
-          <p>担当者ｺｰﾄﾞ</p>
-          <p>{{estimate !== null ? estimate.Created : ''}}</p>
-        </div>
-        <div>
-          <p>顧客名</p>
-          <p>{{estimate !== null ? estimate.Account : ''}}</p>
-        </div>
-        <div>
-          <p></p>
-          <p></p>
-        </div>
-      </div>
-    </div>
-    <div class="printManyCards">
-      <div v-for="product in products" class="printManyCardsContainer">
-        <div>
-          <div class="printManyCardsContainerCard">
-            <img v-if="product.Link && product.Link.length" :src="product.Link" class="printManyCardsContainerCardTrue"/>
-            <img v-else="checked" src="../assets/image.png" class="printManyCardsContainerCardFalse"/>
+        <div class="flexColumn">
+          <div>
+            <p>ﾘｰｽ期間</p>
+            <p>{{estimate !== null ? estimate.LeaseMonth + ' ヶ月': ''}}</p>
           </div>
           <div>
-            <div class="textContainer">
-              <p>{{product.ProductName}}</p>
-              <p></p>
-            </div>
-            <div class="textContainer">
-              <p>{{product.InventoryNumber}}</p>
-              <p>{{product.SizeInput !== '' ? product.SizeInput : product.Size}}</p>
-            </div>
-            <div class="textContainer">
-              <p>{{product.ManufacturerName}}</p>
-              <p>U/{{product.Rank}}</p>
-            </div>
-            <div class="textContainer">
-              <p>定価 ￥{{product.ProductFixedPrice | numeral('0,0')}}</p>
-              <p>月額ﾘｰｽ料 ￥{{estimate !== null ? product.UnitPriceLease * estimate.MonthlyLeaseRate : 0 | numeral('0,0')}}</p>
-            </div>
+            <p>ﾘｰｽ料率</p>
+            <p>{{estimate !== null ? estimate.MonthlyLeaseRate + ' %': ''}}</p>
+          </div>
+          <div>
+            <p>選択商品数</p>
+            <p>{{productsSize}}</p>
+          </div>
+          <div>
+            <p>月額ﾘｰｽ料合計</p>
+            <p>￥{{monthlyLease | numeral('0,0')}}</p>
+          </div>
+        </div>
+        <div class="flexColumn">
+          <div>
+            <p>Date</p>
+            <p>{{getToday}}</p>
+          </div>
+          <div>
+            <p>担当者ｺｰﾄﾞ</p>
+            <p>{{estimate !== null ? estimate.Created : ''}}</p>
+          </div>
+          <div>
+            <p>顧客名</p>
+            <p>{{estimate !== null ? estimate.Account : ''}}</p>
+          </div>
+          <div>
+            <p></p>
+            <p></p>
           </div>
         </div>
       </div>
     </div>
-    <div class="printManyFooter">
-      <div>
-        <p>株式会社 メイズ</p>
-        <p>〒105-0001 東京都港区虎ノ門3-2-2虎ノ門30森ﾋﾞﾙ1階</p>
-        <p>Tel:03-5402-4600　Fax:03-5402-4660</p>
-      </div>
-      <div class="logo">
-        <img src="../assets/image.png"/>
+    <div class="footerCustom">
+      <div class="printManyFooter">
+        <div>
+          <p>株式会社 メイズ</p>
+          <p>〒105-0001 東京都港区虎ノ門3-2-2虎ノ門30森ﾋﾞﾙ1階</p>
+          <p>Tel:03-5402-4600　Fax:03-5402-4660</p>
+        </div>
+        <div class="logo">
+          <img src="../assets/image.png"/>
+        </div>
       </div>
     </div>
   </div>
