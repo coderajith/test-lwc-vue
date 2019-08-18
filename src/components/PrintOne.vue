@@ -28,7 +28,7 @@
             <p>型番</p>
           </div>
           <div class="printAreaRightContantRight">
-            <p>{{product.ModelNumber}}</p>
+            <p>{{product.ModelTotal}}</p>
           </div>
         </div>
         <div class="printAreaRightContant">

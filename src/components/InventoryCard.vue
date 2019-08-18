@@ -9,7 +9,7 @@
     </div>
     <div v-if="product.Selected" class="leftCorner"></div>
     <p v-if="product.Selected" class="hold">HOLD</p>
-    <div v-if="product.Selected" class="holdActive"></div>
+    <div v-if="product.Selected" class="holdActive" @click="moveToPage()"></div>
     <div class="inventoryCardInfo">
       <a class="inventoryCardText link" href="#" @click="moveToPage()">{{product.InventoryNumber}}</a>
       <p class="inventoryCardText" @click="check()">{{product.ProductName}}</p>
@@ -47,7 +47,8 @@
         <div class="modalFooter">
           <div class="modalBtnContainer">
             <b-button @click="isImageModalActive = false" class="whiteButton" style="margin-right: 0.5rem;">キャンセル</b-button>
-            <b-button @click="check()" :disabled="product.Selected" type="is-dark" style="margin-left: 0.5rem;">HOLDする</b-button>
+            <b-button @click="deselectProduct()" v-if="product.Selected" type="is-dark" style="margin-left: 0.5rem;">HOLD解除</b-button>
+            <b-button @click="check()" v-else="product.Selected" type="is-dark" style="margin-left: 0.5rem;">HOLDする</b-button>
           </div>
         </div>
       </div>
@@ -95,6 +96,21 @@ export default {
     returnDefaultLink: function () {
       this.product.LinkPreview = this.product.Link
       this.$store.commit('updateProduct', this.product)
+    },
+    deselectProduct () {
+      this.product.SelectHold = true
+      this.$store.commit('updateSelectedHold', 1)
+      this.$store.commit('updateProduct', this.product)
+      this.$store.state.products.forEach((item) => {
+        if (item.SelectHold && this.$store.state.quote !== null && item.Id === this.product.Id) {
+          item.Estimate = ''
+          item.EstimateSelect = true
+          this.$store.commit('updateProduct', item)
+          this.$store.dispatch({type: 'updateProductEstimate', estimateId: '', productId: item.Id})
+        }
+      })
+      this.$store.commit('deselectProduct')
+      this.isImageModalActive = false
     }
   }
 }

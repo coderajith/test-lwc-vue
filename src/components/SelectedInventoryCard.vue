@@ -44,7 +44,7 @@
         <div class="modalFooter">
           <div class="modalBtnContainer">
             <b-button @click="isImageModalActive = false" class="whiteButton" style="margin-right: 0.5rem;">キャンセル</b-button>
-            <b-button @click="select()" :disabled="!product.SelectHold" type="is-dark" style="margin-left: 0.5rem;">HOLD解除</b-button>
+            <b-button @click="deselectProduct()" type="is-dark" style="margin-left: 0.5rem;">HOLD解除</b-button>
           </div>
         </div>
       </div>
@@ -96,6 +96,21 @@ export default {
     selectImage: function (imageLink) {
       this.product.LinkPreview = imageLink
       this.$store.commit('updateProduct', this.product)
+    },
+    deselectProduct () {
+      this.product.SelectHold = true
+      this.$store.commit('updateSelectedHold', 1)
+      this.$store.commit('updateProduct', this.product)
+      this.$store.state.products.forEach((item) => {
+        if (item.SelectHold && this.$store.state.quote !== null && item.Id === this.product.Id) {
+          item.Estimate = ''
+          item.EstimateSelect = true
+          this.$store.commit('updateProduct', item)
+          this.$store.dispatch({type: 'updateProductEstimate', estimateId: '', productId: item.Id})
+        }
+      })
+      this.$store.commit('deselectProduct')
+      this.isImageModalActive = false
     }
   }
 }

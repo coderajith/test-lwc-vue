@@ -544,7 +544,6 @@ body {
 }
 .infoTextContainer {
   display: flex;
-  justify-content: flex-end;
   height: 75px;
   align-items: center;
 }
@@ -623,11 +622,14 @@ body {
   border-right: 1px solid black;
   padding-left: 0.5rem;
   font-weight: 600;
+  align-items: center;
+  display: flex;
 }
 .printAreaRightContantRight {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   width: 70%;
+  overflow-wrap: break-word;
 }
 .flexEnd {
   display: flex;
@@ -663,6 +665,8 @@ body {
 }
 .flexColumn div p {
   width: 150px;
+  margin: 0px;
+  font-size: 12px;
 }
 .printManyFooter {
   padding: 1rem;
@@ -679,6 +683,8 @@ body {
 .printManyFooter div p {
   width: 450px;
   text-align: right;
+  margin: 0px;
+  font-size: 12px;
 }
 .printManyFooter .logo {
   display: flex;
@@ -719,6 +725,7 @@ body {
 .printManyCards .textContainer {
   display: flex;
   justify-content: space-between;
+  max-width: 250px;
 }
 .header, .header-space,
 .footer, .footer-space {
@@ -732,4 +739,31 @@ body {
 .footerCustom {
   position: fixed;
   bottom: 0;
+}
+.textContainer p {
+  margin: 0px !important;
+  font-size: 12px;
+}
+.wrapDots {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 124px;
+  max-width: 124px;
+}
+.width250 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 240px;
+  max-width: 240px;
+}
+.sizeWrap {
+  width: 250px;
+  max-width: 250px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  line-break: auto;
+  hyphens: manual;
 }

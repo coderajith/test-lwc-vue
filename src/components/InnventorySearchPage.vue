@@ -61,6 +61,7 @@ export default {
           allData.size
         ])
         this.$store.commit('calculateProducts')
+        this.$store.commit(this.order)
       }
       return this.$store.state.products
     },
@@ -88,19 +89,29 @@ export default {
     if (!this.estimates) {
       this.$store.dispatch('getAllEstimate')
     }
+    if (localStorage.getItem('orderName') != null) {
+      let orderName = localStorage.getItem('orderName')
+      this.order = orderName
+    } else {
+      localStorage.setItem('orderName', 'updateAsc')
+    }
   },
   methods: {
     sort: function () {
       if (this.order === 'createDesc') {
+        localStorage.setItem('orderName', 'createDesc')
         this.$store.commit('createDesc')
       }
       if (this.order === 'createAsc') {
+        localStorage.setItem('orderName', 'createAsc')
         this.$store.commit('createAsc')
       }
       if (this.order === 'updateDesc') {
+        localStorage.setItem('orderName', 'updateDesc')
         this.$store.commit('updateDesc')
       }
       if (this.order === 'updateAsc') {
+        localStorage.setItem('orderName', 'updateAsc')
         this.$store.commit('updateAsc')
       }
     }

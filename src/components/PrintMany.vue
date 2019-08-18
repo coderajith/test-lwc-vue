@@ -14,21 +14,22 @@
                   <img v-else="checked" src="../assets/image.png" class="printManyCardsContainerCardFalse"/>
                 </div>
                 <div>
-                  <div class="textContainer">
-                    <p>{{product.ProductName}}</p>
-                    <p></p>
+                  <div class="textContainer" style="min-height: 36px; max-height: 36px;">
+                    <p style="width:250px; max-width: 250px;">{{product.ProductName}}</p>
                   </div>
                   <div class="textContainer">
-                    <p>{{product.InventoryNumber}}</p>
-                    <p>{{product.SizeInput !== '' ? product.SizeInput : product.Size}}</p>
+                    <p style="wrapDots">{{product.InventoryNumber}}</p>
+                    <p class="wrapDots">U/{{product.Rank}}</p>
+                  </div>
+                  <div class="textContainer" style="min-height: 36px; max-height: 36px;">
+                    <p class="sizeWrap">ｻｲｽﾞ: {{product.SizeInput !== '' ? product.SizeInput : product.Size}}</p>
                   </div>
                   <div class="textContainer">
-                    <p>{{product.ManufacturerName}}</p>
-                    <p>U/{{product.Rank}}</p>
+                    <p class="width250">ﾒｰｶｰ名: {{product.ManufacturerName}}</p>
                   </div>
                   <div class="textContainer">
-                    <p>定価 ￥{{product.ProductFixedPrice | numeral('0,0')}}</p>
-                    <p>月額ﾘｰｽ料 ￥{{estimate !== null ? product.UnitPriceLease * estimate.MonthlyLeaseRate : 0 | numeral('0,0')}}</p>
+                    <p class="wrapDots">定価 ￥{{product.ProductFixedPrice | numeral('0,0')}}</p>
+                    <p class="wrapDots">月額ﾘｰｽ料 ￥{{estimate !== null ? product.UnitPriceLease * estimate.MonthlyLeaseRate : 0 | numeral('0,0')}}</p>
                   </div>
                 </div>
               </div>
@@ -52,7 +53,7 @@
           </div>
           <div>
             <p>ﾘｰｽ料率</p>
-            <p>{{estimate !== null ? estimate.MonthlyLeaseRate + ' %': ''}}</p>
+            <p>{{(estimate !== null ? estimate.MonthlyLeaseRate : 0)  | numeral('0.0')}} %</p>
           </div>
           <div>
             <p>選択商品数</p>
@@ -66,15 +67,15 @@
         <div class="flexColumn">
           <div>
             <p>Date</p>
-            <p>{{getToday}}</p>
+            <p style="min-width: 350px; width: 350px;">{{getToday}}</p>
           </div>
           <div>
             <p>担当者ｺｰﾄﾞ</p>
-            <p>{{estimate !== null ? estimate.Created : ''}}</p>
+            <p style="min-width: 350px; width: 350px;">{{estimate !== null ? estimate.Created : ''}}</p>
           </div>
           <div>
             <p>顧客名</p>
-            <p>{{estimate !== null ? estimate.Account : ''}}</p>
+            <p style="min-width: 350px; width: 350px;">{{estimate !== null ? estimate.Account : ''}}</p>
           </div>
           <div>
             <p></p>
