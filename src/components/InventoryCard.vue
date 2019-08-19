@@ -7,9 +7,9 @@
     <div class="round" @click="isImageModalActive = true">
       <font-awesome-icon icon="info-circle" />
     </div>
-    <div v-if="product.Selected" class="leftCorner"></div>
-    <p v-if="product.Selected" class="hold">HOLD</p>
-    <div v-if="product.Selected" class="holdActive" @click="moveToPage()"></div>
+    <div v-if="product.Selected || product.EstimateSelected" class="leftCorner"></div>
+    <p v-if="product.Selected || product.EstimateSelected" class="hold">HOLD</p>
+    <div v-if="product.Selected || product.EstimateSelected" class="holdActive" @click="moveToPage()"></div>
     <div class="inventoryCardInfo">
       <a class="inventoryCardText link" href="#" @click="moveToPage()">{{product.InventoryNumber}}</a>
       <p class="inventoryCardText" @click="check()">{{product.ProductName}}</p>

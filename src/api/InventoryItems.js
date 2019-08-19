@@ -40,7 +40,8 @@ const _products = [
     Links: [],
     ModelNumber: '123456',
     SizeInput: '123',
-    ModelTotal: 'Test Model Total'
+    ModelTotal: 'Test Model Total',
+    EstimateSelected: false
   },
   {
     Id: 'a060k000007HeneAAC',
@@ -80,7 +81,8 @@ const _products = [
     Links: [],
     ModelNumber: '123456',
     SizeInput: '123',
-    ModelTotal: 'Test Model Total'
+    ModelTotal: 'Test Model Total',
+    EstimateSelected: false
   },
   {
     Id: 'a060k000008HeneAAC',
@@ -120,7 +122,8 @@ const _products = [
     Links: [],
     ModelNumber: '123456',
     SizeInput: '123',
-    ModelTotal: 'Test Model Total'
+    ModelTotal: 'Test Model Total',
+    EstimateSelected: false
   },
   {
     Id: 'a060k000009HeneAAC',
@@ -160,7 +163,8 @@ const _products = [
     Links: [],
     ModelNumber: '123456',
     SizeInput: '123',
-    ModelTotal: 'Test Model Total'
+    ModelTotal: 'Test Model Total',
+    EstimateSelected: false
   },
   {
     Id: 'a060k000010HeneAAC',
@@ -200,7 +204,8 @@ const _products = [
     Links: [],
     ModelNumber: '123456',
     SizeInput: '123',
-    ModelTotal: 'Test Model Total'
+    ModelTotal: 'Test Model Total',
+    EstimateSelected: false
   }
 ]
 const _estimate = [
@@ -270,7 +275,8 @@ export default {
                 Links: [],
                 ModelNumber: product.ModelNumber__c !== undefined ? product.ModelNumber__c : '',
                 SizeInput: product.sizeInput__c !== undefined ? product.sizeInput__c : '',
-                ModelTotal: product.ModelTotal__c !== undefined ? product.ModelTotal__c : ''
+                ModelTotal: product.ModelTotal__c !== undefined ? product.ModelTotal__c : '',
+                EstimateSelected: product.Estimate__c !== undefined
               }
             }))
           } else if (event.type === 'exception') {

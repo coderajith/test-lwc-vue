@@ -151,6 +151,7 @@ export default {
         if (item.SelectHold && this.$store.state.quote !== null) {
           item.Estimate = ''
           item.EstimateSelect = true
+          item.EstimateSelected = false
           this.$store.commit('updateProduct', item)
           this.$store.dispatch({type: 'updateProductEstimate', estimateId: '', productId: item.Id})
         }
