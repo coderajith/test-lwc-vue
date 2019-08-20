@@ -75,6 +75,7 @@ export default {
         if (this.$store.state.quote !== null) {
           this.product.Estimate = this.$store.state.quote
           this.product.EstimateSelect = true
+          this.product.EstimateSelected = true
           this.$store.dispatch({type: 'updateProductEstimate', estimateId: this.product.Estimate, productId: this.product.Id})
         }
         this.product.Selected = !this.product.Selected

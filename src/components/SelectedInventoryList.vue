@@ -160,6 +160,12 @@ export default {
     },
     addQuote () {
       if (this.selected !== null) {
+        this.$store.state.products.forEach(item => {
+          if (item.Estimate.length === 0 && item.Selected) {
+            console.log(item.Estimate)
+            item.Selected = false
+          }
+        })
         this.$store.commit('addQuote', this.selected.Id)
       } else {
         this.$store.commit('addQuote', null)
