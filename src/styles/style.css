@@ -767,3 +767,7 @@ body {
   line-break: auto;
   hyphens: manual;
 }
+.priceContent {
+  width: min-content;
+  max-width: min-content;
+}

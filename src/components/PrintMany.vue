@@ -28,8 +28,8 @@
                     <p class="width250">ﾒｰｶｰ名: {{product.ManufacturerName}}</p>
                   </div>
                   <div class="textContainer">
-                    <p class="wrapDots">定価 ￥{{product.ProductFixedPrice | numeral('0,0')}}</p>
-                    <p class="wrapDots">月額ﾘｰｽ料 ￥{{estimate !== null ? product.UnitPriceLease * estimate.MonthlyLeaseRate : 0 | numeral('0,0')}}</p>
+                    <p class="wrapDots priceContent">定価 ￥{{product.ProductFixedPrice | numeral('0,0')}}</p>
+                    <p class="wrapDots priceContent">月額ﾘｰｽ料 ￥{{estimate !== null ? product.UnitPriceLease * estimate.MonthlyLeaseRate : 0 | numeral('0,0')}}</p>
                   </div>
                 </div>
               </div>

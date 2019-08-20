@@ -161,6 +161,10 @@ export default {
     addQuote () {
       if (this.selected !== null) {
         this.$store.state.products.forEach(item => {
+          if (item.SelectHold) {
+            item.SelectHold = false
+            this.$store.commit('updateSelectedHold', -1)
+          }
           if (item.Estimate.length === 0 && item.Selected) {
             console.log(item.Estimate)
             item.Selected = false
@@ -168,6 +172,12 @@ export default {
         })
         this.$store.commit('addQuote', this.selected.Id)
       } else {
+        this.$store.state.products.forEach(item => {
+          if (item.SelectHold) {
+            item.SelectHold = false
+            this.$store.commit('updateSelectedHold', -1)
+          }
+        })
         this.$store.commit('addQuote', null)
       }
     },
