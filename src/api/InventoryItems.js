@@ -32,6 +32,7 @@ const _products = [
     Depth: '100',
     Height: '100',
     Estimate: '2',
+    EstimateName: '2',
     EstimateSelect: false,
     SelectHold: false,
     Remark: '123',
@@ -41,7 +42,8 @@ const _products = [
     ModelNumber: '123456',
     SizeInput: '123',
     ModelTotal: 'Test Model Total',
-    EstimateSelected: false
+    EstimateSelected: false,
+    Allowed: true
   },
   {
     Id: 'a060k000007HeneAAC',
@@ -73,6 +75,7 @@ const _products = [
     Depth: '100',
     Height: '100',
     Estimate: '2',
+    EstimateName: '2',
     EstimateSelect: false,
     SelectHold: false,
     Remark: '123',
@@ -82,7 +85,8 @@ const _products = [
     ModelNumber: '123456',
     SizeInput: '123',
     ModelTotal: 'Test Model Total',
-    EstimateSelected: false
+    EstimateSelected: false,
+    Allowed: true
   },
   {
     Id: 'a060k000008HeneAAC',
@@ -114,6 +118,7 @@ const _products = [
     Depth: '300',
     Height: '100',
     Estimate: '1',
+    EstimateName: '1',
     EstimateSelect: false,
     SelectHold: false,
     Remark: '123',
@@ -123,7 +128,8 @@ const _products = [
     ModelNumber: '123456',
     SizeInput: '123',
     ModelTotal: 'Test Model Total',
-    EstimateSelected: false
+    EstimateSelected: false,
+    Allowed: true
   },
   {
     Id: 'a060k000009HeneAAC',
@@ -155,6 +161,7 @@ const _products = [
     Depth: '500',
     Height: '600',
     Estimate: '6',
+    EstimateName: '6',
     EstimateSelect: false,
     SelectHold: false,
     Remark: '123',
@@ -164,7 +171,8 @@ const _products = [
     ModelNumber: '123456',
     SizeInput: '123',
     ModelTotal: 'Test Model Total',
-    EstimateSelected: false
+    EstimateSelected: false,
+    Allowed: true
   },
   {
     Id: 'a060k000010HeneAAC',
@@ -196,6 +204,7 @@ const _products = [
     Depth: '100',
     Height: '100',
     Estimate: '',
+    EstimateName: '',
     EstimateSelect: false,
     SelectHold: false,
     Remark: '123',
@@ -205,7 +214,8 @@ const _products = [
     ModelNumber: '123456',
     SizeInput: '123',
     ModelTotal: 'Test Model Total',
-    EstimateSelected: false
+    EstimateSelected: false,
+    Allowed: true
   }
 ]
 const _estimate = [
@@ -276,7 +286,11 @@ export default {
                 ModelNumber: product.ModelNumber__c !== undefined ? product.ModelNumber__c : '',
                 SizeInput: product.sizeInput__c !== undefined ? product.sizeInput__c : '',
                 ModelTotal: product.ModelTotal__c !== undefined ? product.ModelTotal__c : '',
-                EstimateSelected: product.Estimate__c !== undefined
+                EstimateSelected: product.Estimate__c !== undefined,
+                EstimateName: product.Estimate__c !== undefined ? product.Estimate__r.Name : '',
+                Allowed: (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('在庫') > -1) ||
+                (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('リース中') > -1 &&
+                product.CurrentStatusAuxiliary__c !== undefined && product.CurrentStatusAuxiliary__c.indexOf('返却予定') > -1)
               }
             }))
           } else if (event.type === 'exception') {

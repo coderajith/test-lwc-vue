@@ -490,9 +490,9 @@ body {
   max-height: 450px;
 }
 .modalBody p {
-  height: 26px;
+  height: 20px;
   font-family: sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
@@ -544,8 +544,9 @@ body {
 }
 .infoTextContainer {
   display: flex;
-  height: 75px;
-  align-items: center;
+  height: 50px;
+  flex-direction: column;
+  justify-content: center;
 }
 @media print {
   .noprint {
@@ -770,4 +771,8 @@ body {
 .priceContent {
   width: min-content;
   max-width: min-content;
+}
+.linkEstimate {
+  font-size: 16px;
+  height: 20px;
 }

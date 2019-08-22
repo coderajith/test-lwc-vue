@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 4px;" class="cardDiv">
+  <div v-bind:style="product.Allowed || product.Selected || product.EstimateSelected? 'cursor: pointer; padding: 4px;' : 'cursor: not-allowed; padding: 4px;' " class="cardDiv">
     <div class="imageContainer" @click="check()">
       <img v-if="product.Link && product.Link.length" :src="product.Link" class="inventoryCardImage"/>
       <img v-else="product.Selected" src="../assets/image.png" class="inventoryCardImageNotExist"/>
@@ -41,14 +41,17 @@
             </div>
           </div>
           <div class="infoTextContainer">
-            商品状態: {{product.Remark}}
+            <p>
+              商品状態: {{product.Remark}}
+            </p>
+            <p>
+              見積番号: <a class="linkEstimate link" href="#" @click="moveToEstimatePage()">{{product.EstimateName}}</a>
+            </p>
           </div>
         </div>
         <div class="modalFooter">
           <div class="modalBtnContainer">
             <b-button @click="isImageModalActive = false" class="whiteButton" style="margin-right: 0.5rem;">キャンセル</b-button>
-            <b-button @click="deselectProduct()" v-if="product.Selected" type="is-dark" style="margin-left: 0.5rem;">HOLD解除</b-button>
-            <b-button @click="check()" v-else="product.Selected" type="is-dark" style="margin-left: 0.5rem;">HOLDする</b-button>
           </div>
         </div>
       </div>
@@ -71,9 +74,10 @@ export default {
   },
   methods: {
     check: function () {
-      if (!this.product.Selected) {
+      if (!this.product.Selected && this.product.Allowed) {
         if (this.$store.state.quote !== null) {
           this.product.Estimate = this.$store.state.quote
+          this.product.EstimateName = this.$store.state.quoteName
           this.product.EstimateSelect = true
           this.product.EstimateSelected = true
           this.$store.dispatch({type: 'updateProductEstimate', estimateId: this.product.Estimate, productId: this.product.Id})
@@ -90,6 +94,9 @@ export default {
     moveToPage: function () {
       this.$store.dispatch({ type: 'navigateToEstimate', estimateId: this.product.Id })
     },
+    moveToEstimatePage: function () {
+      this.$store.dispatch({ type: 'navigateToEstimate', estimateId: this.product.Estimate })
+    },
     selectImage: function (imageLink) {
       this.product.LinkPreview = imageLink
       this.$store.commit('updateProduct', this.product)
@@ -97,21 +104,6 @@ export default {
     returnDefaultLink: function () {
       this.product.LinkPreview = this.product.Link
       this.$store.commit('updateProduct', this.product)
-    },
-    deselectProduct () {
-      this.product.SelectHold = true
-      this.$store.commit('updateSelectedHold', 1)
-      this.$store.commit('updateProduct', this.product)
-      this.$store.state.products.forEach((item) => {
-        if (item.SelectHold && this.$store.state.quote !== null && item.Id === this.product.Id) {
-          item.Estimate = ''
-          item.EstimateSelect = true
-          this.$store.commit('updateProduct', item)
-          this.$store.dispatch({type: 'updateProductEstimate', estimateId: '', productId: item.Id})
-        }
-      })
-      this.$store.commit('deselectProduct')
-      this.isImageModalActive = false
     }
   }
 }

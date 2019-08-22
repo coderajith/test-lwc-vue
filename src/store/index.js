@@ -13,6 +13,7 @@ export const store = new Vuex.Store({
     isOpen: false,
     productsSize: 0,
     quote: null,
+    quoteName: null,
     types: [],
     spinner: true
   },
@@ -93,6 +94,9 @@ export const store = new Vuex.Store({
         }
       })
     },
+    addQuoteName: (state, payload) => {
+      state.quoteName = payload
+    },
     addQuote: (state, payload) => {
       state.quote = payload
       state.products.forEach((item) => {
@@ -127,6 +131,7 @@ export const store = new Vuex.Store({
         item.ProductName.toUpperCase().indexOf(payload[0].toUpperCase()) > -1 ||
         item.EngName.toUpperCase().indexOf(payload[0].toUpperCase()) > -1 ||
         item.ManufacturerName.toUpperCase().indexOf(payload[0].toUpperCase()) > -1 ||
+        item.EstimateName.toUpperCase().indexOf(payload[0].toUpperCase()) > -1 ||
         item.Supplier.toUpperCase().indexOf(payload[0].toUpperCase()) > -1) &&
         item.BigType.indexOf(payload[1]) > -1 &&
         item.MediumType.indexOf(payload[2]) > -1 &&

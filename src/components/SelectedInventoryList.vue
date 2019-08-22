@@ -150,6 +150,7 @@ export default {
       this.$store.state.products.forEach((item) => {
         if (item.SelectHold && this.$store.state.quote !== null) {
           item.Estimate = ''
+          item.EstimateName = ''
           item.EstimateSelect = true
           item.EstimateSelected = false
           this.$store.commit('updateProduct', item)
@@ -160,17 +161,17 @@ export default {
     },
     addQuote () {
       if (this.selected !== null) {
+        this.$store.commit('addQuote', this.selected.Id)
+        this.$store.commit('addQuoteName', this.selected.Name)
         this.$store.state.products.forEach(item => {
-          if (item.SelectHold) {
-            item.SelectHold = false
-            this.$store.commit('updateSelectedHold', -1)
-          }
           if (item.Estimate.length === 0 && item.Selected) {
-            console.log(item.Estimate)
-            item.Selected = false
+            item.Estimate = this.selected.Id
+            item.EstimateName = this.selected.Name
+            item.EstimateSelect = true
+            item.EstimateSelected = true
+            this.$store.dispatch({type: 'updateProductEstimate', estimateId: this.selected.Id, productId: item.Id})
           }
         })
-        this.$store.commit('addQuote', this.selected.Id)
       } else {
         this.$store.state.products.forEach(item => {
           if (item.SelectHold) {
