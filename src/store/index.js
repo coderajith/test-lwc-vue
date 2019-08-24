@@ -28,6 +28,11 @@ export const store = new Vuex.Store({
     getQuote: (state) => { return state.quote }
   },
   mutations: {
+    updateEstimates: (state, payload) => {
+      let estimates = state.estimates
+      estimates.push(payload)
+      state.estimates = estimates
+    },
     setQuote: (state, payload) => { state.quote = payload },
     setProducts: (state, payload) => {
       state.products = payload

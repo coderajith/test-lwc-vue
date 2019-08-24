@@ -30,6 +30,7 @@
 import InventoryCard from './InventoryCard'
 import CollapsibleFilter from './CollapsibleFilter'
 import SelectedInventoryList from './SelectedInventoryList'
+
 export default {
   components: {
     InventoryCard,

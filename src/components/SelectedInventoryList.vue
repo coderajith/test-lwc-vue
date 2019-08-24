@@ -11,6 +11,7 @@
                 :open-on-focus="openOnFocus"
                 :data="filteredDataObj"
                 field="Name"
+                ref="autocomplete"
                 @select="option => {selected = option; addQuote()}">
                 <template slot="footer">
                     <a @click="addNewQuote()">
@@ -40,6 +41,7 @@
 import SelectedInventoryCard from './SelectedInventoryCard'
 import PrintOne from './PrintOne'
 import PrintMany from './PrintMany'
+import LCC from 'lightning-container'
 export default {
   data () {
     return {
@@ -98,6 +100,7 @@ export default {
     }
   },
   created () {
+    LCC.addMessageHandler(this.updateEstimates)
     if (!this.products) {
       this.$store.dispatch('getAllProducts')
     }
@@ -106,6 +109,23 @@ export default {
     }
   },
   methods: {
+    updateEstimates: function (message) {
+      let estimate = JSON.parse(message.value)
+      let newEstimate = {
+        Id: estimate.Id,
+        Name: estimate.Name,
+        LastModifiedDate: estimate.LastModifiedDate,
+        LeaseMonth: estimate.LeaseMonth__c !== undefined ? estimate.LeaseMonth__c : '',
+        MonthlyLeaseRate: estimate.MonthlyLeaseRate__c !== undefined ? estimate.MonthlyLeaseRate__c : 0,
+        Created: estimate.CreatedBy.Name,
+        Account: estimate.Account__c !== undefined ? estimate.Account__c : ''
+      }
+      this.$store.commit('updateEstimates', newEstimate)
+      this.selected = newEstimate
+      this.name = estimate.Name
+      this.addQuote()
+      this.$refs.autocomplete.isActive = false
+    },
     print () {
       const prtHtml = document.getElementById('PrintOne').innerHTML
       let stylesHtml = ''

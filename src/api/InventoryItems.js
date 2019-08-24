@@ -445,5 +445,13 @@ export default {
     } else {
       setTimeout(() => console.log('Update Product Estimate ' + estimateId + ' ' + productId), 100)
     }
+  },
+  updateEstimates (callback) {
+    if (process.env.NODE_ENV === 'production') {
+      let msg = {
+        type: 'New Quote'
+      }
+      LCC.sendMessage(msg)
+    }
   }
 }
