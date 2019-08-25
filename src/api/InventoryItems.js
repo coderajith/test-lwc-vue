@@ -43,7 +43,8 @@ const _products = [
     SizeInput: '123',
     ModelTotal: 'Test Model Total',
     EstimateSelected: false,
-    Allowed: true
+    Allowed: true,
+    NotShowHold: false
   },
   {
     Id: 'a060k000007HeneAAC',
@@ -86,7 +87,8 @@ const _products = [
     SizeInput: '123',
     ModelTotal: 'Test Model Total',
     EstimateSelected: false,
-    Allowed: true
+    Allowed: true,
+    NotShowHold: false
   },
   {
     Id: 'a060k000008HeneAAC',
@@ -129,7 +131,8 @@ const _products = [
     SizeInput: '123',
     ModelTotal: 'Test Model Total',
     EstimateSelected: false,
-    Allowed: true
+    Allowed: true,
+    NotShowHold: false
   },
   {
     Id: 'a060k000009HeneAAC',
@@ -172,7 +175,8 @@ const _products = [
     SizeInput: '123',
     ModelTotal: 'Test Model Total',
     EstimateSelected: false,
-    Allowed: true
+    Allowed: true,
+    NotShowHold: false
   },
   {
     Id: 'a060k000010HeneAAC',
@@ -215,7 +219,8 @@ const _products = [
     SizeInput: '123',
     ModelTotal: 'Test Model Total',
     EstimateSelected: false,
-    Allowed: true
+    Allowed: true,
+    NotShowHold: false
   }
 ]
 const _estimate = [
@@ -290,6 +295,8 @@ export default {
                 EstimateName: product.Estimate__c !== undefined ? product.Estimate__r.Name : '',
                 Allowed: (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('在庫') > -1) ||
                 (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('リース中') > -1 &&
+                product.CurrentStatusAuxiliary__c !== undefined && product.CurrentStatusAuxiliary__c.indexOf('返却予定') > -1),
+                NotShowHold: (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('リース中') > -1 &&
                 product.CurrentStatusAuxiliary__c !== undefined && product.CurrentStatusAuxiliary__c.indexOf('返却予定') > -1)
               }
             }))
