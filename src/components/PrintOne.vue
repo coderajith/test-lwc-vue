@@ -7,8 +7,8 @@
             <p>{{product.InventoryNumber}}</p>
           </div>
           <div class="printAreaLeftBody">
-            <img v-if="product.Link && product.Link.length" :src="product.Link" class="printAreaLeftBodyImageTrue"/>
-            <img v-else="checked" src="../assets/image.png" class="printAreaLeftBodyImageFalse"/>
+            <img v-if="product.Link && product.Link.length" :src="product.Link" class="printAreaLeftBodyImageTrue" alt="" onerror="this.onerror=null;"/>
+            <img v-else="checked" src="../assets/image.png" class="printAreaLeftBodyImageFalse" alt="" onerror="this.onerror=null;"/>
           </div>
       </div>
       <div class="printAreaRight">

@@ -182,13 +182,38 @@ export const store = new Vuex.Store({
   },
   actions: {
     getAllProducts: ({commit}) => {
-      InventoryItems.getProducts(products => {
-        InventoryItems.getImageMap(imageMap => {
+      InventoryItems.getInventoryProducts(products => {
+        InventoryItems.getInventoryProductsTwo(productsTwo => {
           products.forEach((product) => {
-            product.Links = imageMap[product.Id]
+            Object.assign(product, productsTwo[product.Id])
           })
-          commit('setProducts', products)
-          commit('setProductsSize', products.length)
+          InventoryItems.getInventoryProductsThree(productsThree => {
+            products.forEach((product) => {
+              Object.assign(product, productsThree[product.Id])
+            })
+            InventoryItems.getInventoryProductsFour(productsFour => {
+              products.forEach((product) => {
+                Object.assign(product, productsFour[product.Id])
+              })
+              InventoryItems.getInventoryProductsFive(productsFive => {
+                products.forEach((product) => {
+                  Object.assign(product, productsFive[product.Id])
+                })
+                InventoryItems.getInventoryProductsSix(productsSix => {
+                  products.forEach((product) => {
+                    Object.assign(product, productsSix[product.Id])
+                  })
+                  InventoryItems.getImageMap(imageMap => {
+                    products.forEach((product) => {
+                      product.Links = imageMap[product.Id]
+                    })
+                    commit('setProducts', products)
+                    commit('setProductsSize', products.length)
+                  })
+                })
+              })
+            })
+          })
         })
       })
     },

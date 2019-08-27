@@ -245,7 +245,7 @@ const _imageMap = {
   a060k000006HeneAAC: ['https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.png', 'https://media.gq.com/photos/5977b52896d98d4091bcf6b7/16:9/w_1280%2Cc_limit/2017-07_GQ_Jet-Lag-TE_3x2.jpg'], a060k000010HeneAAC: []
 }
 export default {
-  getProducts (callback) {
+  getInventoryProducts (callback) {
     if (process.env.NODE_ENV === 'production') {
       LCC.callApex(
         'InventorySearchController.getInventoryProducts',
@@ -255,24 +255,54 @@ export default {
               return {
                 Id: product.Id,
                 InventoryNumber: product.Name !== undefined ? product.Name : '',
-                ProductName: product.OtherProductName__c !== undefined ? product.OtherProductName__c : '',
                 Rank: product.Rank__c !== undefined ? product.Rank__c : '',
                 CurrentStatus: product.CurrentStatus__c !== undefined ? product.CurrentStatus__c : '',
                 CurrentAuxiliaryStatus: product.CurrentStatusAuxiliary__c !== undefined ? product.CurrentStatusAuxiliary__c : '',
-                ManufacturerName: product.MakerMaster__c !== undefined && product.MakerMaster__r.Name !== undefined ? product.MakerMaster__r.Name : '',
                 ProductFixedPrice: product.ProductPrice__c !== undefined ? product.ProductPrice__c : '',
                 Size: product.Size__c !== undefined ? product.Size__c : '',
                 Selected: false,
                 Link: product.PictureURL1__c,
                 LinkPreview: product.PictureURL1__c,
-                Supplier: product.PurchaseName__c !== undefined && product.PurchaseName__r.Name !== undefined ? product.PurchaseName__r.Name : '',
                 CreatedDate: product.CreatedDate,
                 LastModifiedDate: product.LastModifiedDate,
                 EngName: product.EngName__c !== undefined ? product.EngName__c : '',
                 Show: true,
-                BigType: product.ProductCategory__c !== undefined && product.ProductCategory__r.BigType__c !== undefined ? product.ProductCategory__r.BigType__c : '',
-                MediumType: product.ProductCategory__c !== undefined && product.ProductCategory__r.MediumType__c !== undefined ? product.ProductCategory__r.MediumType__c : '',
-                SmallType: product.ProductCategory__c !== undefined && product.ProductCategory__r.SmallType__c !== undefined ? product.ProductCategory__r.SmallType__c : '',
+                EstimateSelect: false,
+                SelectHold: false,
+                Remark: product.Remark__c,
+                Links: [],
+                Allowed: (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('在庫') > -1) ||
+                (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('リース中') > -1 &&
+                product.CurrentStatusAuxiliary__c !== undefined && product.CurrentStatusAuxiliary__c.indexOf('返却予定') > -1),
+                NotShowHold: (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('リース中') > -1 &&
+                product.CurrentStatusAuxiliary__c !== undefined && product.CurrentStatusAuxiliary__c.indexOf('返却予定') > -1)
+              }
+            }))
+          } else if (event.type === 'exception') {
+            console.log(event.message + ' : ' + event.where)
+          } else {
+            console.log('Unknown Error', event)
+          }
+        },
+        {escape: false}
+      )
+    } else {
+      setTimeout(() => callback(_products), 100)
+    }
+  },
+  getInventoryProductsTwo (callback) {
+    if (process.env.NODE_ENV === 'production') {
+      LCC.callApex(
+        'InventorySearchController.getInventoryProductsTwo',
+        (result, event) => {
+          if (event.status) {
+            let data = {}
+            result.map(product => {
+              data[product.Id] = {
+                Id: product.Id,
+                ProductName: product.OtherProductName__c !== undefined ? product.OtherProductName__c : '',
+                Selected: false,
+                Show: true,
                 DateForFilter: product.nyukoyoteibi__c !== undefined ? product.nyukoyoteibi__c : '',
                 SpecialFlg: product.specialFlg__c,
                 Hold: product.HOLD__c,
@@ -281,25 +311,125 @@ export default {
                 Width: product.Width__c !== undefined ? product.Width__c : 0,
                 Depth: product.Depth__c !== undefined ? product.Depth__c : 0,
                 Height: product.Height__c !== undefined ? product.Height__c : 0,
-                Estimate: product.Estimate__c !== undefined ? product.Estimate__c : '',
                 EstimateSelect: false,
                 SelectHold: false,
-                Remark: product.Remark__c,
                 PurchaseRate: product.PurchaseRate__c,
                 RecoveryRate: product.RecoveryRate__c,
                 Links: [],
                 ModelNumber: product.ModelNumber__c !== undefined ? product.ModelNumber__c : '',
                 SizeInput: product.sizeInput__c !== undefined ? product.sizeInput__c : '',
-                ModelTotal: product.ModelTotal__c !== undefined ? product.ModelTotal__c : '',
-                EstimateSelected: product.Estimate__c !== undefined,
-                EstimateName: product.Estimate__c !== undefined ? product.Estimate__r.Name : '',
-                Allowed: (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('在庫') > -1) ||
-                (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('リース中') > -1 &&
-                product.CurrentStatusAuxiliary__c !== undefined && product.CurrentStatusAuxiliary__c.indexOf('返却予定') > -1),
-                NotShowHold: (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('リース中') > -1 &&
-                product.CurrentStatusAuxiliary__c !== undefined && product.CurrentStatusAuxiliary__c.indexOf('返却予定') > -1)
+                ModelTotal: product.ModelTotal__c !== undefined ? product.ModelTotal__c : ''
               }
-            }))
+            })
+            callback(data)
+          } else if (event.type === 'exception') {
+            console.log(event.message + ' : ' + event.where)
+          } else {
+            console.log('Unknown Error', event)
+          }
+        },
+        {escape: false}
+      )
+    } else {
+      setTimeout(() => callback(_products), 100)
+    }
+  },
+  getInventoryProductsThree (callback) {
+    if (process.env.NODE_ENV === 'production') {
+      LCC.callApex(
+        'InventorySearchController.getInventoryProductsThree',
+        (result, event) => {
+          if (event.status) {
+            let data = {}
+            result.map(product => {
+              data[product.Id] = {
+                Id: product.Id,
+                BigType: product.ProductCategory__c !== undefined && product.ProductCategory__r.BigType__c !== undefined ? product.ProductCategory__r.BigType__c : '',
+                MediumType: product.ProductCategory__c !== undefined && product.ProductCategory__r.MediumType__c !== undefined ? product.ProductCategory__r.MediumType__c : '',
+                SmallType: product.ProductCategory__c !== undefined && product.ProductCategory__r.SmallType__c !== undefined ? product.ProductCategory__r.SmallType__c : ''
+              }
+            })
+            callback(data)
+          } else if (event.type === 'exception') {
+            console.log(event.message + ' : ' + event.where)
+          } else {
+            console.log('Unknown Error', event)
+          }
+        },
+        {escape: false}
+      )
+    } else {
+      setTimeout(() => callback(_products), 100)
+    }
+  },
+  getInventoryProductsFour (callback) {
+    if (process.env.NODE_ENV === 'production') {
+      LCC.callApex(
+        'InventorySearchController.getInventoryProductsFour',
+        (result, event) => {
+          if (event.status) {
+            let data = {}
+            result.map(product => {
+              data[product.Id] = {
+                Id: product.Id,
+                Estimate: product.Estimate__c !== undefined ? product.Estimate__c : '',
+                EstimateSelected: product.Estimate__c !== undefined,
+                EstimateName: product.Estimate__c !== undefined ? product.Estimate__r.Name : ''
+              }
+            })
+            callback(data)
+          } else if (event.type === 'exception') {
+            console.log(event.message + ' : ' + event.where)
+          } else {
+            console.log('Unknown Error', event)
+          }
+        },
+        {escape: false}
+      )
+    } else {
+      setTimeout(() => callback(_products), 100)
+    }
+  },
+  getInventoryProductsFive (callback) {
+    if (process.env.NODE_ENV === 'production') {
+      LCC.callApex(
+        'InventorySearchController.getInventoryProductsFive',
+        (result, event) => {
+          if (event.status) {
+            let data = {}
+            result.map(product => {
+              data[product.Id] = {
+                Id: product.Id,
+                Supplier: product.PurchaseName__c !== undefined && product.PurchaseName__r.Name !== undefined ? product.PurchaseName__r.Name : ''
+              }
+            })
+            callback(data)
+          } else if (event.type === 'exception') {
+            console.log(event.message + ' : ' + event.where)
+          } else {
+            console.log('Unknown Error', event)
+          }
+        },
+        {escape: false}
+      )
+    } else {
+      setTimeout(() => callback(_products), 100)
+    }
+  },
+  getInventoryProductsSix (callback) {
+    if (process.env.NODE_ENV === 'production') {
+      LCC.callApex(
+        'InventorySearchController.getInventoryProductsSix',
+        (result, event) => {
+          if (event.status) {
+            let data = {}
+            result.map(product => {
+              data[product.Id] = {
+                Id: product.Id,
+                ManufacturerName: product.MakerMaster__c !== undefined && product.MakerMaster__r.Name !== undefined ? product.MakerMaster__r.Name : ''
+              }
+            })
+            callback(data)
           } else if (event.type === 'exception') {
             console.log(event.message + ' : ' + event.where)
           } else {

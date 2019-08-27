@@ -1,8 +1,8 @@
 <template>
   <div :class="classObject">
     <div class="selectedImageContainer" @click="select()">
-      <img v-if="product.Link && product.Link.length" :src="product.Link" class="selectedInventoryCardImage"/>
-      <img v-else="checked" src="../assets/image.png" class="selectedInventoryCardImageNotExist"/>
+      <img v-if="product.Link && product.Link.length" :src="product.Link" class="selectedInventoryCardImage" alt="" onerror="this.onerror=null;"/>
+      <img v-else="checked" src="../assets/image.png" class="selectedInventoryCardImageNotExist" alt="" onerror="this.onerror=null;"/>
     </div>
     <div class="roundSelected" @click="isImageModalActive = true">
       <font-awesome-icon icon="info-circle" />
@@ -26,13 +26,13 @@
         <div class="modalBody">
           <div style="display: flex;">
             <div class="leftContainer">
-              <img v-if="product.LinkPreview && product.LinkPreview.length" :src="product.LinkPreview" class="selectedInventoryCardImage500"/>
-              <img v-else="checked" src="../assets/image.png" class="selectedInventoryCardImageNotExist500"/>
+              <img v-if="product.LinkPreview && product.LinkPreview.length" :src="product.LinkPreview" class="selectedInventoryCardImage500" alt="" onerror="this.onerror=null;"/>
+              <img v-else="checked" src="../assets/image.png" class="selectedInventoryCardImageNotExist500" alt="" onerror="this.onerror=null;"/>
             </div>
             <div class="rightContainer">
               <div class="conteinerImageRight">
                 <div :class="[image === product.LinkPreview ? 'imageContainerRightGreenSelected' : 'imageContainerRight']" v-for="image in product.Links">
-                  <img :src="image" class="images" @click="selectImage(image)"/>
+                  <img :src="image" class="images" @click="selectImage(image)" alt="" onerror="this.onerror=null;"/>
                 </div>
               </div>
             </div>

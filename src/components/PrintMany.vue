@@ -10,8 +10,8 @@
             <div v-for="product in products" class="printManyCardsContainer">
               <div>
                 <div class="printManyCardsContainerCard">
-                  <img v-if="product.Link && product.Link.length" :src="product.Link" class="printManyCardsContainerCardTrue"/>
-                  <img v-else="checked" src="../assets/image.png" class="printManyCardsContainerCardFalse"/>
+                  <img v-if="product.Link && product.Link.length" :src="product.Link" class="printManyCardsContainerCardTrue" alt="" onerror="this.onerror=null;"/>
+                  <img v-else="checked" src="../assets/image.png" class="printManyCardsContainerCardFalse" alt="" onerror="this.onerror=null;"/>
                 </div>
                 <div>
                   <div class="textContainer" style="min-height: 36px; max-height: 36px;">
@@ -92,7 +92,7 @@
           <p>Tel:03-5402-4600　Fax:03-5402-4660</p>
         </div>
         <div class="logo">
-          <img src="../assets/image.png"/>
+          <img src="../assets/image.png" alt="" onerror="this.onerror=null;"/>
         </div>
       </div>
     </div>

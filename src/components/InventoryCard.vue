@@ -1,8 +1,8 @@
 <template>
   <div v-bind:style="product.Allowed || product.Selected || product.EstimateSelected? 'cursor: pointer; padding: 4px;' : 'cursor: not-allowed; padding: 4px;' " class="cardDiv">
     <div class="imageContainer" @click="check()">
-      <img v-if="product.Link && product.Link.length" :src="product.Link" class="inventoryCardImage"/>
-      <img v-else="product.Selected" src="../assets/image.png" class="inventoryCardImageNotExist"/>
+      <img v-if="product.Link && product.Link.length" :src="product.Link" class="inventoryCardImage" alt="" onerror="this.onerror=null;"/>
+      <img v-else="product.Selected" src="../assets/image.png" class="inventoryCardImageNotExist" alt="" onerror="this.onerror=null;"/>
     </div>
     <div class="round" @click="isImageModalActive = true">
       <font-awesome-icon icon="info-circle" />
@@ -29,13 +29,13 @@
         <div class="modalBody">
           <div style="display: flex;">
             <div class="leftContainer">
-              <img v-if="product.LinkPreview && product.LinkPreview.length" :src="product.LinkPreview" class="selectedInventoryCardImage500"/>
-              <img v-else="checked" src="../assets/image.png" class="selectedInventoryCardImageNotExist500"/>
+              <img v-if="product.LinkPreview && product.LinkPreview.length" :src="product.LinkPreview" class="selectedInventoryCardImage500" alt="" onerror="this.onerror=null;"/>
+              <img v-else="checked" src="../assets/image.png" class="selectedInventoryCardImageNotExist500" alt="" onerror="this.onerror=null;"/>
             </div>
             <div class="rightContainer">
               <div class="conteinerImageRight">
                 <div :class="[image === product.LinkPreview ? 'imageContainerRightGreenSelected' : 'imageContainerRight']" v-for="image in product.Links">
-                  <img :src="image" class="images" @click="selectImage(image)"/>
+                  <img :src="image" class="images" @click="selectImage(image)" alt="" onerror="this.onerror=null;"/>
                 </div>
               </div>
             </div>
