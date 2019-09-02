@@ -511,14 +511,21 @@ export default {
   },
   updateProductEstimate (estimateId, productId, callback) {
     if (process.env.NODE_ENV === 'production') {
-      let msg = {
-        estimateId: estimateId,
-        productId: productId,
-        type: 'Update Product Estimate'
-      }
-      LCC.sendMessage(msg)
+      LCC.callApex(
+        'InventorySearchController.updateProductEstimate', JSON.stringify({estimateId: estimateId, productId: productId}),
+        (result, event) => {
+          if (event.status) {
+            console.log('Updated')
+          } else if (event.type === 'exception') {
+            console.log(event.message + ' : ' + event.where)
+          } else {
+            console.log('Unknown Error', event)
+          }
+        },
+        {escape: false}
+      )
     } else {
-      setTimeout(() => console.log('Update Product Estimate ' + estimateId + ' ' + productId), 100)
+      setTimeout(() => console.log('Updated'), 100)
     }
   },
   updateEstimates (callback) {

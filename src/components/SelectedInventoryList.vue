@@ -28,8 +28,8 @@
       <p v-if="getSelectedHoldCount == 0" class="numberSelected">HOLD件数: {{selectedItems}}</p>
       <p v-if="getSelectedHoldCount > 0" class="numberSelected">選択件数: {{getSelectedHoldCount}}</p>
     </div>
-    <PrintOne id="PrintOne" v-if="selectedOneProduct !== null" :product="selectedOneProduct" style="visibility: hidden; display: none !important;" />
-    <PrintMany id="PrintMany" v-if="selectedManyProduct !== null" :products="selectedManyProduct" :estimate="selected" style="visibility: hidden; display: none !important;" />
+    <PrintOne id="PrintOne" v-if="selectedOneProduct !== null && selectedOneProduct !== undefined" :product="selectedOneProduct" style="visibility: hidden; display: none !important;" />
+    <PrintMany id="PrintMany" v-if="selectedManyProduct !== null && selectedManyProduct !== undefined" :products="selectedManyProduct" :estimate="selected" style="visibility: hidden; display: none !important;" />
     <div class="scroll" id="printMe">
       <div v-for="product in products">
         <SelectedInventoryCard :product="product"/>
@@ -103,8 +103,6 @@ export default {
     LCC.addMessageHandler(this.updateEstimates)
     if (!this.products) {
       this.$store.dispatch('getInventoryProductsForQuote', this.selected.Id)
-      // this.$store.dispatch('getAllProducts')
-      // this.$store.dispatch('getInventoryProductsWithFilter')
     }
     if (!this.estimates) {
       this.$store.dispatch('getAllEstimate')
@@ -187,6 +185,14 @@ export default {
         this.$store.commit('addQuoteName', this.selected.Name)
         this.$store.dispatch('getInventoryProductsForQuote', this.selected.Id)
         this.$store.state.products.forEach(item => {
+          if (item.Estimate.length === 0 && item.Selected) {
+            item.Estimate = this.selected.Id
+            item.EstimateName = this.selected.Name
+            item.EstimateSelect = true
+            item.EstimateSelected = true
+          }
+        })
+        this.$store.state.productsQuote.forEach(item => {
           if (item.Estimate.length === 0 && item.Selected) {
             item.Estimate = this.selected.Id
             item.EstimateName = this.selected.Name

@@ -82,6 +82,8 @@ export const store = new Vuex.Store({
           result.push(item)
         } else {
           itemIds.push(item.Id)
+          state.selectedHoldCount = state.selectedHoldCount - 1
+          state.selectedItems = state.selectedItems - 1
         }
       })
 
@@ -93,8 +95,6 @@ export const store = new Vuex.Store({
           item.SelectHold = false
           item.Selected = false
           item.EstimateSelected = false
-          state.selectedHoldCount = state.selectedHoldCount - 1
-          state.selectedItems = state.selectedItems - 1
         }
       })
     },
