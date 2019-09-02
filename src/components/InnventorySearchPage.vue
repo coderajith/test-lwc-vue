@@ -149,7 +149,7 @@ export default {
       let orderName = localStorage.getItem('orderName')
       this.order = orderName
     } else {
-      localStorage.setItem('orderName', 'updateAsc')
+      localStorage.setItem('orderName', 'LastModifiedDate ASC')
     }
   },
   methods: {
