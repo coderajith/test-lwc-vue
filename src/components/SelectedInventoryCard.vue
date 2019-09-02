@@ -81,16 +81,6 @@ export default {
       this.$store.commit('updateSelectedHold', this.product.SelectHold ? 1 : -1)
       this.$store.commit('updateProduct', this.product)
     },
-    selectHold: function () {
-      if (this.product.SelectHold && this.$store.state.quote !== null) {
-        this.product.Estimate = ''
-        this.product.EstimateSelect = true
-        this.$store.commit('updateProduct', this.product)
-        this.$store.dispatch({type: 'updateProductEstimate', estimateId: '', productId: this.product.Id})
-      }
-
-      this.$store.commit('deselectOneProduct', this.product.Id)
-    },
     moveToPage: function () {
       this.$store.dispatch({ type: 'navigateToEstimate', estimateId: this.product.Id })
     },

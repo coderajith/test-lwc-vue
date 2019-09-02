@@ -8,13 +8,31 @@
           <p class="inventorySearchPageTitle">検索結果件数: {{ productSize }}</p>
           <b-field>
             <b-select v-model="order" @input="sort()">
-              <option value="createDesc">登録日が新しい順</option>
-              <option value="createAsc">登録日が古い順</option>
-              <option value="updateDesc">最終更新日が新しい順</option>
-              <option value="updateAsc">最終更新日が古い順</option>
+              <option value="CreatedDate DESC">登録日が新しい順</option>
+              <option value="CreatedDate ASC">登録日が古い順</option>
+              <option value="LastModifiedDate DESC">最終更新日が新しい順</option>
+              <option value="LastModifiedDate ASC">最終更新日が古い順</option>
             </b-select>
           </b-field>
         </div>
+      </div>
+      <div style="padding: 0.5rem;">
+        <b-pagination
+            :total="productSize"
+            :current="this.$store.state.currentPage"
+            @change="paginate"
+            range-before="1"
+            range-after="1"
+            order="is-centered"
+            size=""
+            :simple="simple"
+            :rounded="rounded"
+            per-page="30"
+            aria-next-label="Next page"
+            aria-previous-label="Previous page"
+            aria-page-label="Page"
+            aria-current-label="Current page">
+        </b-pagination>
       </div>
       <div class="productContainerList">
         <div class="productContainer" v-for="product in products">
@@ -39,53 +57,90 @@ export default {
   },
   data () {
     return {
-      order: 'updateAsc',
-      syncneed: false
+      rangeBefore: 1,
+      rangeAfter: 1,
+      simple: false,
+      rounded: true,
+      order: 'LastModifiedDate ASC',
+      syncneed: false,
+      lang: {
+        days: ['日', '月', '火', '水', '木', '金', '土']
+      },
+      keywordSearchValue: '',
+      bigType: null,
+      mediumType: null,
+      smallType: null,
+      currentStatus: [false, true, true, false],
+      dateForFilter: [],
+      specialFlg: true,
+      hold: false,
+      longOrShort: true,
+      checkboxGroup: ['A', 'B', 'C', 'D', 'M', 'N', 'S', 'P', 'ランク未確定'],
+      unitPrice: [0, 9999999],
+      size: [0, 9999999, 0, 9999999, 0, 9999999],
+      isOpenOne: true,
+      isOpenSecond: true,
+      isOpenThree: true,
+      isOpenFour: true,
+      big: [],
+      medium: [],
+      small: []
     }
   },
   computed: {
     products () {
-      if (localStorage.getItem('dataDilter') != null && this.$store.state.products != null) {
-        let allData = JSON.parse(localStorage.getItem('dataDilter'))
-        this.$store.commit('keywordSearch', [
-          allData.keywordSearchValue,
-          allData.bigType != null ? allData.bigType : '',
-          allData.mediumType != null ? allData.mediumType : '',
-          allData.smallType != null ? allData.smallType : '',
-          allData.currentStatus,
-          allData.dateForFilter,
-          allData.specialFlg,
-          allData.hold,
-          allData.longOrShort,
-          allData.checkboxGroup,
-          allData.unitPrice,
-          allData.size
-        ])
-        this.$store.commit('calculateProducts')
-        this.$store.commit(this.order)
-      }
       return this.$store.state.products
-    },
-    estimates () {
-      return this.$store.state.estimates
     },
     productSize () {
       if (this.$store.state.products === null) {
         return 0
       } else {
-        if (!this.syncneed) {
-          this.$store.commit('keywordSearch', ['', '', '', '', [false, true, true, false], [], true, false, true, ['A', 'B', 'C', 'D', 'M', 'N', 'S', 'P', 'ランク未確定'], [0, 9999999], [0, 9999999, 0, 9999999, 0, 9999999]])
-          this.$store.commit('calculateProducts')
-          this.syncneed = true
-        }
-        return this.$store.state.products.filter(prod => prod.Show).length
+        return this.$store.state.productsSize
       }
     }
   },
   created () {
     this.$store.dispatch('filterIsOpen')
+    if (this.big.length === 0) {
+      this.$store.dispatch('getAllTypes')
+    }
+    if (localStorage.getItem('orderName') != null) {
+      this.order = localStorage.getItem('orderName')
+    }
+    if (localStorage.getItem('dataDilter') != null) {
+      let allData = JSON.parse(localStorage.getItem('dataDilter'))
+      this.keywordSearchValue = allData.keywordSearchValue
+      this.bigType = allData.bigType
+      this.mediumType = allData.mediumType
+      this.smallType = allData.smallType
+      this.specialFlg = allData.specialFlg
+      this.hold = allData.hold
+      this.longOrShort = allData.longOrShort
+      this.currentStatus = allData.currentStatus
+      this.dateForFilter = allData.dateForFilter
+      this.checkboxGroup = allData.checkboxGroup
+      this.unitPrice = allData.unitPrice
+      this.size = allData.size
+    } else {
+      localStorage.setItem('dataDilter', JSON.stringify(this.$data))
+    }
     if (!this.products) {
-      this.$store.dispatch('getAllProducts')
+      this.$store.dispatch('getInventoryProductsWithFilter', {
+        keywordSearchValue: this.keywordSearchValue,
+        bigType: this.bigType != null ? this.bigType : '',
+        mediumType: this.mediumType != null ? this.mediumType : '',
+        smallType: this.smallType != null ? this.smallType : '',
+        currentStatus: this.currentStatus,
+        dateForFilter: this.dateForFilter,
+        specialFlg: this.specialFlg,
+        hold: this.hold,
+        longOrShort: this.longOrShort,
+        checkboxGroup: this.checkboxGroup,
+        unitPrice: this.unitPrice,
+        size: this.size,
+        orderName: this.order,
+        offsetSize: 0
+      })
     }
     if (!this.estimates) {
       this.$store.dispatch('getAllEstimate')
@@ -99,22 +154,58 @@ export default {
   },
   methods: {
     sort: function () {
-      if (this.order === 'createDesc') {
-        localStorage.setItem('orderName', 'createDesc')
-        this.$store.commit('createDesc')
+      this.$store.commit('setSpinner')
+      if (this.order === 'CreatedDate DESC') {
+        localStorage.setItem('orderName', 'CreatedDate DESC')
       }
-      if (this.order === 'createAsc') {
-        localStorage.setItem('orderName', 'createAsc')
-        this.$store.commit('createAsc')
+      if (this.order === 'CreatedDate ASC') {
+        localStorage.setItem('orderName', 'CreatedDate ASC')
       }
-      if (this.order === 'updateDesc') {
-        localStorage.setItem('orderName', 'updateDesc')
-        this.$store.commit('updateDesc')
+      if (this.order === 'LastModifiedDate DESC') {
+        localStorage.setItem('orderName', 'LastModifiedDate DESC')
       }
-      if (this.order === 'updateAsc') {
-        localStorage.setItem('orderName', 'updateAsc')
-        this.$store.commit('updateAsc')
+      if (this.order === 'LastModifiedDate ASC') {
+        localStorage.setItem('orderName', 'LastModifiedDate ASC')
       }
+
+      let offsetSize = this.$store.state.currentPage > 0 ? (this.$store.state.currentPage - 1) * 30 : 0
+      this.$store.dispatch('getInventoryProductsWithFilter', {
+        keywordSearchValue: this.keywordSearchValue,
+        bigType: this.bigType != null ? this.bigType : '',
+        mediumType: this.mediumType != null ? this.mediumType : '',
+        smallType: this.smallType != null ? this.smallType : '',
+        currentStatus: this.currentStatus,
+        dateForFilter: this.dateForFilter,
+        specialFlg: this.specialFlg,
+        hold: this.hold,
+        longOrShort: this.longOrShort,
+        checkboxGroup: this.checkboxGroup,
+        unitPrice: this.unitPrice,
+        size: this.size,
+        orderName: this.order,
+        offsetSize: offsetSize
+      })
+    },
+    paginate: function (page) {
+      this.$store.commit('setSpinner')
+      let offsetSize = page > 0 ? (page - 1) * 30 : 0
+      this.$store.commit('setCurrentPage', page)
+      this.$store.dispatch('getInventoryProductsWithFilter', {
+        keywordSearchValue: this.keywordSearchValue,
+        bigType: this.bigType != null ? this.bigType : '',
+        mediumType: this.mediumType != null ? this.mediumType : '',
+        smallType: this.smallType != null ? this.smallType : '',
+        currentStatus: this.currentStatus,
+        dateForFilter: this.dateForFilter,
+        specialFlg: this.specialFlg,
+        hold: this.hold,
+        longOrShort: this.longOrShort,
+        checkboxGroup: this.checkboxGroup,
+        unitPrice: this.unitPrice,
+        size: this.size,
+        orderName: this.order,
+        offsetSize: offsetSize
+      })
     }
   }
 }

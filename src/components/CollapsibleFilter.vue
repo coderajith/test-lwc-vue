@@ -18,7 +18,7 @@
             </div>
             <div>
               <b-field>
-                <b-input @input="keywordSearch" v-model="keywordSearchValue" placeholder="キーワードを入力"></b-input>
+                <b-input @input="keywordSearchText" v-model="keywordSearchValue" placeholder="キーワードを入力"></b-input>
               </b-field>
             </div>
         </b-collapse>
@@ -216,12 +216,16 @@ export default {
       isOpenFour: true,
       big: [],
       medium: [],
-      small: []
+      small: [],
+      order: 'LastModifiedDate ASC'
     }
   },
   created () {
     if (this.big.length === 0) {
       this.$store.dispatch('getAllTypes')
+    }
+    if (localStorage.getItem('orderName') != null) {
+      this.order = localStorage.getItem('orderName')
     }
     if (localStorage.getItem('dataDilter') != null) {
       let allData = JSON.parse(localStorage.getItem('dataDilter'))
@@ -287,6 +291,8 @@ export default {
       this.$store.commit('setIsOpen', !this.$store.state.isOpen)
     },
     clearFilter: function () {
+      this.$store.commit('setSpinner')
+      this.$store.commit('setCurrentPage', 1)
       this.keywordSearchValue = ''
       this.bigType = null
       this.mediumType = null
@@ -299,78 +305,108 @@ export default {
       this.checkboxGroup = ['A', 'B', 'C', 'D', 'M', 'N', 'S', 'P', 'ランク未確定']
       this.unitPrice = [0, 9999999]
       this.size = [0, 9999999, 0, 9999999, 0, 9999999]
-      this.$store.commit('keywordSearch', [
-        this.keywordSearchValue,
-        '',
-        '',
-        '',
-        this.currentStatus,
-        this.dateForFilter,
-        this.specialFlg,
-        this.hold,
-        this.longOrShort,
-        this.checkboxGroup,
-        this.unitPrice,
-        this.size
-      ])
-      this.$store.commit('calculateProducts')
+      this.$store.dispatch('getInventoryProductsWithFilter', {
+        keywordSearchValue: this.keywordSearchValue,
+        bigType: this.bigType != null ? this.bigType : '',
+        mediumType: this.mediumType != null ? this.mediumType : '',
+        smallType: this.smallType != null ? this.smallType : '',
+        currentStatus: this.currentStatus,
+        dateForFilter: this.dateForFilter,
+        specialFlg: this.specialFlg,
+        hold: this.hold,
+        longOrShort: this.longOrShort,
+        checkboxGroup: this.checkboxGroup,
+        unitPrice: this.unitPrice,
+        size: this.size,
+        orderName: this.order,
+        offsetSize: 0
+      })
       localStorage.setItem('dataDilter', JSON.stringify(this.$data))
     },
     keywordSearch: function () {
-      this.$store.commit('keywordSearch', [
-        this.keywordSearchValue,
-        this.bigType != null ? this.bigType : '',
-        this.mediumType != null ? this.mediumType : '',
-        this.smallType != null ? this.smallType : '',
-        this.currentStatus,
-        this.dateForFilter,
-        this.specialFlg,
-        this.hold,
-        this.longOrShort,
-        this.checkboxGroup,
-        this.unitPrice,
-        this.size
-      ])
-      this.$store.commit('calculateProducts')
+      this.$store.commit('setSpinner')
+      this.$store.commit('setCurrentPage', 1)
+      this.$store.dispatch('getInventoryProductsWithFilter', {
+        keywordSearchValue: this.keywordSearchValue,
+        bigType: this.bigType != null ? this.bigType : '',
+        mediumType: this.mediumType != null ? this.mediumType : '',
+        smallType: this.smallType != null ? this.smallType : '',
+        currentStatus: this.currentStatus,
+        dateForFilter: this.dateForFilter,
+        specialFlg: this.specialFlg,
+        hold: this.hold,
+        longOrShort: this.longOrShort,
+        checkboxGroup: this.checkboxGroup,
+        unitPrice: this.unitPrice,
+        size: this.size,
+        orderName: this.order,
+        offsetSize: 0
+      })
+      localStorage.setItem('dataDilter', JSON.stringify(this.$data))
+    },
+    keywordSearchText: function () {
+      this.$store.commit('setCurrentPage', 1)
+      this.$store.dispatch('getInventoryProductsWithFilter', {
+        keywordSearchValue: this.keywordSearchValue,
+        bigType: this.bigType != null ? this.bigType : '',
+        mediumType: this.mediumType != null ? this.mediumType : '',
+        smallType: this.smallType != null ? this.smallType : '',
+        currentStatus: this.currentStatus,
+        dateForFilter: this.dateForFilter,
+        specialFlg: this.specialFlg,
+        hold: this.hold,
+        longOrShort: this.longOrShort,
+        checkboxGroup: this.checkboxGroup,
+        unitPrice: this.unitPrice,
+        size: this.size,
+        orderName: this.order,
+        offsetSize: 0
+      })
       localStorage.setItem('dataDilter', JSON.stringify(this.$data))
     },
     keywordSearchBig: function () {
+      this.$store.commit('setSpinner')
+      this.$store.commit('setCurrentPage', 1)
       this.mediumType = null
       this.smallType = null
-      this.$store.commit('keywordSearch', [
-        this.keywordSearchValue,
-        this.bigType != null ? this.bigType : '',
-        this.mediumType != null ? this.mediumType : '',
-        this.smallType != null ? this.smallType : '',
-        this.currentStatus,
-        this.dateForFilter,
-        this.specialFlg,
-        this.hold,
-        this.longOrShort,
-        this.checkboxGroup,
-        this.unitPrice,
-        this.size
-      ])
-      this.$store.commit('calculateProducts')
+      this.$store.dispatch('getInventoryProductsWithFilter', {
+        keywordSearchValue: this.keywordSearchValue,
+        bigType: this.bigType != null ? this.bigType : '',
+        mediumType: this.mediumType != null ? this.mediumType : '',
+        smallType: this.smallType != null ? this.smallType : '',
+        currentStatus: this.currentStatus,
+        dateForFilter: this.dateForFilter,
+        specialFlg: this.specialFlg,
+        hold: this.hold,
+        longOrShort: this.longOrShort,
+        checkboxGroup: this.checkboxGroup,
+        unitPrice: this.unitPrice,
+        size: this.size,
+        orderName: this.order,
+        offsetSize: 0
+      })
       localStorage.setItem('dataDilter', JSON.stringify(this.$data))
     },
     keywordSearchMedium: function () {
+      this.$store.commit('setSpinner')
+      this.$store.commit('setCurrentPage', 1)
       this.smallType = null
-      this.$store.commit('keywordSearch', [
-        this.keywordSearchValue,
-        this.bigType != null ? this.bigType : '',
-        this.mediumType != null ? this.mediumType : '',
-        this.smallType != null ? this.smallType : '',
-        this.currentStatus,
-        this.dateForFilter,
-        this.specialFlg,
-        this.hold,
-        this.longOrShort,
-        this.checkboxGroup,
-        this.unitPrice,
-        this.size
-      ])
-      this.$store.commit('calculateProducts')
+      this.$store.dispatch('getInventoryProductsWithFilter', {
+        keywordSearchValue: this.keywordSearchValue,
+        bigType: this.bigType != null ? this.bigType : '',
+        mediumType: this.mediumType != null ? this.mediumType : '',
+        smallType: this.smallType != null ? this.smallType : '',
+        currentStatus: this.currentStatus,
+        dateForFilter: this.dateForFilter,
+        specialFlg: this.specialFlg,
+        hold: this.hold,
+        longOrShort: this.longOrShort,
+        checkboxGroup: this.checkboxGroup,
+        unitPrice: this.unitPrice,
+        size: this.size,
+        orderName: this.order,
+        offsetSize: 0
+      })
       localStorage.setItem('dataDilter', JSON.stringify(this.$data))
     }
   }

@@ -32,7 +32,7 @@
     <PrintMany id="PrintMany" v-if="selectedManyProduct !== null" :products="selectedManyProduct" :estimate="selected" style="visibility: hidden; display: none !important;" />
     <div class="scroll" id="printMe">
       <div v-for="product in products">
-        <SelectedInventoryCard v-if="product.Selected" :product="product"/>
+        <SelectedInventoryCard :product="product"/>
       </div>
     </div>
   </div>
@@ -61,9 +61,9 @@ export default {
   computed: {
     getSelectedHoldCount () {
       if (this.$store.state.selectedHoldCount === 1) {
-        this.selectedOneProduct = this.$store.state.products.filter(item => item.SelectHold === true)[0]
+        this.selectedOneProduct = this.$store.state.productsQuote.filter(item => item.SelectHold === true)[0]
       } else if (this.$store.state.selectedHoldCount > 1) {
-        this.selectedManyProduct = this.$store.state.products.filter(item => item.SelectHold === true)
+        this.selectedManyProduct = this.$store.state.productsQuote.filter(item => item.SelectHold === true)
       } else {
         this.selectedOneProduct = null
         this.selectedManyProduct = null
@@ -74,7 +74,7 @@ export default {
       return this.$store.state.quote === null
     },
     products () {
-      return this.$store.state.products
+      return this.$store.state.productsQuote
     },
     estimates () {
       if (this.$store.state.estimates === null) {
@@ -84,7 +84,7 @@ export default {
       }
     },
     selectedItems () {
-      return this.$store.state.selectedItems
+      return this.$store.state.productsQuoteSize
     },
     filteredDataObj () {
       return this.estimates.filter((option) => {
@@ -102,7 +102,9 @@ export default {
   created () {
     LCC.addMessageHandler(this.updateEstimates)
     if (!this.products) {
-      this.$store.dispatch('getAllProducts')
+      this.$store.dispatch('getInventoryProductsForQuote', this.selected.Id)
+      // this.$store.dispatch('getAllProducts')
+      // this.$store.dispatch('getInventoryProductsWithFilter')
     }
     if (!this.estimates) {
       this.$store.dispatch('getAllEstimate')
@@ -110,7 +112,7 @@ export default {
   },
   methods: {
     updateEstimates: function (message) {
-      let estimate = JSON.parse(message.value)
+      let estimate = JSON.parse(message.value)[0]
       let newEstimate = {
         Id: estimate.Id,
         Name: estimate.Name,
@@ -167,7 +169,7 @@ export default {
       WinPrint.print()
     },
     deselectProduct () {
-      this.$store.state.products.forEach((item) => {
+      this.$store.state.productsQuote.forEach((item) => {
         if (item.SelectHold && this.$store.state.quote !== null) {
           item.Estimate = ''
           item.EstimateName = ''
@@ -183,6 +185,7 @@ export default {
       if (this.selected !== null) {
         this.$store.commit('addQuote', this.selected.Id)
         this.$store.commit('addQuoteName', this.selected.Name)
+        this.$store.dispatch('getInventoryProductsForQuote', this.selected.Id)
         this.$store.state.products.forEach(item => {
           if (item.Estimate.length === 0 && item.Selected) {
             item.Estimate = this.selected.Id
@@ -199,6 +202,8 @@ export default {
             this.$store.commit('updateSelectedHold', -1)
           }
         })
+        this.$store.commit('setProductsQuote', [])
+        this.$store.commit('setProductsQuoteSize', 0)
         this.$store.commit('addQuote', null)
       }
     },

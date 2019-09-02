@@ -86,6 +86,10 @@ export default {
         this.$store.commit('updateProduct', this.product)
         this.$store.commit('updateSelected', 1)
         this.isImageModalActive = false
+        let productsQuote = this.$store.state.productsQuote
+        productsQuote.push(this.product)
+        this.$store.commit('setProductsQuote', productsQuote)
+        this.$store.commit('setProductsQuoteSize', this.$store.state.productsQuoteSize + 1)
       }
     },
     navigateToDetails: function () {
