@@ -7,16 +7,26 @@ import { store } from './store'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faInfoCircle, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faInfoCircle, faArrowLeft, faArrowRight, faCheck, faCheckCircle, faExclamationTriangle, faExclamationCircle,
+  faArrowUp, faAngleRight, faAngleLeft, faAngleDown,
+  faEye, faEyeSlash, faCaretDown, faCaretUp, faUpload } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import vueNumeralFilterInstaller from 'vue-numeral-filter'
 
+library.add(faCheck, faCheckCircle, faInfoCircle, faExclamationTriangle, faExclamationCircle,
+  faArrowUp, faAngleRight, faAngleLeft, faAngleDown,
+  faEye, faEyeSlash, faCaretDown, faCaretUp, faUpload)
+
 library.add(faInfoCircle, faArrowLeft, faArrowRight)
 
+Vue.component('vue-fontawesome', FontAwesomeIcon)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
-Vue.use(Buefy)
+Vue.use(Buefy, {
+  defaultIconComponent: 'vue-fontawesome',
+  defaultIconPack: 'fas'
+})
 Vue.use(vueNumeralFilterInstaller)
 /* eslint-disable no-new */
 new Vue({

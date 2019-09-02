@@ -28,6 +28,7 @@
             :simple="simple"
             :rounded="rounded"
             per-page="30"
+            icon-pack="fa"
             aria-next-label="Next page"
             aria-previous-label="Previous page"
             aria-page-label="Page"
