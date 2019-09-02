@@ -36,8 +36,24 @@ export const store = new Vuex.Store({
     setQuote: (state, payload) => { state.quote = payload },
     setCurrentPage: (state, payload) => { state.currentPage = payload },
     setProducts: (state, payload) => {
-      state.products = payload
       state.spinner = false
+      if (payload.length < 1) {
+        state.products = []
+      } else {
+        let ids = []
+        if (state.quote === null || state.quote === '') {
+          state.productsQuote.forEach(item => {
+            ids.push(item.Id)
+          })
+          payload.forEach(item => {
+            if (ids.includes(item.Id)) {
+              item.Selected = true
+              item.isImageModalActive = false
+            }
+          })
+        }
+        state.products = payload
+      }
     },
     setEstimates: (state, payload) => { state.estimates = payload },
     setTypes: (state, payload) => {

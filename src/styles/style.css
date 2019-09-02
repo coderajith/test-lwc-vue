@@ -87,6 +87,7 @@ body {
   height: -webkit-fill-available;
   height: fill-available;
   max-height: 100vh;
+  padding-bottom: 52px;
 }
 .productContainer {
   position: relative;

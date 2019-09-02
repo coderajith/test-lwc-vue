@@ -18,7 +18,7 @@
             </div>
             <div>
               <b-field>
-                <b-input @input="keywordSearchText" v-model="keywordSearchValue" placeholder="キーワードを入力"></b-input>
+                <b-input @keyup.native.enter="keywordSearch" v-model="keywordSearchValue" placeholder="キーワードを入力"></b-input>
               </b-field>
             </div>
         </b-collapse>
@@ -125,11 +125,11 @@
                 <p class="inputLabel">計算価値価格（万円)</p>
                 <div style="display: flex;">
                   <b-field>
-                      <b-input placeholder="0" @input="keywordSearch" v-model="unitPrice[0]"></b-input>
+                      <b-input placeholder="0" @keyup.native.enter="keywordSearch" v-model="unitPrice[0]"></b-input>
                   </b-field>
                   <p class="inputHelp"> ~ </p>
                   <b-field>
-                      <b-input placeholder="9999" @input="keywordSearch" v-model="unitPrice[1]"></b-input>
+                      <b-input placeholder="9999" @keyup.native.enter="keywordSearch" v-model="unitPrice[1]"></b-input>
                   </b-field>
                 </div>
               </div>
@@ -137,11 +137,11 @@
                 <p class="inputLabel">幅（mm)</p>
                 <div style="display: flex;">
                   <b-field>
-                      <b-input placeholder="0" @input="keywordSearch" v-model="size[0]"></b-input>
+                      <b-input placeholder="0" @keyup.native.enter="keywordSearch" v-model="size[0]"></b-input>
                   </b-field>
                   <p class="inputHelp"> ~ </p>
                   <b-field>
-                      <b-input placeholder="9999" @input="keywordSearch" v-model="size[1]"></b-input>
+                      <b-input placeholder="9999" @keyup.native.enter="keywordSearch" v-model="size[1]"></b-input>
                   </b-field>
                 </div>
               </div>
@@ -149,11 +149,11 @@
                 <p class="inputLabel">奥行（mm)</p>
                 <div style="display: flex;">
                   <b-field>
-                      <b-input placeholder="0" @input="keywordSearch" v-model="size[2]"></b-input>
+                      <b-input placeholder="0" @keyup.native.enter="keywordSearch" v-model="size[2]"></b-input>
                   </b-field>
                   <p class="inputHelp"> ~ </p>
                   <b-field>
-                      <b-input placeholder="9999" @input="keywordSearch" v-model="size[3]"></b-input>
+                      <b-input placeholder="9999" @keyup.native.enter="keywordSearch" v-model="size[3]"></b-input>
                   </b-field>
                 </div>
               </div>
@@ -161,11 +161,11 @@
                 <p class="inputLabel">高さ（mm)</p>
                 <div style="display: flex;">
                   <b-field>
-                      <b-input placeholder="0" @input="keywordSearch" v-model="size[4]"></b-input>
+                      <b-input placeholder="0" @keyup.native.enter="keywordSearch" v-model="size[4]"></b-input>
                   </b-field>
                   <p class="inputHelp"> ~ </p>
                   <b-field>
-                      <b-input placeholder="9999" @input="keywordSearch" v-model="size[5]"></b-input>
+                      <b-input placeholder="9999" @keyup.native.enter="keywordSearch" v-model="size[5]"></b-input>
                   </b-field>
                 </div>
               </div>
@@ -325,26 +325,6 @@ export default {
     },
     keywordSearch: function () {
       this.$store.commit('setSpinner')
-      this.$store.commit('setCurrentPage', 1)
-      this.$store.dispatch('getInventoryProductsWithFilter', {
-        keywordSearchValue: this.keywordSearchValue,
-        bigType: this.bigType != null ? this.bigType : '',
-        mediumType: this.mediumType != null ? this.mediumType : '',
-        smallType: this.smallType != null ? this.smallType : '',
-        currentStatus: this.currentStatus,
-        dateForFilter: this.dateForFilter,
-        specialFlg: this.specialFlg,
-        hold: this.hold,
-        longOrShort: this.longOrShort,
-        checkboxGroup: this.checkboxGroup,
-        unitPrice: this.unitPrice,
-        size: this.size,
-        orderName: this.order,
-        offsetSize: 0
-      })
-      localStorage.setItem('dataDilter', JSON.stringify(this.$data))
-    },
-    keywordSearchText: function () {
       this.$store.commit('setCurrentPage', 1)
       this.$store.dispatch('getInventoryProductsWithFilter', {
         keywordSearchValue: this.keywordSearchValue,

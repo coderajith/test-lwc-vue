@@ -168,6 +168,22 @@ export default {
         localStorage.setItem('orderName', 'LastModifiedDate ASC')
       }
 
+      if (localStorage.getItem('dataDilter') != null) {
+        let allData = JSON.parse(localStorage.getItem('dataDilter'))
+        this.keywordSearchValue = allData.keywordSearchValue
+        this.bigType = allData.bigType
+        this.mediumType = allData.mediumType
+        this.smallType = allData.smallType
+        this.specialFlg = allData.specialFlg
+        this.hold = allData.hold
+        this.longOrShort = allData.longOrShort
+        this.currentStatus = allData.currentStatus
+        this.dateForFilter = allData.dateForFilter
+        this.checkboxGroup = allData.checkboxGroup
+        this.unitPrice = allData.unitPrice
+        this.size = allData.size
+      }
+
       let offsetSize = this.$store.state.currentPage > 0 ? (this.$store.state.currentPage - 1) * 30 : 0
       this.$store.dispatch('getInventoryProductsWithFilter', {
         keywordSearchValue: this.keywordSearchValue,
@@ -190,6 +206,21 @@ export default {
       this.$store.commit('setSpinner')
       let offsetSize = page > 0 ? (page - 1) * 30 : 0
       this.$store.commit('setCurrentPage', page)
+      if (localStorage.getItem('dataDilter') != null) {
+        let allData = JSON.parse(localStorage.getItem('dataDilter'))
+        this.keywordSearchValue = allData.keywordSearchValue
+        this.bigType = allData.bigType
+        this.mediumType = allData.mediumType
+        this.smallType = allData.smallType
+        this.specialFlg = allData.specialFlg
+        this.hold = allData.hold
+        this.longOrShort = allData.longOrShort
+        this.currentStatus = allData.currentStatus
+        this.dateForFilter = allData.dateForFilter
+        this.checkboxGroup = allData.checkboxGroup
+        this.unitPrice = allData.unitPrice
+        this.size = allData.size
+      }
       this.$store.dispatch('getInventoryProductsWithFilter', {
         keywordSearchValue: this.keywordSearchValue,
         bigType: this.bigType != null ? this.bigType : '',
