@@ -199,9 +199,9 @@ export default {
         days: ['日', '月', '火', '水', '木', '金', '土']
       },
       keywordSearchValue: '',
-      bigType: null,
-      mediumType: null,
-      smallType: null,
+      bigType: 'All',
+      mediumType: 'All',
+      smallType: 'All',
       currentStatus: [false, true, true, false],
       dateForFilter: [],
       specialFlg: true,
@@ -217,7 +217,8 @@ export default {
       big: [],
       medium: [],
       small: [],
-      order: 'LastModifiedDate ASC'
+      order: 'LastModifiedDate ASC',
+      isOpen: true
     }
   },
   created () {
@@ -244,13 +245,18 @@ export default {
     } else {
       localStorage.setItem('dataDilter', JSON.stringify(this.$data))
     }
+    if (localStorage.getItem('rightBar') != null) {
+      this.isOpen = JSON.parse(localStorage.getItem('rightBar'))
+    } else {
+      localStorage.setItem('rightBar', JSON.stringify(this.isOpen))
+    }
   },
   computed: {
     isOpen () {
-      return this.$store.state.isOpen
+      return this.isOpen
     },
     bigTypeValue () {
-      let bigTypes = []
+      let bigTypes = ['All']
       this.$store.state.types.forEach((type) => {
         bigTypes.push(type.BigType__c)
       })
@@ -259,11 +265,9 @@ export default {
       })
     },
     mediumTypeValue () {
-      let mediumTypes = []
+      let mediumTypes = ['All']
       this.$store.state.types.forEach((type) => {
-        if (type.BigType__c === this.bigType) {
-          mediumTypes.push(type.MediumType__c)
-        } else if (this.bigType === null) {
+        if (type.BigType__c === this.bigType && type.MediumType__c !== undefined) {
           mediumTypes.push(type.MediumType__c)
         }
       })
@@ -272,11 +276,11 @@ export default {
       })
     },
     smallTypeValue () {
-      let smallTypes = []
+      let smallTypes = ['All']
       this.$store.state.types.forEach((type) => {
-        let bigType = type.BigType__c === this.bigType || this.bigType === null
-        let mediumType = type.MediumType__c === this.mediumType || this.mediumType === null
-        if (bigType && mediumType) {
+        let bigType = type.BigType__c === this.bigType
+        let mediumType = type.MediumType__c === this.mediumType
+        if (bigType && mediumType && type.SmallType__c !== undefined) {
           smallTypes.push(type.SmallType__c)
         }
       })
@@ -287,16 +291,16 @@ export default {
   },
   methods: {
     toggleMenu: function () {
-      this.$store.dispatch({ type: 'updateUserInfo', isOpen: !this.$store.state.isOpen })
-      this.$store.commit('setIsOpen', !this.$store.state.isOpen)
+      this.isOpen = !this.isOpen
+      localStorage.setItem('rightBar', JSON.stringify(this.isOpen))
     },
     clearFilter: function () {
       this.$store.commit('setSpinner')
       this.$store.commit('setCurrentPage', 1)
       this.keywordSearchValue = ''
-      this.bigType = null
-      this.mediumType = null
-      this.smallType = null
+      this.bigType = 'All'
+      this.mediumType = 'All'
+      this.smallType = 'All'
       this.specialFlg = true
       this.hold = false
       this.longOrShort = true
@@ -307,9 +311,9 @@ export default {
       this.size = [0, 9999999, 0, 9999999, 0, 9999999]
       this.$store.dispatch('getInventoryProductsWithFilter', {
         keywordSearchValue: this.keywordSearchValue,
-        bigType: this.bigType != null ? this.bigType : '',
-        mediumType: this.mediumType != null ? this.mediumType : '',
-        smallType: this.smallType != null ? this.smallType : '',
+        bigType: this.bigType !== 'All' ? this.bigType : '',
+        mediumType: this.mediumType !== 'All' ? this.mediumType : '',
+        smallType: this.smallType !== 'All' ? this.smallType : '',
         currentStatus: this.currentStatus,
         dateForFilter: this.dateForFilter,
         specialFlg: this.specialFlg,
@@ -328,9 +332,9 @@ export default {
       this.$store.commit('setCurrentPage', 1)
       this.$store.dispatch('getInventoryProductsWithFilter', {
         keywordSearchValue: this.keywordSearchValue,
-        bigType: this.bigType != null ? this.bigType : '',
-        mediumType: this.mediumType != null ? this.mediumType : '',
-        smallType: this.smallType != null ? this.smallType : '',
+        bigType: this.bigType !== 'All' ? this.bigType : '',
+        mediumType: this.mediumType !== 'All' ? this.mediumType : '',
+        smallType: this.smallType !== 'All' ? this.smallType : '',
         currentStatus: this.currentStatus,
         dateForFilter: this.dateForFilter,
         specialFlg: this.specialFlg,
@@ -347,13 +351,13 @@ export default {
     keywordSearchBig: function () {
       this.$store.commit('setSpinner')
       this.$store.commit('setCurrentPage', 1)
-      this.mediumType = null
-      this.smallType = null
+      this.mediumType = 'All'
+      this.smallType = 'All'
       this.$store.dispatch('getInventoryProductsWithFilter', {
         keywordSearchValue: this.keywordSearchValue,
-        bigType: this.bigType != null ? this.bigType : '',
-        mediumType: this.mediumType != null ? this.mediumType : '',
-        smallType: this.smallType != null ? this.smallType : '',
+        bigType: this.bigType !== 'All' ? this.bigType : '',
+        mediumType: this.mediumType !== 'All' ? this.mediumType : '',
+        smallType: this.smallType !== 'All' ? this.smallType : '',
         currentStatus: this.currentStatus,
         dateForFilter: this.dateForFilter,
         specialFlg: this.specialFlg,
@@ -370,12 +374,12 @@ export default {
     keywordSearchMedium: function () {
       this.$store.commit('setSpinner')
       this.$store.commit('setCurrentPage', 1)
-      this.smallType = null
+      this.smallType = 'All'
       this.$store.dispatch('getInventoryProductsWithFilter', {
         keywordSearchValue: this.keywordSearchValue,
-        bigType: this.bigType != null ? this.bigType : '',
-        mediumType: this.mediumType != null ? this.mediumType : '',
-        smallType: this.smallType != null ? this.smallType : '',
+        bigType: this.bigType !== 'All' ? this.bigType : '',
+        mediumType: this.mediumType !== 'All' ? this.mediumType : '',
+        smallType: this.smallType !== 'All' ? this.smallType : '',
         currentStatus: this.currentStatus,
         dateForFilter: this.dateForFilter,
         specialFlg: this.specialFlg,

@@ -29,10 +29,21 @@ export const store = new Vuex.Store({
     setProductsQuote: (state, payload) => {
       state.productsQuote = payload
     },
+    setSpinnerStatus: (state, payload) => {
+      state.spinner = payload
+    },
     setProductsQuoteRetrive: (state, payload) => {
       state.productsQuote = state.productsQuote.concat(payload)
     },
-    setProductsQuoteSize: (state, payload) => { state.productsQuoteSize = payload },
+    setProductsQuoteSize: (state, payload) => {
+      let prodCount = 0
+      state.productsQuote.forEach((item) => {
+        if (item.Estimate === state.quote) {
+          prodCount++
+        }
+      })
+      state.productsQuoteSize = prodCount
+    },
     setQuote: (state, payload) => { state.quote = payload },
     setCurrentPage: (state, payload) => { state.currentPage = payload },
     setProducts: (state, payload) => {
@@ -188,7 +199,10 @@ export const store = new Vuex.Store({
       })
     },
     updateProductEstimate: ({commit}, payload) => {
-      InventoryItems.updateProductEstimate(payload.estimateId, payload.productId)
+      commit('setSpinnerStatus', true)
+      InventoryItems.updateProductEstimate(payload.estimateId, payload.productId, result => {
+        commit('setSpinnerStatus', false)
+      })
     }
   }
 })

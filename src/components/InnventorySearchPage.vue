@@ -68,9 +68,9 @@ export default {
         days: ['日', '月', '火', '水', '木', '金', '土']
       },
       keywordSearchValue: '',
-      bigType: null,
-      mediumType: null,
-      smallType: null,
+      bigType: 'All',
+      mediumType: 'All',
+      smallType: 'All',
       currentStatus: [false, true, true, false],
       dateForFilter: [],
       specialFlg: true,
@@ -128,9 +128,9 @@ export default {
     if (!this.products) {
       this.$store.dispatch('getInventoryProductsWithFilter', {
         keywordSearchValue: this.keywordSearchValue,
-        bigType: this.bigType != null ? this.bigType : '',
-        mediumType: this.mediumType != null ? this.mediumType : '',
-        smallType: this.smallType != null ? this.smallType : '',
+        bigType: this.bigType !== 'All' ? this.bigType : '',
+        mediumType: this.mediumType !== 'All' ? this.mediumType : '',
+        smallType: this.smallType !== 'All' ? this.smallType : '',
         currentStatus: this.currentStatus,
         dateForFilter: this.dateForFilter,
         specialFlg: this.specialFlg,
@@ -188,9 +188,9 @@ export default {
       let offsetSize = this.$store.state.currentPage > 0 ? (this.$store.state.currentPage - 1) * 30 : 0
       this.$store.dispatch('getInventoryProductsWithFilter', {
         keywordSearchValue: this.keywordSearchValue,
-        bigType: this.bigType != null ? this.bigType : '',
-        mediumType: this.mediumType != null ? this.mediumType : '',
-        smallType: this.smallType != null ? this.smallType : '',
+        bigType: this.bigType !== 'All' ? this.bigType : '',
+        mediumType: this.mediumType !== 'All' ? this.mediumType : '',
+        smallType: this.smallType !== 'All' ? this.smallType : '',
         currentStatus: this.currentStatus,
         dateForFilter: this.dateForFilter,
         specialFlg: this.specialFlg,
@@ -224,9 +224,9 @@ export default {
       }
       this.$store.dispatch('getInventoryProductsWithFilter', {
         keywordSearchValue: this.keywordSearchValue,
-        bigType: this.bigType != null ? this.bigType : '',
-        mediumType: this.mediumType != null ? this.mediumType : '',
-        smallType: this.smallType != null ? this.smallType : '',
+        bigType: this.bigType !== 'All' ? this.bigType : '',
+        mediumType: this.mediumType !== 'All' ? this.mediumType : '',
+        smallType: this.smallType !== 'All' ? this.smallType : '',
         currentStatus: this.currentStatus,
         dateForFilter: this.dateForFilter,
         specialFlg: this.specialFlg,

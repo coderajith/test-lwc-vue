@@ -521,6 +521,7 @@ export default {
           } else {
             console.log('Unknown Error', event)
           }
+          callback(result)
         },
         {escape: false}
       )

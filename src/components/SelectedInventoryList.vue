@@ -1,39 +1,49 @@
 <template>
-  <div class="selectedInventoryContainer">
-    <p class="selectedInventoryHeader">HOLD中の在庫リスト</p>
-    <div class="paddingLeftRight">
-      <b-button type="is-dark" :disabled="getQuote" @click="moveToPage()">←  見積画面へ移動する</b-button>
-      <b-field label="対象見積">
-            <b-autocomplete
-                v-model="name"
-                placeholder="入力してください"
-                :keep-first="keepFirst"
-                :open-on-focus="openOnFocus"
-                :data="filteredDataObj"
-                field="Name"
-                ref="autocomplete"
-                @select="option => {selected = option; addQuote()}">
-                <template slot="footer">
-                    <a @click="addNewQuote()">
-                        <span>+ 新規見積</span>
-                    </a>
-                </template>
-            </b-autocomplete>
-        </b-field>
-      <div style="display: flex;">
-        <b-button v-if="getSelectedHoldCount > 0" @click="deselectProduct" class="whiteButton" style="margin-right: 0.5rem;">HOLD解除</b-button>
-        <b-button v-if="getSelectedHoldCount === 1" @click="print" class="is-dark" style="margin-left: 0.5rem;">PDF出力</b-button>
-        <b-button v-if="getSelectedHoldCount > 1" @click="printMany" class="is-dark" style="margin-left: 0.5rem;">PDF出力</b-button>
+  <div :class="[ isOpen ? 'selectedInventoryContainer' : 'selectedInventoryContainerClose' ]">
+    <div v-if="isOpen">
+      <div class="collapsibleHeader">
+        <div style="padding: 24px;">
+          <font-awesome-icon icon="arrow-left" @click="toggleMenu" style="width: 16px !important; height: 16px !important; color: black;"/>
+        </div>
+        <p class="selectedInventoryHeader">HOLD中の在庫リスト</p>
       </div>
-      <p v-if="getSelectedHoldCount == 0" class="numberSelected">HOLD件数: {{selectedItems}}</p>
-      <p v-if="getSelectedHoldCount > 0" class="numberSelected">選択件数: {{getSelectedHoldCount}}</p>
+      <div class="paddingLeftRight">
+        <b-button type="is-dark" :disabled="getQuote" @click="moveToPage()">←  見積画面へ移動する</b-button>
+        <b-field label="対象見積">
+              <b-autocomplete
+                  v-model="name"
+                  placeholder="入力してください"
+                  :keep-first="keepFirst"
+                  :open-on-focus="openOnFocus"
+                  :data="filteredDataObj"
+                  field="Name"
+                  ref="autocomplete"
+                  @select="option => {selected = option; addQuote()}">
+                  <template slot="footer">
+                      <a @click="addNewQuote()">
+                          <span>+ 新規見積</span>
+                      </a>
+                  </template>
+              </b-autocomplete>
+          </b-field>
+        <div style="display: flex;">
+          <b-button v-if="getSelectedHoldCount > 0" @click="deselectProduct" class="whiteButton" style="margin-right: 0.5rem;">HOLD解除</b-button>
+          <b-button v-if="getSelectedHoldCount === 1" @click="print" class="is-dark" style="margin-left: 0.5rem;">PDF出力</b-button>
+          <b-button v-if="getSelectedHoldCount > 1" @click="printMany" class="is-dark" style="margin-left: 0.5rem;">PDF出力</b-button>
+        </div>
+        <p v-if="getSelectedHoldCount == 0" class="numberSelected">HOLD件数: {{selectedItems}}</p>
+        <p v-if="getSelectedHoldCount > 0" class="numberSelected">選択件数: {{getSelectedHoldCount}}</p>
+      </div>
+      <PrintOne id="PrintOne" v-if="selectedOneProduct !== null && selectedOneProduct !== undefined" :product="selectedOneProduct" style="visibility: hidden; display: none !important;" />
+      <PrintMany id="PrintMany" v-if="selectedManyProduct !== null && selectedManyProduct !== undefined" :products="selectedManyProduct" :estimate="selected" style="visibility: hidden; display: none !important;" />
+      <div class="scroll" id="printMe">
+        <div v-for="product in products">
+          <SelectedInventoryCard :product="product"/>
+        </div>
+      </div>
     </div>
-    <PrintOne id="PrintOne" v-if="selectedOneProduct !== null && selectedOneProduct !== undefined" :product="selectedOneProduct" style="visibility: hidden; display: none !important;" />
-    <PrintMany id="PrintMany" v-if="selectedManyProduct !== null && selectedManyProduct !== undefined" :products="selectedManyProduct" :estimate="selected" style="visibility: hidden; display: none !important;" />
-    <div class="scroll" id="printMe">
-      <div v-for="product in products">
-        <SelectedInventoryCard :product="product"/>
-      </div>
+    <div v-else="menuOpen" style="padding: 24px;">
+      <font-awesome-icon icon="arrow-right" @click="toggleMenu" style="width: 16px !important; height: 16px !important; color: black;"/>
     </div>
   </div>
 </template>
@@ -50,7 +60,8 @@ export default {
       name: '',
       selected: null,
       selectedOneProduct: null,
-      selectedManyProduct: null
+      selectedManyProduct: null,
+      isOpen: true
     }
   },
   components: {
@@ -59,6 +70,9 @@ export default {
     PrintMany
   },
   computed: {
+    isOpen () {
+      return this.isOpen
+    },
     getSelectedHoldCount () {
       if (this.$store.state.selectedHoldCount === 1) {
         this.selectedOneProduct = this.$store.state.productsQuote.filter(item => item.SelectHold === true)[0]
@@ -107,8 +121,17 @@ export default {
     if (!this.estimates) {
       this.$store.dispatch('getAllEstimate')
     }
+    if (localStorage.getItem('leftBar') != null) {
+      this.isOpen = JSON.parse(localStorage.getItem('leftBar'))
+    } else {
+      localStorage.setItem('leftBar', JSON.stringify(this.isOpen))
+    }
   },
   methods: {
+    toggleMenu: function () {
+      this.isOpen = !this.isOpen
+      localStorage.setItem('leftBar', JSON.stringify(this.isOpen))
+    },
     updateEstimates: function (message) {
       let estimate = JSON.parse(message.value)[0]
       let newEstimate = {
@@ -174,31 +197,37 @@ export default {
           item.EstimateSelect = true
           item.EstimateSelected = false
           this.$store.commit('updateProduct', item)
-          this.$store.dispatch({type: 'updateProductEstimate', estimateId: '', productId: item.Id})
+          this.$store.dispatch({type: 'updateProductEstimate', estimateId: '', productId: [item.Id]})
         }
       })
+
       this.$store.commit('deselectProduct')
     },
     addQuote () {
       if (this.selected !== null) {
+        this.$store.dispatch('getInventoryProductsForQuote', this.selected.Id)
         this.$store.commit('addQuote', this.selected.Id)
         this.$store.commit('addQuoteName', this.selected.Name)
-        this.$store.dispatch('getInventoryProductsForQuote', this.selected.Id)
-        this.$store.state.products.forEach(item => {
-          if (item.Estimate.length === 0 && item.Selected) {
-            item.Estimate = this.selected.Id
-            item.EstimateName = this.selected.Name
-            item.EstimateSelect = true
-            item.EstimateSelected = true
-          }
-        })
+
+        let productIds = []
         this.$store.state.productsQuote.forEach(item => {
           if (item.Estimate.length === 0 && item.Selected) {
             item.Estimate = this.selected.Id
             item.EstimateName = this.selected.Name
             item.EstimateSelect = true
             item.EstimateSelected = true
-            this.$store.dispatch({type: 'updateProductEstimate', estimateId: this.selected.Id, productId: item.Id})
+            productIds.push(item.Id)
+          }
+        })
+
+        this.$store.dispatch({type: 'updateProductEstimate', estimateId: this.selected.Id, productId: productIds})
+
+        this.$store.state.products.forEach(item => {
+          if (item.Estimate.length === 0 && item.Selected) {
+            item.Estimate = this.selected.Id
+            item.EstimateName = this.selected.Name
+            item.EstimateSelect = true
+            item.EstimateSelected = true
           }
         })
       } else {

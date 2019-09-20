@@ -80,7 +80,7 @@ export default {
           this.product.EstimateName = this.$store.state.quoteName
           this.product.EstimateSelect = true
           this.product.EstimateSelected = true
-          this.$store.dispatch({type: 'updateProductEstimate', estimateId: this.product.Estimate, productId: this.product.Id})
+          this.$store.dispatch({type: 'updateProductEstimate', estimateId: this.product.Estimate, productId: [this.product.Id]})
         }
         this.product.Selected = !this.product.Selected
         this.$store.commit('updateProduct', this.product)
