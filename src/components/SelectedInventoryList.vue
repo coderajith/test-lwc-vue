@@ -2,10 +2,10 @@
   <div :class="[ isOpen ? 'selectedInventoryContainer' : 'selectedInventoryContainerClose' ]">
     <div v-if="isOpen">
       <div class="collapsibleHeader">
+        <p class="selectedInventoryHeader">HOLD中の在庫リスト</p>
         <div style="padding: 24px;">
           <font-awesome-icon icon="arrow-left" @click="toggleMenu" style="width: 16px !important; height: 16px !important; color: black;"/>
         </div>
-        <p class="selectedInventoryHeader">HOLD中の在庫リスト</p>
       </div>
       <div class="paddingLeftRight">
         <b-button type="is-dark" :disabled="getQuote" @click="moveToPage()">←  見積画面へ移動する</b-button>

@@ -31,34 +31,13 @@
             </div>
             <div>
               <b-field label="大分類">
-                  <b-select placeholder="選択してください" v-model="bigType" @input="keywordSearchBig">
-                      <option
-                          v-for="option in bigTypeValue"
-                          :value="option"
-                          :key="option">
-                          {{ option }}
-                      </option>
-                  </b-select>
+                  <v-select v-model="bigType" :options="bigTypeValue" :clearable="false" :searchable="false" @input="keywordSearchBig"></v-select>
               </b-field>
               <b-field label="中分類">
-                  <b-select placeholder="選択してください" v-model="mediumType" @input="keywordSearchMedium">
-                      <option
-                          v-for="option in mediumTypeValue"
-                          :value="option"
-                          :key="option">
-                          {{ option }}
-                      </option>
-                  </b-select>
+                  <v-select v-model="mediumType" :options="mediumTypeValue" :clearable="false" :searchable="false" @input="keywordSearchMedium"></v-select>
               </b-field>
               <b-field label="小分類">
-                  <b-select placeholder="選択してください" v-model="smallType" @input="keywordSearch">
-                      <option
-                          v-for="option in smallTypeValue"
-                          :value="option"
-                          :key="option">
-                          {{ option }}
-                      </option>
-                  </b-select>
+                  <v-select v-model="smallType" :options="smallTypeValue" :clearable="false" :searchable="false" @input="keywordSearch"></v-select>
               </b-field>
             </div>
         </b-collapse>

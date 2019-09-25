@@ -12,6 +12,8 @@ import { faInfoCircle, faArrowLeft, faArrowRight, faCheck, faCheckCircle, faExcl
   faEye, faEyeSlash, faCaretDown, faCaretUp, faUpload } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import vueNumeralFilterInstaller from 'vue-numeral-filter'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css'
 
 library.add(faCheck, faCheckCircle, faInfoCircle, faExclamationTriangle, faExclamationCircle,
   faArrowUp, faAngleRight, faAngleLeft, faAngleDown,
@@ -21,6 +23,7 @@ library.add(faInfoCircle, faArrowLeft, faArrowRight)
 
 Vue.component('vue-fontawesome', FontAwesomeIcon)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('v-select', vSelect)
 
 Vue.config.productionTip = false
 Vue.use(Buefy, {
