@@ -10,22 +10,24 @@
       <div class="paddingLeftRight">
         <b-button type="is-dark" :disabled="getQuote" @click="moveToPage()">←  見積画面へ移動する</b-button>
         <b-field label="対象見積">
-              <b-autocomplete
-                  v-model="name"
-                  placeholder="入力してください"
-                  :keep-first="keepFirst"
-                  :open-on-focus="openOnFocus"
-                  :data="filteredDataObj"
-                  field="Name"
-                  ref="autocomplete"
-                  @select="option => {selected = option; addQuote()}">
-                  <template slot="footer">
-                      <a @click="addNewQuote()">
-                          <span>+ 新規見積</span>
-                      </a>
-                  </template>
-              </b-autocomplete>
-          </b-field>
+          <b-autocomplete
+              v-model="name"
+              placeholder="入力してください"
+              :keep-first="keepFirst"
+              :open-on-focus="openOnFocus"
+              :data="filteredDataObj"
+              field="Name"
+              ref="autocomplete"
+              @select="option => {selected = option; addQuote()}">
+              <template slot="footer">
+                  <a @click="addNewQuote()">
+                      <span>+ 新規見積</span>
+                  </a>
+              </template>
+          </b-autocomplete>
+        </b-field>
+        <b-button v-if="getSelectedHoldCount < selectedItems || selectedItems == 0" @click="selectAll()" class="whiteButton" style="margin-bottom: 1rem;">全選択</b-button>
+        <b-button v-if="getSelectedHoldCount == selectedItems && selectedItems > 0" @click="deselectAll()" class="whiteButton" style="margin-bottom: 1rem;">全選択解除</b-button>
         <div style="display: flex;">
           <b-button v-if="getSelectedHoldCount > 0" @click="deselectProduct" class="whiteButton" style="margin-right: 0.5rem;">HOLD解除</b-button>
           <b-button v-if="getSelectedHoldCount === 1" @click="print" class="is-dark" style="margin-left: 0.5rem;">PDF出力</b-button>
@@ -123,14 +125,35 @@ export default {
     }
     if (localStorage.getItem('leftBar') != null) {
       this.isOpen = JSON.parse(localStorage.getItem('leftBar'))
+      this.$store.commit('setIsOpenLeft', this.isOpen)
     } else {
       localStorage.setItem('leftBar', JSON.stringify(this.isOpen))
+      this.$store.commit('setIsOpenLeft', this.isOpen)
     }
   },
   methods: {
+    selectAll: function () {
+      this.$store.state.productsQuote.forEach(item => {
+        if (!item.SelectHold) {
+          item.SelectHold = !item.SelectHold
+          this.$store.commit('updateSelectedHold', item.SelectHold ? 1 : -1)
+          this.$store.commit('updateProduct', item)
+        }
+      })
+    },
+    deselectAll: function () {
+      this.$store.state.productsQuote.forEach(item => {
+        if (item.SelectHold) {
+          item.SelectHold = !item.SelectHold
+          this.$store.commit('updateSelectedHold', item.SelectHold ? 1 : -1)
+          this.$store.commit('updateProduct', item)
+        }
+      })
+    },
     toggleMenu: function () {
       this.isOpen = !this.isOpen
       localStorage.setItem('leftBar', JSON.stringify(this.isOpen))
+      this.$store.commit('setIsOpenLeft', this.isOpen)
     },
     updateEstimates: function (message) {
       let estimate = JSON.parse(message.value)[0]

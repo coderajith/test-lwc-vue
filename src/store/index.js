@@ -11,6 +11,7 @@ export const store = new Vuex.Store({
     selectedItems: 0,
     selectedHoldCount: 0,
     isOpen: false,
+    isOpenLeft: true,
     productsSize: 0,
     quote: null,
     quoteName: null,
@@ -72,6 +73,7 @@ export const store = new Vuex.Store({
     },
     setProductsSize: (state, payload) => { state.productsSize = payload },
     setIsOpen: (state, payload) => { state.isOpen = payload },
+    setIsOpenLeft: (state, payload) => { state.isOpenLeft = payload },
     setSpinner: (state) => { state.spinner = true },
     updateProduct: (state, payload) => {
       state.products.forEach((item) => {

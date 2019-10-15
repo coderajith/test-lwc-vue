@@ -83,8 +83,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   overflow-x: scroll;
-  height: -moz-available;
-  height: -webkit-fill-available;
+  height: auto;
   height: fill-available;
   max-height: 100vh;
   padding-bottom: 52px;
@@ -121,9 +120,17 @@ body {
 }
 .flexContainer {
   display: flex;
-  position:fixed;
   overflow:hidden;
-  width: 100%;
+}
+.Pane {
+  padding: 0 !important;
+}
+.pane-rs {
+  bottom: 0 !important;
+  right: 0 !important;
+  margin: 0 !important;
+  top: 0 !important;
+  padding: 0 !important;
 }
 .allignCenter {
   align-items: center;
@@ -231,6 +238,7 @@ body {
 }
 .selectedImageContainer {
   max-width: 164px;
+  min-width: 164px;
   width: 164px;
   height: 164px;
   display: flex;
@@ -248,7 +256,7 @@ body {
   background-color: #ebf4ff;
 }
 .selectedInventoryCardInfo {
-  max-width: 164px;
+  width: -webkit-fill-available;
   max-height: 164px;
   min-width: 164px;
   border: solid 1px #cdd6dd;
@@ -431,13 +439,12 @@ body {
 .roundSelected {
   position: absolute;
   top: 125px;
-  right: 170px;
+  left: 124px;
   cursor: pointer;
   z-index: 2;
 }
 .greenSelected {
   border: 2px solid #5CE62E;
-  width: fit-content;
 }
 .modalContainer {
   width: 960px;
