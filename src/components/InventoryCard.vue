@@ -7,9 +7,9 @@
     <div class="round" @click="isImageModalActive = true">
       <font-awesome-icon icon="info-circle" />
     </div>
-    <div v-if="(product.Selected || product.EstimateSelected) && !product.NotShowHold" class="leftCorner"></div>
-    <p v-if="(product.Selected || product.EstimateSelected) && !product.NotShowHold" class="hold">HOLD</p>
-    <div v-if="(product.Selected || product.EstimateSelected) && !product.NotShowHold" class="holdActive" @click="moveToPage()"></div>
+    <div v-if="product.Hold && !product.NotShowHold" class="leftCorner"></div>
+    <p v-if="product.Hold && !product.NotShowHold" class="hold">HOLD</p>
+    <div v-if="product.Hold && !product.NotShowHold" class="holdActive" @click="moveToPage()"></div>
     <div class="inventoryCardInfo">
       <a class="inventoryCardText link" href="#" @click="moveToPage()">{{product.InventoryNumber}}</a>
       <p class="inventoryCardText" @click="check()">{{product.ProductName}}</p>
@@ -75,6 +75,7 @@ export default {
   methods: {
     check: function () {
       if (!this.product.Selected && this.product.Allowed) {
+        this.product.Hold = true
         if (this.$store.state.quote !== null) {
           this.product.Estimate = this.$store.state.quote
           this.product.EstimateName = this.$store.state.quoteName

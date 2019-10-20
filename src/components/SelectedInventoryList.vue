@@ -38,7 +38,7 @@
       </div>
       <PrintOne id="PrintOne" v-if="selectedOneProduct !== null && selectedOneProduct !== undefined" :product="selectedOneProduct" style="visibility: hidden; display: none !important;" />
       <PrintMany id="PrintMany" v-if="selectedManyProduct !== null && selectedManyProduct !== undefined" :products="selectedManyProduct" :estimate="selected" style="visibility: hidden; display: none !important;" />
-      <div class="scroll" id="printMe">
+      <div class="scroll" id="printMe" style="display: flex; flex-wrap: wrap;">
         <div v-for="product in products">
           <SelectedInventoryCard :product="product"/>
         </div>
@@ -219,6 +219,7 @@ export default {
           item.EstimateName = ''
           item.EstimateSelect = true
           item.EstimateSelected = false
+          item.Hold = false
           this.$store.commit('updateProduct', item)
           this.$store.dispatch({type: 'updateProductEstimate', estimateId: '', productId: [item.Id]})
         }
@@ -239,6 +240,7 @@ export default {
             item.EstimateName = this.selected.Name
             item.EstimateSelect = true
             item.EstimateSelected = true
+            item.Hold = true
             productIds.push(item.Id)
           }
         })

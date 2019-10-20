@@ -9,7 +9,7 @@
           <div class="inventorySearchPage">
             <div class="productContainerHeader">
               <p class="inventorySearchPageTitle">在庫検索リスト</p>
-              <div class="flexContainer allignCenter">
+              <div class="flexContainer allignCenter" style="flex-wrap: wrap;">
                 <p class="inventorySearchPageTitle">検索結果件数: {{ productSize }}</p>
                 <b-field>
                   <b-select v-model="order" @input="sort()">
@@ -114,7 +114,7 @@ export default {
       return this.$store.state.isOpenLeft ? 372 : 60
     },
     getMax () {
-      return this.$store.state.isOpenLeft ? 800 : 60
+      return this.$store.state.isOpenLeft ? window.innerWidth - 660 : 60
     }
   },
   created () {
