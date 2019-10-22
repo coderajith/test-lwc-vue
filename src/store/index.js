@@ -111,6 +111,7 @@ export const store = new Vuex.Store({
           item.Selected = false
           item.Hold = false
           item.EstimateSelected = false
+          item.Hold = false
         }
       })
     },
