@@ -784,3 +784,97 @@ body {
   font-size: 16px;
   height: 20px;
 }
+.reviewItems {
+  background-color: white; 
+  overflow-x: hidden;
+}
+.reviewItems > .modal-content{
+  background-color: white;
+  overflow-x: hidden;
+  max-width: 100% !important;
+  max-height: 100%;
+  height: 100%;
+}
+.reviewItems > .modal-content ~ .modal-content{
+  background-color: white;
+  overflow-x: hidden;
+  max-width: 960px;
+  max-height: 100%;
+  height: auto;
+}
+.reviewItems p {
+  padding-top: 0px;
+  font-size: 12px;
+}
+.reviewItems .selectedInventoryCardContainer {
+  width: 320px;
+}
+.scroll {
+  overflow-x: hidden;
+}
+.reviewItems .modalBody {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: auto;
+}
+.reviewItems .modalContainer {
+  width: auto !important;
+}
+.reviewItems .modalHeader p {
+  height: 35px;
+  font-family: sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #6f7579;
+  padding-top: 12px;
+  padding-left: 17px;
+}
+.reviewItems .modalFooter {
+  width: 960px;
+  height: 72px;
+  border-top: 1px solid #6f7579;
+}
+.reviewItems .modalBtnContainer {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 24px;
+  height: 70px;
+  align-items: center;
+}
+.reviewItems .button {
+  background-color: #fff;
+  border-color: #dbdbdb;
+  border-width: 1px;
+  color: #363636;
+  cursor: pointer;
+  justify-content: center;
+  padding: calc(.375em - 1px) .75em;
+  text-align: center;
+  white-space: nowrap;
+  width: 120px;
+}
+.reviewItems .infoTextContainer {
+  display: flex;
+  height: 50px;
+  flex-direction: column;
+  justify-content: center;
+}
+.reviewItems .infoTextContainer p {
+  height: 20px;
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.67;
+  letter-spacing: normal;
+  text-align: left;
+  color: #6f7579;
+  padding-top: 12px;
+}
