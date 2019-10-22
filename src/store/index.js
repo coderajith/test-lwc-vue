@@ -109,7 +109,6 @@ export const store = new Vuex.Store({
         if (itemIds.includes(item.Id)) {
           item.SelectHold = false
           item.Selected = false
-          item.Hold = false
           item.EstimateSelected = false
           item.Hold = false
         }

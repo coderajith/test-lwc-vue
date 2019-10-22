@@ -226,10 +226,8 @@ export default {
     }
     if (localStorage.getItem('rightBar') != null) {
       this.isOpen = JSON.parse(localStorage.getItem('rightBar'))
-      this.$store.commit('setIsOpenFilter', this.isOpen)
     } else {
       localStorage.setItem('rightBar', JSON.stringify(this.isOpen))
-      this.$store.commit('setIsOpenFilter', this.isOpen)
     }
   },
   computed: {
@@ -274,7 +272,6 @@ export default {
     toggleMenu: function () {
       this.isOpen = !this.isOpen
       localStorage.setItem('rightBar', JSON.stringify(this.isOpen))
-      this.$store.commit('setIsOpenFilter', this.isOpen)
     },
     clearFilter: function () {
       this.$store.commit('setSpinner')

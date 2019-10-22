@@ -1,56 +1,48 @@
 <template>
-  <div style="display:flex;">
-    <rs-panes split-to="columns" :allow-resize="true" :size="getSize" :min-size="getMin" :max-size="getMax">
-      <div slot="firstPane">
-        <SelectedInventoryList />
-      </div>
-      <div slot="secondPane">
-        <div class="flexContainer">
-          <div class="inventorySearchPage">
-            <div class="productContainerHeader">
-              <p class="inventorySearchPageTitle">在庫検索リスト</p>
-              <div class="flexContainer allignCenter" style="flex-wrap: wrap;">
-                <p class="inventorySearchPageTitle">検索結果件数: {{ productSize }}</p>
-                <b-field>
-                  <b-select v-model="order" @input="sort()">
-                    <option value="CreatedDate DESC">登録日が新しい順</option>
-                    <option value="CreatedDate ASC">登録日が古い順</option>
-                    <option value="LastModifiedDate DESC">最終更新日が新しい順</option>
-                    <option value="LastModifiedDate ASC">最終更新日が古い順</option>
-                  </b-select>
-                </b-field>
-              </div>
-            </div>
-            <div style="padding: 0.5rem;">
-              <b-pagination
-                  :total="productSize"
-                  :current="this.$store.state.currentPage"
-                  @change="paginate"
-                  range-before="1"
-                  range-after="1"
-                  order="is-centered"
-                  size=""
-                  :simple="simple"
-                  :rounded="rounded"
-                  per-page="30"
-                  icon-pack="fa"
-                  aria-next-label="Next page"
-                  aria-previous-label="Previous page"
-                  aria-page-label="Page"
-                  aria-current-label="Current page">
-              </b-pagination>
-            </div>
-            <div class="productContainerList">
-              <div class="productContainer" v-for="product in products">
-                <InventoryCard v-if="product.Show" :product="product"/>
-              </div>
-            </div>
-          </div>
-          <CollapsibleFilter />
-          <b-loading :is-full-page="true" :active.sync="this.$store.state.spinner" :can-cancel="false"></b-loading>
+  <div class="flexContainer">
+    <SelectedInventoryList />
+    <div class="inventorySearchPage">
+      <div class="productContainerHeader">
+        <p class="inventorySearchPageTitle">在庫検索リスト</p>
+        <div class="flexContainer allignCenter">
+          <p class="inventorySearchPageTitle">検索結果件数: {{ productSize }}</p>
+          <b-field>
+            <b-select v-model="order" @input="sort()">
+              <option value="CreatedDate DESC">登録日が新しい順</option>
+              <option value="CreatedDate ASC">登録日が古い順</option>
+              <option value="LastModifiedDate DESC">最終更新日が新しい順</option>
+              <option value="LastModifiedDate ASC">最終更新日が古い順</option>
+            </b-select>
+          </b-field>
         </div>
       </div>
-    </rs-panes>
+      <div style="padding: 0.5rem;">
+        <b-pagination
+            :total="productSize"
+            :current="this.$store.state.currentPage"
+            @change="paginate"
+            range-before="1"
+            range-after="1"
+            order="is-centered"
+            size=""
+            :simple="simple"
+            :rounded="rounded"
+            per-page="30"
+            icon-pack="fa"
+            aria-next-label="Next page"
+            aria-previous-label="Previous page"
+            aria-page-label="Page"
+            aria-current-label="Current page">
+        </b-pagination>
+      </div>
+      <div class="productContainerList">
+        <div class="productContainer" v-for="product in products">
+          <InventoryCard v-if="product.Show" :product="product"/>
+        </div>
+      </div>
+    </div>
+    <CollapsibleFilter />
+    <b-loading :is-full-page="true" :active.sync="this.$store.state.spinner" :can-cancel="false"></b-loading>
   </div>
 </template>
 <script>
@@ -106,15 +98,6 @@ export default {
       } else {
         return this.$store.state.productsSize
       }
-    },
-    getSize () {
-      return this.$store.state.isOpenLeft ? 372 : 60
-    },
-    getMin () {
-      return this.$store.state.isOpenLeft ? 372 : 60
-    },
-    getMax () {
-      return this.$store.state.isOpenLeft ? window.innerWidth - 660 : 60
     }
   },
   created () {
