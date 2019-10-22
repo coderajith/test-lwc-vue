@@ -28,10 +28,10 @@
         </b-field>
         <b-button v-if="getSelectedHoldCount < selectedItems || selectedItems == 0" @click="selectAll()" class="whiteButton" style="margin-bottom: 1rem;">全選択</b-button>
         <b-button v-if="getSelectedHoldCount == selectedItems && selectedItems > 0" @click="deselectAll()" class="whiteButton" style="margin-bottom: 1rem;">全選択解除</b-button>
-        <div style="display: flex;">
-          <b-button v-if="getSelectedHoldCount > 0" @click="deselectProduct" class="whiteButton" style="margin-bottom: 1rem;margin-right: 0.5rem;">HOLD解除</b-button>
-          <b-button v-if="getSelectedHoldCount === 1" @click="print" class="is-dark" style="margin-bottom: 1rem;margin-left: 0.5rem;">PDF出力</b-button>
-          <b-button v-if="getSelectedHoldCount > 1" @click="printMany" class="is-dark" style="margin-bottom: 1rem;margin-left: 0.5rem;">PDF出力</b-button>
+        <div style="display: flex; margin-bottom: 1rem;">
+          <b-button v-if="getSelectedHoldCount > 0" @click="deselectProduct" class="whiteButton" style="margin-right: 0.5rem;">HOLD解除</b-button>
+          <b-button v-if="getSelectedHoldCount === 1" @click="print" class="is-dark" style="margin-left: 0.5rem;">PDF出力</b-button>
+          <b-button v-if="getSelectedHoldCount > 1" @click="printMany" class="is-dark" style="margin-left: 0.5rem;">PDF出力</b-button>
         </div>
         <b-button v-if="getSelectedHoldCount > 0 || selectedItems > 0" @click="reviewItems = true" class="whiteButton" style="margin-bottom: 1rem;">HOLDした商品一覧</b-button>
         <b-modal :active.sync="reviewItems" class="reviewItems">
