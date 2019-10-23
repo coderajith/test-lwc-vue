@@ -181,7 +181,7 @@ export default {
       bigType: 'All',
       mediumType: 'All',
       smallType: 'All',
-      currentStatus: [false, true, false, false],
+      currentStatus: [false, true, true, false],
       dateForFilter: [],
       specialFlg: true,
       hold: false,
@@ -283,7 +283,7 @@ export default {
       this.specialFlg = true
       this.hold = false
       this.longOrShort = true
-      this.currentStatus = [false, true, false, false]
+      this.currentStatus = [false, true, true, false]
       this.dateForFilter = []
       this.checkboxGroup = ['A', 'B', 'C', 'D', 'M', 'N', 'S', 'P', 'ランク未確定']
       this.unitPrice = [0, 9999999]
