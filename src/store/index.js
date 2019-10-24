@@ -38,13 +38,7 @@ export const store = new Vuex.Store({
       state.productsQuote = state.productsQuote.concat(payload)
     },
     setProductsQuoteSize: (state, payload) => {
-      let prodCount = 0
-      state.productsQuote.forEach((item) => {
-        if (item.Estimate === state.quote) {
-          prodCount++
-        }
-      })
-      state.productsQuoteSize = prodCount
+      state.productsQuoteSize = state.productsQuote.length
     },
     setQuote: (state, payload) => { state.quote = payload },
     setCurrentPage: (state, payload) => { state.currentPage = payload },
@@ -67,6 +61,22 @@ export const store = new Vuex.Store({
         }
         state.products = payload
       }
+    },
+    setUpdateProducts: (state, payload) => {
+      state.products.forEach((item) => {
+        payload.forEach(selectedItem => {
+          if (item.Id === selectedItem.Id) {
+            item.Hold = true
+            item.Selected = true
+            if (selectedItem.Estimate !== '') {
+              item.Estimate = selectedItem.Estimate
+              item.EstimateName = selectedItem.EstimateName
+              item.EstimateSelect = true
+              item.EstimateSelected = true
+            }
+          }
+        })
+      })
     },
     setEstimates: (state, payload) => { state.estimates = payload },
     setTypes: (state, payload) => {
@@ -92,13 +102,21 @@ export const store = new Vuex.Store({
     deselectProduct: (state) => {
       let result = []
       let itemIds = []
+      let setIds = []
+
       state.productsQuote.forEach((item) => {
-        if (!item.SelectHold) {
+        if (item.SelectHold) {
+          setIds.push(item.SetId)
+        }
+      })
+
+      state.productsQuote.forEach((item) => {
+        if (!item.SelectHold && !setIds.includes(item.SetId)) {
           result.push(item)
         } else {
           itemIds.push(item.Id)
-          state.selectedHoldCount = state.selectedHoldCount - 1
-          state.selectedItems = state.selectedItems - 1
+          state.selectedHoldCount = state.selectedHoldCount > 0 ? state.selectedHoldCount - 1 : 0
+          state.selectedItems = state.selectedItems > 0 ? state.selectedItems - 1 : 0
         }
       })
 
@@ -132,7 +150,10 @@ export const store = new Vuex.Store({
       })
     },
     updateSelected: (state, payload) => { state.selectedItems = state.selectedItems + payload },
-    updateSelectedHold: (state, payload) => { state.selectedHoldCount = state.selectedHoldCount + payload },
+    updateSelectedHold: (state, payload) => {
+      let selectedHoldCount = state.selectedHoldCount + payload
+      state.selectedHoldCount = selectedHoldCount < 0 ? 0 : selectedHoldCount
+    },
     calculateProducts: (state) => {
       let prodSize = 0
       state.products.forEach((item) => {
@@ -154,7 +175,6 @@ export const store = new Vuex.Store({
           result[0].forEach((product) => {
             product.Links = imageMap[product.Id]
           })
-          console.log(result)
           commit('setProducts', result[0])
           commit('setProductsSize', result[1])
         })
@@ -170,9 +190,25 @@ export const store = new Vuex.Store({
           result.forEach((product) => {
             product.Links = imageMap[product.Id]
           })
-          console.log(result)
           commit('setProductsQuoteRetrive', result)
           commit('setProductsQuoteSize', result.length)
+        })
+      })
+    },
+    getInventoryProductsWithSet: ({commit, state}, payload) => {
+      InventoryItems.getInventoryProductsWithSet(payload.setId, payload.estimateId, payload.productId, result => {
+        let productIds = []
+        result.forEach(product => {
+          productIds.push(product.Id)
+        })
+        InventoryItems.getImageMap(productIds, imageMap => {
+          result.forEach((product) => {
+            product.Links = imageMap[product.Id]
+          })
+          let productsQuote = state.productsQuote
+          commit('setUpdateProducts', result)
+          commit('setProductsQuote', productsQuote.concat(result))
+          commit('setProductsQuoteSize', state.productsQuoteSize + result.length)
         })
       })
     },

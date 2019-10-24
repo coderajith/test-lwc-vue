@@ -91,6 +91,7 @@ export default {
         productsQuote.push(this.product)
         this.$store.commit('setProductsQuote', productsQuote)
         this.$store.commit('setProductsQuoteSize', this.$store.state.productsQuoteSize + 1)
+        this.$store.dispatch({type: 'getInventoryProductsWithSet', setId: this.product.SetId, estimateId: this.product.Estimate, productId: this.product.Id})
       }
     },
     navigateToDetails: function () {

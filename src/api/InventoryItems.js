@@ -44,7 +44,8 @@ const _products = [
     ModelTotal: 'Test Model Total',
     EstimateSelected: false,
     Allowed: true,
-    NotShowHold: false
+    NotShowHold: false,
+    SetId: ''
   },
   {
     Id: 'a060k000007HeneAAC',
@@ -88,7 +89,8 @@ const _products = [
     ModelTotal: 'Test Model Total',
     EstimateSelected: false,
     Allowed: true,
-    NotShowHold: false
+    NotShowHold: false,
+    SetId: ''
   },
   {
     Id: 'a060k000008HeneAAC',
@@ -132,7 +134,8 @@ const _products = [
     ModelTotal: 'Test Model Total',
     EstimateSelected: false,
     Allowed: true,
-    NotShowHold: false
+    NotShowHold: false,
+    SetId: ''
   },
   {
     Id: 'a060k000009HeneAAC',
@@ -176,7 +179,8 @@ const _products = [
     ModelTotal: 'Test Model Total',
     EstimateSelected: false,
     Allowed: true,
-    NotShowHold: false
+    NotShowHold: false,
+    SetId: ''
   },
   {
     Id: 'a060k000010HeneAAC',
@@ -220,7 +224,8 @@ const _products = [
     ModelTotal: 'Test Model Total',
     EstimateSelected: false,
     Allowed: true,
-    NotShowHold: false
+    NotShowHold: false,
+    SetId: ''
   }
 ]
 const _estimate = [
@@ -297,10 +302,79 @@ export default {
                 EstimateSelected: product.Estimate__c !== undefined,
                 EstimateName: product.Estimate__c !== undefined ? product.Estimate__r.Name : '',
                 Supplier: product.PurchaseName__c !== undefined && product.PurchaseName__r.Name !== undefined ? product.PurchaseName__r.Name : '',
-                ManufacturerName: product.MakerMaster__c !== undefined && product.MakerMaster__r.Name !== undefined ? product.MakerMaster__r.Name : ''
+                ManufacturerName: product.MakerMaster__c !== undefined && product.MakerMaster__r.Name !== undefined ? product.MakerMaster__r.Name : '',
+                SetId: product.SetNo__c !== undefined ? product.SetNo__c : ''
               }
             })
             callback(result)
+          } else if (event.type === 'exception') {
+            console.log(event.message + ' : ' + event.where)
+          } else {
+            console.log('Unknown Error', event)
+          }
+        },
+        {escape: false}
+      )
+    } else {
+      setTimeout(() => callback(_products), 100)
+    }
+  },
+  getInventoryProductsWithSet (setId, estimateId, productId, callback) {
+    if (process.env.NODE_ENV === 'production') {
+      LCC.callApex(
+        'InventorySearchController.getInventoryProductsWithSet', JSON.stringify({setId: setId, estimateId: estimateId, productId: productId}),
+        (result, event) => {
+          if (event.status) {
+            callback(result.map(product => {
+              return {
+                Id: product.Id,
+                InventoryNumber: product.Name !== undefined ? product.Name : '',
+                Rank: product.Rank__c !== undefined ? product.Rank__c : '',
+                CurrentStatus: product.CurrentStatus__c !== undefined ? product.CurrentStatus__c : '',
+                CurrentAuxiliaryStatus: product.CurrentStatusAuxiliary__c !== undefined ? product.CurrentStatusAuxiliary__c : '',
+                ProductFixedPrice: product.ProductPrice__c !== undefined ? product.ProductPrice__c : '',
+                Size: product.Size__c !== undefined ? product.Size__c : '',
+                Selected: false,
+                Link: product.PictureURL1__c,
+                LinkPreview: product.PictureURL1__c,
+                CreatedDate: product.CreatedDate,
+                LastModifiedDate: product.LastModifiedDate,
+                EngName: product.EngName__c !== undefined ? product.EngName__c : '',
+                Show: true,
+                EstimateSelect: false,
+                SelectHold: false,
+                Remark: product.Remark__c,
+                Links: [],
+                Allowed: (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('在庫') > -1) ||
+                (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('リース中') > -1 &&
+                product.CurrentStatusAuxiliary__c !== undefined && product.CurrentStatusAuxiliary__c.indexOf('返却予定') > -1),
+                NotShowHold: (product.CurrentStatus__c !== undefined && product.CurrentStatus__c.indexOf('リース中') > -1 &&
+                product.CurrentStatusAuxiliary__c !== undefined && product.CurrentStatusAuxiliary__c.indexOf('返却予定') > -1),
+                ProductName: product.OtherProductName__c !== undefined ? product.OtherProductName__c : '',
+                DateForFilter: product.nyukoyoteibi__c !== undefined ? product.nyukoyoteibi__c : '',
+                SpecialFlg: product.specialFlg__c,
+                Hold: product.HOLD__c,
+                LongOrShort: product.LongOrShort__c !== undefined ? product.LongOrShort__c : '',
+                UnitPriceLease: product.UnitPriceLease__c !== undefined ? product.UnitPriceLease__c : 0,
+                Width: product.Width__c !== undefined ? product.Width__c : 0,
+                Depth: product.Depth__c !== undefined ? product.Depth__c : 0,
+                Height: product.Height__c !== undefined ? product.Height__c : 0,
+                PurchaseRate: product.PurchaseRate__c,
+                RecoveryRate: product.RecoveryRate__c,
+                ModelNumber: product.ModelNumber__c !== undefined ? product.ModelNumber__c : '',
+                SizeInput: product.sizeInput__c !== undefined ? product.sizeInput__c : '',
+                ModelTotal: product.ModelTotal__c !== undefined ? product.ModelTotal__c : '',
+                BigType: product.ProductCategory__c !== undefined && product.ProductCategory__r.BigType__c !== undefined ? product.ProductCategory__r.BigType__c : '',
+                MediumType: product.ProductCategory__c !== undefined && product.ProductCategory__r.MediumType__c !== undefined ? product.ProductCategory__r.MediumType__c : '',
+                SmallType: product.ProductCategory__c !== undefined && product.ProductCategory__r.SmallType__c !== undefined ? product.ProductCategory__r.SmallType__c : '',
+                Estimate: product.Estimate__c !== undefined ? product.Estimate__c : '',
+                EstimateSelected: product.Estimate__c !== undefined,
+                EstimateName: product.Estimate__c !== undefined ? product.Estimate__r.Name : '',
+                Supplier: product.PurchaseName__c !== undefined && product.PurchaseName__r.Name !== undefined ? product.PurchaseName__r.Name : '',
+                ManufacturerName: product.MakerMaster__c !== undefined && product.MakerMaster__r.Name !== undefined ? product.MakerMaster__r.Name : '',
+                SetId: product.SetNo__c !== undefined ? product.SetNo__c : ''
+              }
+            }))
           } else if (event.type === 'exception') {
             console.log(event.message + ' : ' + event.where)
           } else {
@@ -384,7 +458,8 @@ export default {
                 EstimateSelected: product.Estimate__c !== undefined,
                 EstimateName: product.Estimate__c !== undefined ? product.Estimate__r.Name : '',
                 Supplier: product.PurchaseName__c !== undefined && product.PurchaseName__r.Name !== undefined ? product.PurchaseName__r.Name : '',
-                ManufacturerName: product.MakerMaster__c !== undefined && product.MakerMaster__r.Name !== undefined ? product.MakerMaster__r.Name : ''
+                ManufacturerName: product.MakerMaster__c !== undefined && product.MakerMaster__r.Name !== undefined ? product.MakerMaster__r.Name : '',
+                SetId: product.SetNo__c !== undefined ? product.SetNo__c : ''
               }
             }))
           } else if (event.type === 'exception') {

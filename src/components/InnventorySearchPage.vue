@@ -75,7 +75,8 @@ export default {
       dateForFilter: [],
       specialFlg: true,
       hold: false,
-      longOrShort: true,
+      longOrShortOne: true,
+      longOrShortSecond: false,
       checkboxGroup: ['A', 'B', 'C', 'D', 'M', 'N', 'S', 'P', 'ランク未確定'],
       unitPrice: [0, 9999999],
       size: [0, 9999999, 0, 9999999, 0, 9999999],
@@ -116,7 +117,8 @@ export default {
       this.smallType = allData.smallType
       this.specialFlg = allData.specialFlg
       this.hold = allData.hold
-      this.longOrShort = allData.longOrShort
+      this.longOrShortOne = allData.longOrShortOne
+      this.longOrShortSecond = allData.longOrShortSecond
       this.currentStatus = allData.currentStatus
       this.dateForFilter = allData.dateForFilter
       this.checkboxGroup = allData.checkboxGroup
@@ -135,7 +137,8 @@ export default {
         dateForFilter: this.dateForFilter,
         specialFlg: this.specialFlg,
         hold: this.hold,
-        longOrShort: this.longOrShort,
+        longOrShortOne: this.longOrShortOne,
+        longOrShortSecond: this.longOrShortSecond,
         checkboxGroup: this.checkboxGroup,
         unitPrice: this.unitPrice,
         size: this.size,
@@ -177,7 +180,8 @@ export default {
         this.smallType = allData.smallType
         this.specialFlg = allData.specialFlg
         this.hold = allData.hold
-        this.longOrShort = allData.longOrShort
+        this.longOrShortOne = allData.longOrShortOne
+        this.longOrShortSecond = allData.longOrShortSecond
         this.currentStatus = allData.currentStatus
         this.dateForFilter = allData.dateForFilter
         this.checkboxGroup = allData.checkboxGroup
@@ -195,7 +199,8 @@ export default {
         dateForFilter: this.dateForFilter,
         specialFlg: this.specialFlg,
         hold: this.hold,
-        longOrShort: this.longOrShort,
+        longOrShortOne: this.longOrShortOne,
+        longOrShortSecond: this.longOrShortSecond,
         checkboxGroup: this.checkboxGroup,
         unitPrice: this.unitPrice,
         size: this.size,
@@ -215,7 +220,8 @@ export default {
         this.smallType = allData.smallType
         this.specialFlg = allData.specialFlg
         this.hold = allData.hold
-        this.longOrShort = allData.longOrShort
+        this.longOrShortOne = allData.longOrShortOne
+        this.longOrShortSecond = allData.longOrShortSecond
         this.currentStatus = allData.currentStatus
         this.dateForFilter = allData.dateForFilter
         this.checkboxGroup = allData.checkboxGroup
@@ -231,7 +237,8 @@ export default {
         dateForFilter: this.dateForFilter,
         specialFlg: this.specialFlg,
         hold: this.hold,
-        longOrShort: this.longOrShort,
+        longOrShortOne: this.longOrShortOne,
+        longOrShortSecond: this.longOrShortSecond,
         checkboxGroup: this.checkboxGroup,
         unitPrice: this.unitPrice,
         size: this.size,

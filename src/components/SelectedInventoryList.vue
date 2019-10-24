@@ -224,8 +224,14 @@ export default {
       WinPrint.print()
     },
     deselectProduct () {
+      let setIds = []
       this.$store.state.productsQuote.forEach((item) => {
         if (item.SelectHold && this.$store.state.quote !== null) {
+          setIds.push(item.SetId)
+        }
+      })
+      this.$store.state.productsQuote.forEach((item) => {
+        if ((item.SelectHold || setIds.includes(item.SetId)) && this.$store.state.quote !== null) {
           item.Estimate = ''
           item.EstimateName = ''
           item.EstimateSelect = true
