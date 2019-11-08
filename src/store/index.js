@@ -20,7 +20,8 @@ export const store = new Vuex.Store({
     currentPage: 1,
     productsQuote: [],
     productsQuoteSize: 0,
-    isOpenFilter: false
+    isOpenFilter: false,
+    showFields: false
   },
   mutations: {
     updateEstimates: (state, payload) => {
@@ -84,6 +85,7 @@ export const store = new Vuex.Store({
     },
     setProductsSize: (state, payload) => { state.productsSize = payload },
     setIsOpen: (state, payload) => { state.isOpen = payload },
+    setShowFields: (state, payload) => { state.showFields = payload },
     setIsOpenLeft: (state, payload) => { state.isOpenLeft = payload },
     setIsOpenFilter: (state, payload) => { state.isOpenFilter = payload },
     setSpinner: (state) => { state.spinner = true },
@@ -237,6 +239,11 @@ export const store = new Vuex.Store({
     filterIsOpen: ({commit}) => {
       InventoryItems.filterIsOpen(isOpen => {
         commit('setIsOpen', isOpen)
+      })
+    },
+    validateAppName: ({commit}) => {
+      InventoryItems.validateAppName(result => {
+        commit('setShowFields', result)
       })
     },
     updateProductEstimate: ({commit}, payload) => {

@@ -17,7 +17,7 @@
       <p class="inventoryCardText" @click="check()">{{product.Rank}} / 定: {{product.ProductFixedPrice | numeral('0,0')}} 計: {{product.UnitPriceLease | numeral('0,0')}}</p>
       <p class="inventoryCardText" @click="check()">{{product.ManufacturerName}}</p>
       <p class="inventoryCardText" @click="check()">{{product.Size}}</p>
-      <p class="inventoryCardText" @click="check()">仕: {{product.PurchaseRate}}% 回: {{product.RecoveryRate}}%</p>
+      <p v-if="showFields" class="inventoryCardText" @click="check()">仕: {{product.PurchaseRate}}% 回: {{product.RecoveryRate}}%</p>
     </div>
     <b-modal :active.sync="isImageModalActive">
       <div class="modalContainer">
@@ -70,6 +70,11 @@ export default {
     'isImageModalActive': function (val, oldVal) {
       this.product.LinkPreview = this.product.Link
       this.$store.commit('updateProduct', this.product)
+    }
+  },
+  computed: {
+    showFields () {
+      return this.$store.state.showFields
     }
   },
   methods: {

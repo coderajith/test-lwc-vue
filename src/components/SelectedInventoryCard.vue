@@ -14,7 +14,7 @@
       <p class="selecytedInventoryCardText" @click="select()">{{product.Rank}} / 定:{{product.ProductFixedPrice | numeral('0,0')}} 計:{{product.UnitPriceLease | numeral('0,0')}}</p>
       <p class="selecytedInventoryCardText" @click="select()">{{product.ManufacturerName}}</p>
       <p class="selecytedInventoryCardText" @click="select()">{{product.Size}}</p>
-      <p class="selecytedInventoryCardText" @click="select()">仕: {{product.PurchaseRate}} 回: {{product.RecoveryRate}}</p>
+      <p v-if="showFields" class="selecytedInventoryCardText" @click="select()">仕: {{product.PurchaseRate}} 回: {{product.RecoveryRate}}</p>
     </div>
     <b-modal :active.sync="isImageModalActive">
       <div class="modalContainer">
@@ -65,8 +65,11 @@ export default {
   },
   props: ['product'],
   computed: {
-    classObject: function () {
+    classObject () {
       return this.product.SelectHold ? 'selectedInventoryCardContainer greenSelected' : 'selectedInventoryCardContainer'
+    },
+    showFields () {
+      return this.$store.state.showFields
     }
   },
   watch: {

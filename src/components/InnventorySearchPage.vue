@@ -103,6 +103,7 @@ export default {
   },
   created () {
     this.$store.dispatch('filterIsOpen')
+    this.$store.dispatch('validateAppName')
     if (this.big.length === 0) {
       this.$store.dispatch('getAllTypes')
     }
