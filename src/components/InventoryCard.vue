@@ -11,7 +11,14 @@
     <p v-if="product.Hold && !product.NotShowHold" class="hold">HOLD</p>
     <div v-if="product.Hold && !product.NotShowHold" class="holdActive" @click="moveToPage()"></div>
     <div class="inventoryCardInfo">
-      <a class="inventoryCardText link" href="#" @click="moveToPage()">{{product.InventoryNumber}}</a>
+      <div class="inventoryCardText">
+        <div style="display:flex;justify-content: space-between;">
+          <a class="link" href="#" @click="moveToPage()">
+            {{product.InventoryNumber}}
+          </a>
+          <div v-if="product.Mainte" @click="check()">メンテ中</div>
+        </div>
+      </div>
       <p class="inventoryCardText" @click="check()">{{product.ProductName}}</p>
       <p class="inventoryCardText" @click="check()">{{product.CurrentStatus}} / {{product.CurrentAuxiliaryStatus}}</p>
       <p class="inventoryCardText" @click="check()">{{product.Rank}} / 定: {{product.ProductFixedPrice | numeral('0,0')}} 計: {{product.UnitPriceLease | numeral('0,0')}}</p>

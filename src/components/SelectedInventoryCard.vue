@@ -8,7 +8,14 @@
       <font-awesome-icon icon="info-circle" />
     </div>
     <div class="selectedInventoryCardInfo">
-      <a class="selecytedInventoryCardText link" href="#" @click="moveToPage()">{{product.InventoryNumber}}</a>
+      <div class="selecytedInventoryCardText">
+        <div style="display:flex;justify-content: space-between;">
+          <a class="link" href="#" @click="moveToPage()">
+            {{product.InventoryNumber}}
+          </a>
+          <div v-if="product.Mainte" @click="select()">メンテ中</div>
+        </div>
+      </div>
       <p class="selecytedInventoryCardText" @click="select()">{{product.ProductName}}</p>
       <p class="selecytedInventoryCardText" @click="select()">{{product.CurrentStatus}} / {{product.CurrentAuxiliaryStatus}}</p>
       <p class="selecytedInventoryCardText" @click="select()">{{product.Rank}} / 定:{{product.ProductFixedPrice | numeral('0,0')}} 計:{{product.UnitPriceLease | numeral('0,0')}}</p>

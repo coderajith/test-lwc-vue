@@ -45,7 +45,8 @@ const _products = [
     EstimateSelected: false,
     Allowed: true,
     NotShowHold: false,
-    SetId: ''
+    SetId: '',
+    Mainte: true
   },
   {
     Id: 'a060k000007HeneAAC',
@@ -90,7 +91,8 @@ const _products = [
     EstimateSelected: false,
     Allowed: true,
     NotShowHold: false,
-    SetId: ''
+    SetId: '',
+    Mainte: true
   },
   {
     Id: 'a060k000008HeneAAC',
@@ -135,7 +137,8 @@ const _products = [
     EstimateSelected: false,
     Allowed: true,
     NotShowHold: false,
-    SetId: ''
+    SetId: '',
+    Mainte: true
   },
   {
     Id: 'a060k000009HeneAAC',
@@ -180,7 +183,8 @@ const _products = [
     EstimateSelected: false,
     Allowed: true,
     NotShowHold: false,
-    SetId: ''
+    SetId: '',
+    Mainte: true
   },
   {
     Id: 'a060k000010HeneAAC',
@@ -225,7 +229,8 @@ const _products = [
     EstimateSelected: false,
     Allowed: true,
     NotShowHold: false,
-    SetId: ''
+    SetId: '',
+    Mainte: true
   }
 ]
 const _estimate = [
@@ -303,7 +308,8 @@ export default {
                 EstimateName: product.Estimate__c !== undefined ? product.Estimate__r.Name : '',
                 Supplier: product.PurchaseName__c !== undefined && product.PurchaseName__r.Name !== undefined ? product.PurchaseName__r.Name : '',
                 ManufacturerName: product.MakerMaster__c !== undefined && product.MakerMaster__r.Name !== undefined ? product.MakerMaster__r.Name : '',
-                SetId: product.SetNo__c !== undefined ? product.SetNo__c : ''
+                SetId: product.SetNo__c !== undefined ? product.SetNo__c : '',
+                Mainte: product.Is_Mainte__c
               }
             })
             callback(result)
@@ -372,7 +378,8 @@ export default {
                 EstimateName: product.Estimate__c !== undefined ? product.Estimate__r.Name : '',
                 Supplier: product.PurchaseName__c !== undefined && product.PurchaseName__r.Name !== undefined ? product.PurchaseName__r.Name : '',
                 ManufacturerName: product.MakerMaster__c !== undefined && product.MakerMaster__r.Name !== undefined ? product.MakerMaster__r.Name : '',
-                SetId: product.SetNo__c !== undefined ? product.SetNo__c : ''
+                SetId: product.SetNo__c !== undefined ? product.SetNo__c : '',
+                Mainte: product.Is_Mainte__c
               }
             }))
           } else if (event.type === 'exception') {
@@ -459,7 +466,8 @@ export default {
                 EstimateName: product.Estimate__c !== undefined ? product.Estimate__r.Name : '',
                 Supplier: product.PurchaseName__c !== undefined && product.PurchaseName__r.Name !== undefined ? product.PurchaseName__r.Name : '',
                 ManufacturerName: product.MakerMaster__c !== undefined && product.MakerMaster__r.Name !== undefined ? product.MakerMaster__r.Name : '',
-                SetId: product.SetNo__c !== undefined ? product.SetNo__c : ''
+                SetId: product.SetNo__c !== undefined ? product.SetNo__c : '',
+                Mainte: product.Is_Mainte__c
               }
             }))
           } else if (event.type === 'exception') {
