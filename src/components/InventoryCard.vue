@@ -11,12 +11,12 @@
     <p v-if="product.Hold && !product.NotShowHold" class="hold">HOLD</p>
     <div v-if="product.Hold && !product.NotShowHold" class="holdActive" @click="moveToPage()"></div>
     <div class="inventoryCardInfo">
-      <div class="inventoryCardText">
+      <div class="inventoryCardText" style="min-height: 30px;">
         <div style="display:flex;justify-content: space-between;">
           <a class="link" href="#" @click="moveToPage()">
             {{product.InventoryNumber}}
           </a>
-          <div v-if="product.Mainte" @click="check()">メンテ中</div>
+          <div v-if="product.Mainte" @click="check()" class="infoRed">メンテ中</div>
         </div>
       </div>
       <p class="inventoryCardText" @click="check()">{{product.ProductName}}</p>

@@ -8,12 +8,12 @@
       <font-awesome-icon icon="info-circle" />
     </div>
     <div class="selectedInventoryCardInfo">
-      <div class="selecytedInventoryCardText">
+      <div class="selecytedInventoryCardText" style="min-height: 30px;">
         <div style="display:flex;justify-content: space-between;">
           <a class="link" href="#" @click="moveToPage()">
             {{product.InventoryNumber}}
           </a>
-          <div v-if="product.Mainte" @click="select()">メンテ中</div>
+          <div v-if="product.Mainte" @click="select()" class="infoRed">メンテ中</div>
         </div>
       </div>
       <p class="selecytedInventoryCardText" @click="select()">{{product.ProductName}}</p>

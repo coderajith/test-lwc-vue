@@ -785,7 +785,7 @@ body {
   height: 20px;
 }
 .reviewItems {
-  background-color: white; 
+  background-color: white;
   overflow-x: hidden;
 }
 .reviewItems > .modal-content{
@@ -877,4 +877,10 @@ body {
   text-align: left;
   color: #6f7579;
   padding-top: 12px;
+}
+.infoRed {
+  color: red;
+  border: 1px solid red;
+  border-radius: 4px;
+  padding: 0px 5px 0px 5px;
 }
